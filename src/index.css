@@ -1,0 +1,17 @@
+
+html,
+body {
+
+  font-family: "Raleway",Arial,sans-serif;
+  background: url(../src/content/img/connection-dot-bg.png) repeat #f3f3f3;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  line-height: 1.42857143;
+ background-color: #f3f3f3 !important; 
+}
+
+code {
+  font-family:  "Raleway",Arial,sans-serif;
+   
+}

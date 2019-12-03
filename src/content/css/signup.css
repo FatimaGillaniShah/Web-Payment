@@ -1,0 +1,125 @@
+.SignUp{
+    
+    min-height: 550px;
+
+    }
+
+.header-content {
+        position: relative;
+        width: 100%;
+        
+     
+    }
+.header-content {
+    position: absolute;
+    top: 30%;
+    padding: 0 0px;
+   
+}
+
+
+.login-wrap {
+    background: #fff;
+  
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.15);
+    color: #333;
+    width: 500px;
+    margin: 0 auto;
+}
+.login-wrap h3 {
+    color: #0061ae;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.login-wrap > div.header {
+    padding: 20px 30px 0;
+}
+
+.login-wrap > div.content-area {
+    padding: 20px 30px;
+}
+
+
+.input-text {
+    text-indent: 40px;
+}
+.field-validation-error {
+    color: #e80c4d;
+    font-weight: bold;
+}
+
+.form-control1 {
+
+    display: block;
+    width: 100%;
+    height: calc(3.2em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+    .text-center {
+    text-align: center !important;
+}
+.input-disabled-text-without-modal {
+    display: inline-block;
+    position: absolute;
+    left: 15px;
+    top: 17px;
+    color: #999;
+    cursor: not-allowed;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 15px;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.form-group .phone {
+    background: url(../img/ph-icon.png) no-repeat;
+    bottom: 17px;
+    height: 20px;
+    position: absolute;
+    right: 15px;
+    width: 20px;
+}
+.form-group .email {
+    background: url(../img/email-icon.png) no-repeat;
+    height: 17px;
+    width: 17px;
+    position: absolute;
+    right: 15px;
+    bottom: 19px;
+}
+.form-group .password {
+    background: url(../img/password-icon.png) no-repeat;
+    height: 17px;
+    width: 17px;
+    position: absolute;
+    right: 15px;
+    bottom: 19px;
+}
+.green-btn {
+    background-color: #6a9b34;
+    color:"6a9b34";
+    border: solid 2px #6a9b34 !important;
+    color: #fff;
+    transition: all 0.35s ease 0s;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    padding: 12px 30px;
+}
+.pull{
+    float: right;
+}
+
+
