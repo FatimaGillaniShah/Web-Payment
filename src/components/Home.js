@@ -15,6 +15,7 @@ class Home extends Component {
       CheckColor: true
     }
   }
+  
 
   async componentDidMount()
   {
@@ -34,6 +35,7 @@ class Home extends Component {
     {
       logoutHTML();
     }
+   
   }
 
   ChangeColor(i) {
@@ -46,19 +48,23 @@ class Home extends Component {
   }
 
   render() {
-
-    var gruops1 = [];
+   
     var filteredGruops = [];
-    this.props.groups.forEach(element => {
-      gruops1 = _.get(element, 'groups');
-
-      gruops1.forEach(e => {
+    let data = this.props.data;
+    if(data!=undefined){
+      this.state.groups = data;
+      this.state.groups.forEach(e => {
         let isParent = _.get(e, 'parent-group-id');
         if (isParent === "") {
           filteredGruops.push(e);
         }
+        let isAvailable = _.get(e, 'available');
+        if (isAvailable) {
+           _.assign(e, { iconUrlSmall: _.get(e, 'icons.75x75'), iconUrlLarge: _.get(e, 'icons.650x420') });
+        }
       });
-    });
+   
+  }
 
     this.state.groups = filteredGruops;
 
@@ -118,8 +124,6 @@ class Home extends Component {
           </div>
         </div>
         
-
-
           <div className="row">
             {this.state.groups.map((e, i) =>
 
@@ -155,16 +159,8 @@ class Home extends Component {
     );
   }
 }
-
 const mapStateToProps = state => {
-
-  return {
-
-    groups: state,
-    services: state
-
-  };
-
-};
+    return {data:state.groups.groups}
+ };
 
 export default connect(mapStateToProps, null)(Home);

@@ -12,7 +12,6 @@ class ServiceProvider extends Component {
     }
   }
   
-
   validateGroupsForServices(groupObject) {
     let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
     let GroupId = _.get(groupObject, 'id');
@@ -27,13 +26,14 @@ class ServiceProvider extends Component {
 
   prepareDataToRender(Id) {
     var Id = Id;
-    var StoreData = this.props.StoreData[0];
+    debugger;
+    var StoreData = this.props.StoreData;
 
     if (StoreData != null && StoreData != undefined) {
 
-      let AllGroups = _.get(this.props.StoreData[0], 'groups');
-      let AllServices = _.get(this.props.StoreData[0], 'services');
-
+      let AllGroups = _.get(this.props.StoreData, 'groups');
+      let AllServices = _.get(this.props.StoreData, 'services');
+      if(AllGroups!=undefined && AllServices!=undefined){
       AllGroups.forEach(groupElement => {
        
         let parent_group_id = _.get(groupElement, 'parent-group-id');
@@ -44,7 +44,7 @@ class ServiceProvider extends Component {
 
         }
       });
-
+    
       AllServices.forEach(element => {
 
         let group_id = _.get(element, 'group-id');
@@ -57,7 +57,7 @@ class ServiceProvider extends Component {
       });
 
     }
-  }
+}}
 
   ChangeColor(i) {
     if (i % 2 == 0) {
@@ -66,15 +66,14 @@ class ServiceProvider extends Component {
     }
     else {
       this.state.CheckColor = false
-
     }
   }
   
   render() {
-
+  
     var Id = this.props.match.params.id
    
-    this.prepareDataToRender(Id)
+     this.prepareDataToRender(Id)
     
     return (
 
@@ -100,36 +99,20 @@ class ServiceProvider extends Component {
                     <h4>{e.name}</h4>
                   </div>
                 </div>
-                
-
-      {/* <div >
-      {this.ChangeColor(i)}
-     
-        <div
-          className={this.state.CheckColor ? "portfolio-box-caption" : "portfolio-box-caption purple"}>
-       
-          <div class="portfolio-box-caption-content">
-            <div class="project-category"><img src={require("../content/img/BD.jpg")} /></div>
-           <div class="project-name">{e.name}</div>
-         </div>
-       </div>
-       <img alt="" class="img-responsive" src={e.iconUrl} />
-      
-      </div> */}
-     
+        
     </a>
     
             </div>
           )}
         </div>
       </div>
-
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = state => {  
+  debugger;
   return {
-    StoreData: state
+    StoreData: state.groups
   };
 };
 

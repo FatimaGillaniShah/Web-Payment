@@ -164,12 +164,8 @@ class AddToCart extends Component {
         var id = this.props.match.params.id;   
         let serviceObject;
         var services1 = [];
-       
-        this.props.services.forEach(element => {
-            services1 = _.get(element, 'services');
-        });
-
-         this.state.services = services1;
+        let AllServices = _.get(this.props.StoreData, 'services');
+         this.state.services = AllServices;
     
         _.map(this.state.services, function (o) {
             if (o.id === id) {               
@@ -297,7 +293,7 @@ class AddToCart extends Component {
 }
 const mapStateToProps = state => {
     return {
-      services: state
+        StoreData: state.groups
     };
   };
   

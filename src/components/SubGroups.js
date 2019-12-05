@@ -23,12 +23,12 @@ class ServiceProvider extends Component {
   }
 
   prepareDataToRender(Id) {
-    var StoreData = this.props.StoreData[0];
+    var StoreData = this.props.StoreData;
 
     if (StoreData != null && StoreData != undefined) {
-      let AllGroups = _.get(this.props.StoreData[0], 'groups');
-      let AllServices = _.get(this.props.StoreData[0], 'services');
-
+      let AllGroups = _.get(this.props.StoreData, 'groups');
+      let AllServices = _.get(this.props.StoreData, 'services');
+      if(AllGroups!=undefined && AllServices!=undefined){
       AllGroups.forEach(groupElement => {
         let parent_group_id = _.get(groupElement, 'parent-group-id');
         if (parent_group_id === Id) {
@@ -44,7 +44,7 @@ class ServiceProvider extends Component {
           this.state.servicesOrGroups.push(element);
         }
       });
-    }
+    }}
   }
 
   render() {
@@ -85,7 +85,7 @@ class ServiceProvider extends Component {
 }
 const mapStateToProps = state => {
   return {
-    StoreData: state
+    StoreData: state.groups
   };
 };
 

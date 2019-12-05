@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as actions from "./store/actions";
+import * as actions from "./store/actions/actions";
 import '../src/content/css/online-pay.css';
 import '../src/content/css/sadad.css';
 import '../src/content/css/placeholder-loading.css';
@@ -25,7 +25,8 @@ import _ from 'lodash';
 import '../src/content/bootstrap.min.css';
 import './content/css/overlay.css';
 import {MainRequestInfo} from './api/ApiCalls';
-
+import {getAllData} from './store/actions/actions';
+import { bindActionCreators } from '../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/redux';
 class App extends Component {
   constructor(props) {
     super(props)
@@ -34,41 +35,16 @@ class App extends Component {
       services: [],
     }
   }
+ 
   componentDidMount() {
+    debugger
     
-  let MainResult = MainRequestInfo();
-  Promise.resolve(MainResult).then(res => {
-    if (res != undefined) {
-
-        var groupsData = res.data.groups;
-        var servicesData = res.data.services;
-  
-        if ((groupsData && servicesData) !== undefined) {
-  
-          let groups = [];
-          groupsData.forEach(element => {
-  
-            let isAvailable = _.get(element, 'available');
-            if (isAvailable) {
-                                 
-                _.assign(element, { iconUrlSmall: _.get(element, 'icons.75x75'), iconUrlLarge: _.get(element, 'icons.650x420') });
-                groups.push(element);
-            }
-  
-          })
-          this.setState({
-            groups: groups,
-            services: servicesData
-          });
-  
-          this.props.addPost(this.state.groups, this.state.services);  
-        }
+    this.props.allData();
+    //console.log(this.state.groups)
     }
-    })
-
-  }
+   
   render() {
-
+    
     return (
       <div>
         <Header />
@@ -77,7 +53,7 @@ class App extends Component {
 
           <Switch>
 
-            <Route path="/" exact component={Home} />
+            <Route path="/" exact component={Home}/>
 
             <Route path="/login" component={Login} />
 
@@ -103,21 +79,17 @@ class App extends Component {
 
           </Switch>
 
-
         </div>
         <Footer />
       </div>
     );
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
 
   return {
-    addPost: (groups, services) => {
-      dispatch(actions.addPost(groups, services));
-    }
-  };
-
+    allData:bindActionCreators(getAllData,dispatch)    
+         }
 };
-
 export default connect(null, mapDispatchToProps)(App);
