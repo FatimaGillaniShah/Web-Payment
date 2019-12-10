@@ -18,13 +18,11 @@ import AddToCart from './components/AddToCart';
 import ShoppingCart from './components/ShoppingCart';
 import PayUnsuccessful from './components/pay/PayUnsuccessful';
 import PaySuccessful from './components/pay/PaySuccessful';
-import Spinner from './components/Spinner';
 import History from './components/History';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import '../src/content/bootstrap.min.css';
 import './content/css/overlay.css';
-import {MainRequestInfo} from './api/ApiCalls';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from '../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/redux';
 class App extends Component {
@@ -37,10 +35,9 @@ class App extends Component {
   }
  
   componentDidMount() {
-    debugger
     
     this.props.allData();
-    //console.log(this.state.groups)
+  
     }
    
   render() {

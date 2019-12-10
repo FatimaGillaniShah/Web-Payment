@@ -1,5 +1,7 @@
 import axios from "axios";
 export const FETCH_DATA = "FETCH_DATA";
+export const FETCH_HISTORY = 'FETCH_HISTORY';
+export const FETCH_BALANCE = 'FETCH_BALANCE';
 
 export const getAllData = () =>{
   return(dispatch)=>{
@@ -10,11 +12,53 @@ export const getAllData = () =>{
     axios.post(process.env.REACT_APP_BASEURL + 'api/web/v1/payments/available',
     JSON.stringify(MainPaymentsRequest))
     .then((res) => {
-      
-      console.log(res.data.groups);
+
     dispatch({ 
       type: FETCH_DATA, payload:res.data
      })}
    )};
   
 }
+
+export const getHistory = () =>{
+  return(dispatch)=>{
+    let sessionId = localStorage.getItem('sessionId');
+    let historyRequestObject = {
+
+      'session-id': sessionId,
+      'offset': 0,
+      'count': 0,
+      'day-filter': 1,
+      'transaction-type-filter': 1,
+      'locale': 0,
+  }
+  axios.post(process.env.REACT_APP_BASEURL + 'api/web/v1/Payments/History',
+  JSON.stringify(historyRequestObject))
+    .then((res) => {
+     
+    dispatch({ 
+      type: FETCH_HISTORY, payload:res.data
+     })}
+   )};
+  
+}
+
+export const getBalanceInfo = () =>{
+  debugger;
+  return(dispatch)=>{
+    let sessionId = localStorage.getItem('sessionId');
+    let balnaceObject = {
+      'session-id': sessionId,
+  }
+  axios.post( process.env.REACT_APP_BASEURL + 'api/web/v1/users/balance',
+  JSON.stringify(balnaceObject))
+    .then((res) => {   
+    dispatch({ 
+      type: FETCH_BALANCE, payload:res.data
+     })}
+   )};
+  
+}
+
+
+

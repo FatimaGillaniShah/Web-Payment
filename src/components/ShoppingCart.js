@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
-import { RequestInfo, Pay } from '../api/ApiCalls';
+import { Pay,RequestInfo } from '../api/ApiCalls';
 
 class ShoppingCart extends Component {
     
@@ -78,14 +78,10 @@ class ShoppingCart extends Component {
             if (PaymentsInfoResponse != null && PaymentsInfoResponse != undefined) {
                 let errorCode =  _.get(PaymentsInfoResponse, 'error-code');
                 if (errorCode != 0) {
-                    // return error message.
                 }
                 else {
                     let errorOuccured = false;
-                    // PaymentsInfoResponse.info.forEach(element => {
-
-                    // });
-
+                
                     if (!errorOuccured) {
                         this.state.paymentsPayRequestObj = Object.assign({ "session-id": sessionId, gateway: "benefit" ,services: [] }, this.state.paymentsPayRequestObj);
                         cartServices.map((s) => {

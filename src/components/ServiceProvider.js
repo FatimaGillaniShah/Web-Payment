@@ -26,7 +26,7 @@ class ServiceProvider extends Component {
 
   prepareDataToRender(Id) {
     var Id = Id;
-    debugger;
+    
     var StoreData = this.props.StoreData;
 
     if (StoreData != null && StoreData != undefined) {
@@ -110,7 +110,7 @@ class ServiceProvider extends Component {
   }
 }
 const mapStateToProps = state => {  
-  debugger;
+  
   return {
     StoreData: state.groups
   };

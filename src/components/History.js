@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Histroy } from '../api/ApiCalls';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
+ import {getHistory} from "../store/actions/actions";
+ import { connect } from 'react-redux';
+ import { bindActionCreators } from 'redux'
+ 
+
 class History extends Component {
     constructor(props) {
         super(props)
@@ -15,44 +19,25 @@ class History extends Component {
         }
     }
     componentDidMount() {
-        let sessionId = localStorage.getItem('sessionId');
 
-        let historyRequestObject = {
-            'session-id': sessionId,
-            'offset': 0,
-            'count': 0,
-            'day-filter': 1,
-            'transaction-type-filter': 1,
-            'locale': 0,
-        }
-        let historyResult = Histroy(historyRequestObject);
-        Promise.resolve(historyResult).then(value => {
-            if (value != undefined) {
-                this.setState({ transaction: value });
-                this.state.transaction = value;
-               
-                let details = [];
-                this.state.transaction.forEach(element => {
-                    details = _.get(element, 'information');
-                    details["iconUrl"] = _.get(element, 'service-icon')
-                    this.state.services.push(details);
-                });
-                
-                this.setState({
-                    services: this.state.services
-                });
-        
-            }
-        })
+        this.props.Data();
 
     }
 
     render() {
+      let data = this.props.historyData;
+      if(data!= null){
+        let details = [];
+        this.state.transaction = data;
+        this.state.transaction.forEach(element => {
+        details = _.get(element, 'information');
+         details["iconUrl"] = _.get(element, 'service-icon')
+         this.state.services.push(details);
+      });
+      }
         return (
 
            <div class="row">
-
-
 
 <div className={this.state.services.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{width:'100%'}} >
           <div className="col-md-12">
@@ -122,4 +107,16 @@ class History extends Component {
     }
 }
 
-export default History;
+
+const mapStateToProps = state => {
+  
+  return {historyData:state.historyReducer}
+};
+
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+    Data:bindActionCreators(getHistory,dispatch)    
+         }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(History);

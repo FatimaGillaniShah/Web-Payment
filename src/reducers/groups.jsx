@@ -1,9 +1,8 @@
 import {FETCH_DATA } from '../store/actions/actions';
 
-
 const initialState = {
-  items : [],
-services : null
+  groups : [],
+  services : []
 }
 
 export default (state = initialState, action) => {
@@ -18,6 +17,8 @@ export default (state = initialState, action) => {
             services: action.payload.services
            }
           }
+
+          
           
           
     default:

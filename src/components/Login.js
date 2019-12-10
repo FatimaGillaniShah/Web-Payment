@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
 import '../content/css/login.css';
 import {login, logoutHTML} from '../components/common/common';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 
 class Login extends Component {
+
+    constructor(props)
+    {
+        super(props);    
+    }
 
     componentDidMount()
     {
         logoutHTML();
-      let sessionId = localStorage.getItem('sessionId');
+        let sessionId = localStorage.getItem('sessionId');
         if(sessionId === "" || sessionId === null || sessionId === undefined) {            
             document.getElementsByClassName("btnTopNavLogin")[0].style.display = "block";
             document.getElementsByClassName("btnTopNavLogout")[0].style.display = "none";
         }
         else {            
             document.getElementsByClassName("btnTopNavLogout")[0].style.display = "block";
-            document.getElementsByClassName("btnTopNavLogin")[0].style.display = "none";
-        }
+            document.getElementsByClassName("btnTopNavLogin")[0].style.display = "none"; 
+            
+        }        
     }
+
+
+
 
     render() {
         return (
@@ -71,4 +83,5 @@ class Login extends Component {
     }
 }
 
-export default Login;
+  export default Login;
+  

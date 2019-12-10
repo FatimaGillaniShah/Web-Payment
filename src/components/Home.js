@@ -6,7 +6,6 @@ import { BalanceInfo } from '../api/ApiCalls';
 import { validateLogin,logoutHTML } from '../components/common/common';
 
 class Home extends Component {
-
   constructor(props) {
 
     super(props)
@@ -16,7 +15,6 @@ class Home extends Component {
     }
   }
   
-
   async componentDidMount()
   {
     let isLogin = validateLogin();
@@ -28,7 +26,7 @@ class Home extends Component {
         this.props.history.push("/login");
       }
       else {
-        await BalanceInfo(sessionId);
+        await BalanceInfo(sessionId);;
       }
     }
     else
@@ -51,7 +49,7 @@ class Home extends Component {
    
     var filteredGruops = [];
     let data = this.props.data;
-    if(data!=undefined){
+    if(data!=null){
       this.state.groups = data;
       this.state.groups.forEach(e => {
         let isParent = _.get(e, 'parent-group-id');
@@ -69,7 +67,6 @@ class Home extends Component {
     this.state.groups = filteredGruops;
 
     return (
-
       <div className="Main">
         <div className="container-fluid online-pay-content">        
           <div className={this.state.groups.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} >
@@ -159,6 +156,8 @@ class Home extends Component {
     );
   }
 }
+
+
 const mapStateToProps = state => {
     return {data:state.groups.groups}
  };
