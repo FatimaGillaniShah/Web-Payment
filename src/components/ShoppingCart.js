@@ -42,8 +42,8 @@ class ShoppingCart extends Component {
                 cartItemCount: newItemCount
             })
             localStorage.setItem('cartItemCount', newItemCount);
-
-            document.getElementsByClassName('cartIcon')[0].setAttribute('data-count', newItemCount);
+            
+            //document.getElementsByClassName('cartIcon')[0].setAttribute('data-count', newItemCount);
         }
 
         if (count === 1) {

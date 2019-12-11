@@ -13,8 +13,8 @@ class AddToCart extends Component {
             Amount: null,
             serviceObject: [],
             quantity: null,
-            error: "Input fields cannot be empty"
-
+            error: "Input fields cannot be empty",
+            PriceError:false
         }
         this.updateInput = this.updateInput.bind(this);
         this.updateAmount = this.updateAmount.bind(this);
@@ -110,7 +110,9 @@ class AddToCart extends Component {
             }
         }
         else {
-            document.getElementById("error").innerHTML = "Please select above amount";
+            this.setState({PriceError : true})
+            
+           
         }
     }
 
@@ -231,7 +233,10 @@ class AddToCart extends Component {
                                     </fieldset>
                                     <span className="field-validation-valid" data-valmsg-for="amount" data-valmsg-replace="true"></span>
                                 </div>
-                                <p style={{ color: "red" }} id="error"></p>
+                               
+                                
+                                {this.state.PriceError ?  <p  style={{ color: "red" }} id="error">Please select above Amount</p>:""}
+                                
                                 <div className="form-group">
                                     <fieldset>
                                         <label>Quantity*</label>

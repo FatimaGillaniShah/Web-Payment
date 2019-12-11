@@ -9,7 +9,8 @@ class Header extends Component {
         super(props);
         this.state = {
             cartItemCount: 0,
-            isLoggedIn: true
+            isLoggedIn: true,
+            DataCount : false
         }
     }
 
@@ -38,16 +39,8 @@ class Header extends Component {
 
     componentDidMount() {
         
-        this.state.cartItemCount = localStorage.getItem('cartItemCount');
-        if(this.state.cartItemCount === 0 || this.state.cartItemCount === "0")
-        {
-            let isDataCountAvailable = document.getElementsByClassName('cartIconCount')[0].hasAttributes('data-count');
-  
-            if(isDataCountAvailable)
-            {
-                document.getElementsByClassName('cartIconCount')[0].removeAttribute('data-count');
-            }
-        }
+        //this.setState({cartItemCount : localStorage.getItem('cartItemCount')});
+      
         let sessionId = localStorage.getItem('sessionId');
         if (sessionId === "" || sessionId === null || sessionId === undefined) {
             
@@ -62,11 +55,13 @@ class Header extends Component {
 
     render() {
         let sessionId = localStorage.getItem('sessionId');
+
         if (sessionId === "" || sessionId === null || sessionId === undefined) {
             
             this.state.isLoggedIn = true;
         }
         this.state.cartItemCount = localStorage.getItem('cartItemCount');
+        console.log(this.state.cartItemCount)
         
         return (
 
@@ -107,8 +102,6 @@ class Header extends Component {
                             <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
                         </a>
                     </div>
-                   
-
                     <div className={this.state.isLoggedIn ? "navbar-collapse hide" : "navbar-collapse show"} style={{ backgroundColor: 'white' }}>
                         <div className="customNav">
                             <ul className="nav navbar-nav leftMenuItems">

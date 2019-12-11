@@ -1,22 +1,11 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-export async function LoginRequestInfo(PaymentsLoginRequest){
-  let result;
-  await axios.post(
+export function LoginRequestInfo(PaymentsLoginRequest){
+  return axios.post(
     process.env.REACT_APP_BASEURL + 'api/web/v1/users/login',
     JSON.stringify(PaymentsLoginRequest)
-  ).then((res) => {
-      result = res;
-    return result
-  })
-  .catch(error => {
-    
-      console.log('ERROR::', error);
-    });
-
-    return result;
-  }
+  );}
 
 export async function RequestInfo (paymentsInfoRequestObj){
     let result;

@@ -1,20 +1,98 @@
 import React, { Component } from 'react';
 import '../content/css/login.css';
-import {login, logoutHTML} from '../components/common/common';
-
+import {logoutHTML} from '../components/common/common';
+import {LoginRequestInfo} from '../api/ApiCalls';
+import _ from 'lodash';
 
 class Login extends Component {
 
     constructor(props)
     {
-        super(props);    
+        super(props);
+        this.state = {};
     }
 
     componentDidMount()
     {
         logoutHTML();
+  
            
     }
+
+    login()
+    {             
+        let msisdn = document.getElementById('phone').value;
+        let password = document.getElementById('password').value;
+      
+          if(msisdn === "" || msisdn === null || msisdn === undefined)
+          {
+              alert("Phone number missing");
+              return;
+          }
+          if(password === "" || password === null || password === undefined)
+          {
+              alert("Password missing");
+              return;
+          }
+    
+          let LoginRequestObject = {
+            "msisdn": "973"+msisdn,
+            "password": password,
+            "locale": "en-US"
+        }
+        
+        LoginRequestInfo(LoginRequestObject)
+            .then((result) => {
+            if (result  != undefined) {
+                let message = "";
+                let resultData = _.get(result.data, 'error-code');
+                let resultDataMessage = _.get(result.data, 'error-message');
+                if(resultData === 0)
+                {
+                    message = "Success";
+                    let sessionId = _.get(result.data, 'session-id');
+                    localStorage.setItem('sessionId' , sessionId);
+                    localStorage.setItem('sessionTime' , Date());
+                    this.props.history.push('/');
+                }
+                else
+                {
+                    if(resultData === null)
+                    {
+                        alert("Wrong Activation Code");
+                        message = "Wrong Activation Code";
+                    }
+                    else
+                    {
+                        switch (resultData) {
+                            case 100:
+                                message = "This Number is locked";
+                                break;
+                            case 101:
+                                message = "Incorrect password";
+                                break;
+                            case 103:
+                                message = "Activate User";
+                                break;
+                            case 109:
+                                message = resultDataMessage;
+                                break;
+                            case 106:
+                                message = "Something went wrong";
+                                break;
+                            default:
+                                break;
+                        }
+                        alert(message);
+                    }
+                }
+         
+            }
+        })
+        .catch((err) => {
+            console.log("error login failed !!!")
+            });        
+      }
 
     render() {
         return (
@@ -43,7 +121,7 @@ class Login extends Component {
                                                 </fieldset>
                                             </div>
 
-                                            <button className="green-btn btn-block btn-lg" type="button" onClick={login}>LOGIN</button>
+                                            <button className="green-btn btn-block btn-lg" type="button" onClick={() => this.login()}>LOGIN</button>
                                             <div className="form-group clearfix">
 
                                         <div className="pull col-lg-6 col-md-6 col-sm-12 col-xs-12">
