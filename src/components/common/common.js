@@ -11,10 +11,9 @@ export function logout()
 
 export function logoutHTML()
 {
-  document.getElementsByClassName("customNav")[0].style.display = "none"; 
-  document.getElementsByClassName("btnTopNavLogin")[0].style.display = "block";
-  document.getElementsByClassName("btnTopNavLogout")[0].style.display = "none";
-  document.getElementsByClassName("_accountBalance")[0].innerHTML = "";
+   
+    localStorage.removeItem("sessionId");
+
     }
 
 export function PaySuccessComplete()
@@ -63,11 +62,10 @@ export function login()
                 message = "Success";
                 let sessionId = _.get(result.data, 'session-id');
                 localStorage.setItem('sessionId' , sessionId);
-                localStorage.setItem('sessionTime' , Date());
-                document.getElementsByClassName("btnTopNavLogout")[0].style.display = "block";
-                document.getElementsByClassName("btnTopNavLogin")[0].style.display = "none";
-                document.getElementsByClassName("customNav")[0].style.display = "block";              
+                localStorage.setItem('sessionTime' , Date());         
                 window.location.replace("/");
+               
+                
             }
             else
             {
@@ -100,7 +98,7 @@ export function login()
                     alert(message);
                 }
             }
-           
+     
         }
     })
   }

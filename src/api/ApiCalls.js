@@ -63,7 +63,7 @@ export async function BalanceInfo (sessionId){
     if (isError === 0) {
       let currency = _.get(res.data, 'currency');
       let Amount = _.get(res.data, 'balance');
-      document.getElementsByClassName("_accountBalance")[0].innerHTML = currency + " " + Amount;
+     // document.getElementsByClassName("_accountBalance")[0].innerHTML = currency + " " + Amount;
     }
   });
   }

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import '../content/css/login.css';
 import {login, logoutHTML} from '../components/common/common';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 
 class Login extends Component {
@@ -15,20 +13,8 @@ class Login extends Component {
     componentDidMount()
     {
         logoutHTML();
-        let sessionId = localStorage.getItem('sessionId');
-        if(sessionId === "" || sessionId === null || sessionId === undefined) {            
-            document.getElementsByClassName("btnTopNavLogin")[0].style.display = "block";
-            document.getElementsByClassName("btnTopNavLogout")[0].style.display = "none";
-        }
-        else {            
-            document.getElementsByClassName("btnTopNavLogout")[0].style.display = "block";
-            document.getElementsByClassName("btnTopNavLogin")[0].style.display = "none"; 
-            
-        }        
+           
     }
-
-
-
 
     render() {
         return (
@@ -45,7 +31,7 @@ class Login extends Component {
                                         <form >                               
                                              <div className="login-form">
                                             <div className="form-group">
-                                            <input className="form-control1 input-text" placeholder="30000004" id="phone" ref="phone"/>
+                                            <input className="form-control1 input-text" value ='88224466' placeholder="30000004" id="phone" ref="phone"/>
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                             </div>
                                             <div className="form-group">
@@ -53,7 +39,7 @@ class Login extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <fieldset>
-                                                    <input autoComplete="off" className="form-control1" data-val="true" data-val-required="Enter Your Password" id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
+                                                    <input autoComplete="off"  className="form-control1" data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
 

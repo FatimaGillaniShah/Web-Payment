@@ -64,8 +64,4 @@ class SignUp extends Component {
 }
 
 
-    // <script>
-
-    // </script>
-   
 export default SignUp;

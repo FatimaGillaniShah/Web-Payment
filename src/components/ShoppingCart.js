@@ -120,6 +120,7 @@ class ShoppingCart extends Component {
         this.state.cartItemCount = cartItems.length;
         localStorage.setItem('cartItemCount', this.state.cartItemCount);
         this.state.Items = cartItems;
+     
         var sum = 0;
         this.state.Items.map((e) => {
 

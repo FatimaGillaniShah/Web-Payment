@@ -8,7 +8,8 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cartItemCount: 0
+            cartItemCount: 0,
+            isLoggedIn: true
         }
     }
 
@@ -49,18 +50,22 @@ class Header extends Component {
         }
         let sessionId = localStorage.getItem('sessionId');
         if (sessionId === "" || sessionId === null || sessionId === undefined) {
-            document.getElementsByClassName("btnTopNavLogin")[0].style.display = "block";
-            document.getElementsByClassName("btnTopNavSignup")[0].style.display = "block";
-            document.getElementsByClassName("customNav")[0].style.display = "none";
-
+            
+            this.setState({isLoggedIn:true})
         }
         else {
-            document.getElementsByClassName("btnTopNavLogout")[0].style.display = "block";
+            
+            this.setState({isLoggedIn:false})
+           
         }
     }
 
     render() {
-   
+        let sessionId = localStorage.getItem('sessionId');
+        if (sessionId === "" || sessionId === null || sessionId === undefined) {
+            
+            this.state.isLoggedIn = true;
+        }
         this.state.cartItemCount = localStorage.getItem('cartItemCount');
         
         return (
@@ -71,18 +76,26 @@ class Header extends Component {
 
                         <div className="hidden-xs float-right navbar-brand  ">
                             <ul className="languageBox">
-                                <li>
+                                {/* <li>
                                     <a className="page-scroll active _accountBalance fs-15" href="/"> </a>
-                                </li>
+                                </li> */}
                                 <li >
                                     <div className='row'>
-                                        <div onClick={this.NavigateToLogin}>
-                                            <button className="btnn btn-green btnTopNavLogin" type="button" style={{ display: "none" ,marginRight: '13px'}}>Login</button>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <button className="btnn btn-green btnTopNavSignup" type="button" style={{ display: "none" }} onClick={this.NavigateToSignUp}>Sign Up</button>
-                                        </div>
-                                        <button className="btnn btn-green btnTopNavLogout" type="button" style={{ display: "none" }} onClick={logout}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
+                                     <div> 
+                                     { this.state.isLoggedIn? (
+                                    <div className = "col-lg-4">
+                                       <button className="btnn btn-green btnTopNavLogin " type="button"  onClick={this.NavigateToLogin} style={{marginRight: '13px'}}>Login</button>
+                                       <button className="btnn btn-green btnTopNavSignup" type="button"  onClick={this.NavigateToSignUp}>Sign Up</button> 
+                                    </div>
+
+                                    ) : (
+
+                                    <div className = "col-lg-4">
+                                        <button className="btnn btn-green btnTopNavLogout" type="button" onClick={logout}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
+                                    </div>
+                                    )}
+                                    </div>
+
                                     </div>
                                 </li>
                                 <li><a href="/Home/ChangeCulture?lang=ar-BH&amp;returnUrl=%2F" id="change-lang" style={{fontSize:'21px'}}>عربي</a></li>
@@ -94,8 +107,9 @@ class Header extends Component {
                             <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
                         </a>
                     </div>
+                   
 
-                    <div className="navbar-collapse" style={{ backgroundColor: 'white' }}>
+                    <div className={this.state.isLoggedIn ? "navbar-collapse hide" : "navbar-collapse show"} style={{ backgroundColor: 'white' }}>
                         <div className="customNav">
                             <ul className="nav navbar-nav leftMenuItems">
                                 <li style={{ padding: '19px 17px 11px 51px', borderRight: 'solid 1px #ddd' }}><a onClick={this.NavigateToHome} className="qp-home hidden-xs"> </a></li>
