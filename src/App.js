@@ -19,12 +19,13 @@ import ShoppingCart from './components/ShoppingCart';
 import PayUnsuccessful from './components/pay/PayUnsuccessful';
 import PaySuccessful from './components/pay/PaySuccessful';
 import History from './components/History';
+import PageNotFound from './components/common/PageNotFound';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import '../src/content/bootstrap.min.css';
 import './content/css/overlay.css';
 import {getAllData} from './store/actions/actions';
-import { bindActionCreators } from '../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/redux';
+import { bindActionCreators } from 'redux';
 class App extends Component {
   constructor(props) {
     super(props)
@@ -73,6 +74,8 @@ class App extends Component {
             <Route path="/Pay/PayUnsuccessful" component={PayUnsuccessful} />
 
             <Route path="/History" component={History} />
+
+            <Route path="*" component={PageNotFound} />
 
           </Switch>
 
