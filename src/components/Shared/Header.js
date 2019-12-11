@@ -9,8 +9,8 @@ class Header extends Component {
         super(props);
         this.state = {
             cartItemCount: 0,
-            isLoggedIn: true,
-            DataCount : false
+            isLoggedIn: false,
+           
         }
     }
 
@@ -37,31 +37,18 @@ class Header extends Component {
         this.props.history.push('/History');
     }
 
-    componentDidMount() {
-        
-        //this.setState({cartItemCount : localStorage.getItem('cartItemCount')});
-      
-        let sessionId = localStorage.getItem('sessionId');
-        if (sessionId === "" || sessionId === null || sessionId === undefined) {
-            
-            this.setState({isLoggedIn:true})
-        }
-        else {
-            
-            this.setState({isLoggedIn:false})
-           
-        }
-    }
-
     render() {
+        
         let sessionId = localStorage.getItem('sessionId');
+        this.state.isLoggedIn = false;
 
-        if (sessionId === "" || sessionId === null || sessionId === undefined) {
+        if (sessionId !== "" && sessionId !== null && sessionId !== undefined) {
             
             this.state.isLoggedIn = true;
         }
+
         this.state.cartItemCount = localStorage.getItem('cartItemCount');
-        console.log(this.state.cartItemCount)
+      
         
         return (
 
@@ -78,16 +65,17 @@ class Header extends Component {
                                     <div className='row'>
                                      <div> 
                                      { this.state.isLoggedIn? (
-                                    <div className = "col-lg-4">
+                                     <div className = "col-lg-4">
+                                     <button className="btnn btn-green btnTopNavLogout" type="button" onClick={logout}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
+                                 </div>
+
+                                    ) : (
+                                        <div className = "col-lg-4">
                                        <button className="btnn btn-green btnTopNavLogin " type="button"  onClick={this.NavigateToLogin} style={{marginRight: '13px'}}>Login</button>
                                        <button className="btnn btn-green btnTopNavSignup" type="button"  onClick={this.NavigateToSignUp}>Sign Up</button> 
                                     </div>
 
-                                    ) : (
-
-                                    <div className = "col-lg-4">
-                                        <button className="btnn btn-green btnTopNavLogout" type="button" onClick={logout}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
-                                    </div>
+                                   
                                     )}
                                     </div>
 
@@ -102,7 +90,7 @@ class Header extends Component {
                             <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
                         </a>
                     </div>
-                    <div className={this.state.isLoggedIn ? "navbar-collapse hide" : "navbar-collapse show"} style={{ backgroundColor: 'white' }}>
+                    <div className={this.state.isLoggedIn ? "navbar-collapse show" : "navbar-collapse hide"} style={{ backgroundColor: 'white' }}>
                         <div className="customNav">
                             <ul className="nav navbar-nav leftMenuItems">
                                 <li style={{ padding: '19px 17px 11px 51px', borderRight: 'solid 1px #ddd' }}><a onClick={this.NavigateToHome} className="qp-home hidden-xs"> </a></li>

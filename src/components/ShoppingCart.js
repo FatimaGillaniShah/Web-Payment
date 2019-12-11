@@ -43,7 +43,7 @@ class ShoppingCart extends Component {
             })
             localStorage.setItem('cartItemCount', newItemCount);
             
-            //document.getElementsByClassName('cartIcon')[0].setAttribute('data-count', newItemCount);
+           
         }
 
         if (count === 1) {
@@ -102,10 +102,10 @@ class ShoppingCart extends Component {
                             let paymentUrl = payResponseUrl;
                             let splitURL = payResponseUrl.split('/');
                             let paymentId = splitURL[splitURL.length-1];
-                            debugger;
-                            document.getElementById('benefitForm').setAttribute('action', paymentUrl);
-                            document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
-                            document.getElementById('benefitForm').submit();
+                            // debugger;
+                            // document.getElementById('benefitForm').setAttribute('action', paymentUrl);
+                            // document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
+                            // document.getElementById('benefitForm').submit();
                         }
                         console.log(payResponse);
                     }

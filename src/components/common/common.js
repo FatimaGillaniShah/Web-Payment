@@ -20,14 +20,7 @@ export function PaySuccessComplete()
 {
   localStorage.removeItem("Services");
   localStorage.setItem('cartItemCount' , 0);
-  let isDataCountAvailable = document.getElementsByClassName('cartIconCount')[0].hasAttributes('data-count');
-  
-  if(isDataCountAvailable)
-  {
-    document.getElementsByClassName('cartIconCount')[0].removeAttribute('data-count');
-  }
-    }
-
+}
 
 export function validateLogin()
 {

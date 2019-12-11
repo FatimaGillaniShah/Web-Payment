@@ -9,6 +9,7 @@ class Login extends Component {
     constructor(props)
     {
         super(props);
+        this.login = this.login.bind(this);
         this.state = {};
     }
 
@@ -19,10 +20,13 @@ class Login extends Component {
            
     }
 
-    login()
+    login(myphone,mypassword)
+    
+
     {             
-        let msisdn = document.getElementById('phone').value;
-        let password = document.getElementById('password').value;
+        //debugger
+        let msisdn = this.refs.phone.value;
+        let password = this.refs.password.value;
       
           if(msisdn === "" || msisdn === null || msisdn === undefined)
           {
@@ -109,7 +113,7 @@ class Login extends Component {
                                         <form >                               
                                              <div className="login-form">
                                             <div className="form-group">
-                                            <input className="form-control1 input-text" value ='88224466' placeholder="30000004" id="phone" ref="phone"/>
+                                            <input className="form-control1 input-text" name ='myphone' value ='88224466' placeholder="30000004" id="phone" ref="phone"/>
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                             </div>
                                             <div className="form-group">
@@ -117,11 +121,11 @@ class Login extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <fieldset>
-                                                    <input autoComplete="off"  className="form-control1" data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
+                                                    <input autoComplete="off"  className="form-control1" name = 'mypassword'data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
 
-                                            <button className="green-btn btn-block btn-lg" type="button" onClick={() => this.login()}>LOGIN</button>
+                                            <button className="green-btn btn-block btn-lg" type="button"  onClick={this.login}>LOGIN</button>
                                             <div className="form-group clearfix">
 
                                         <div className="pull col-lg-6 col-md-6 col-sm-12 col-xs-12">
