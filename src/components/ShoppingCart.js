@@ -72,10 +72,13 @@ class ShoppingCart extends Component {
             let cartServices = JSON.parse(localStorage.getItem('Services'));
             let payObj = Object.assign({ "session-id": sessionId, services: [] }, this.state.paymentsInfoRequestObj);
 
-            this.setState({
-                paymentsInfoRequestObj : payObj
+            // this.setState({
+            //     paymentsInfoRequestObj : payObj
+            // });
+            
+            // we tried to set state using this.setState() but it don't effect in the below loop.
+            this.state.paymentsInfoRequestObj = payObj;
 
-            })
             cartServices.map((s) => {
                 var ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
                 this.state.paymentsInfoRequestObj.services.push(ServiceObject);
@@ -86,15 +89,15 @@ class ShoppingCart extends Component {
             if (PaymentsInfoResponse != null && PaymentsInfoResponse != undefined) {
                 let errorCode =  _.get(PaymentsInfoResponse, 'error-code');
                 if (errorCode != 0) {
+                    let errorMessage =  _.get(PaymentsInfoResponse, 'error-message');                    
+                    alert(errorMessage);
                 }
                 else {
-                    let errorOuccured = false;
-                
+                    let errorOuccured = false;                
                     if (!errorOuccured) {
                         this.setState({
-                            paymentsInfoRequestObj : payObj
-            
-                        })
+                            paymentsInfoRequestObj : payObj            
+                        });
                         cartServices.map((s) => {
                             var ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
                             this.state.paymentsPayRequestObj.services.push(ServiceObject);
@@ -104,24 +107,34 @@ class ShoppingCart extends Component {
                         let payResponse = await Pay(this.state.paymentsPayRequestObj);
                         payResponse = _.get(payResponse, 'data');
                         let payResponseErrorCode =  _.get(payResponse, 'error-code');
-                        let payResponseUrl =  _.get(payResponse, 'payment-url');
+                        
                         if (payResponseErrorCode != null && payResponseErrorCode != 0) {
-                            //message.message = payResponse.errorMessage;
-                            //errorOuccured = true;
+                            let payResponseErrorMessage =  _.get(payResponse, 'error-message');
+                            alert(payResponseErrorMessage);
                         }
-                        if (!errorOuccured && payResponse != null && payResponseUrl != null) {
-                            let paymentUrl = payResponseUrl;
-                            let splitURL = payResponseUrl.split('/');
-                            let paymentId = splitURL[splitURL.length-1];
-                            
-                        //     handle through state
-                        //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
-                        //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
-                        //   check how to submit form in react : document.getElementById('benefitForm').submit();
-
-                        this.setState({actionUrl:paymentUrl, paymentId:paymentId});
-                        document.getElementById('benefitForm').submit();
+                        else
+                        {
+                            let payResponseUrl =  _.get(payResponse, 'payment-url');
+                            if (!errorOuccured && payResponse !== null && payResponseUrl !== null && payResponseUrl !== "") {
+                                let payResponseUrl =  _.get(payResponse, 'payment-url');
+                                let paymentUrl = payResponseUrl;
+                                let splitURL = payResponseUrl.split('/');
+                                let paymentId = splitURL[splitURL.length-1];
+                                
+                            //     handle through state
+                            //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
+                            //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
+                            //   check how to submit form in react : document.getElementById('benefitForm').submit();
+    
+                            this.setState({actionUrl:paymentUrl, paymentId:paymentId});
+                            document.getElementById('benefitForm').submit();
+                            }
+                            else
+                            {
+                                alert("Pay Response Url is null or empty");
+                            }
                         }
+                        
                         console.log(payResponse);
                     }
 

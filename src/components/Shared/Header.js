@@ -45,17 +45,21 @@ class Header extends Component {
 
     componentDidMount()
     {
-      let isLogin = validateLogin();
-      if(isLogin){
+        this.setState({cartItemCount:localStorage.getItem('cartItemCount')});
+        let isLogin = validateLogin();
+      
+        if(isLogin){
         this.setState({isLoggedIn:true});
-      }
-      else{
+        }
+        else{
           this.logout();
-      }
+        }
     }
 
     render() {
-            this.state.cartItemCount = localStorage.getItem('cartItemCount');
+        
+            
+
         return (
 
             <div className="navbar navbar-default" role="navigation">
@@ -108,7 +112,7 @@ class Header extends Component {
                                 <li><a href="https://sadadbahrain.com/app/help.html" target="_blank"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
                                 <li>
                                     <a onClick={this.NavigateToCart} className="main-cart-icon" style={{ padding: "10px 25px 13px 20px", backgroundColor: "#0061AE", borderTop: "solid 1px #ac63c0" }}>
-                                        <i className="fs-30 cartIcon cartIconCount" data-count={cartItemCount}>
+                                        <i className="fs-30 cartIcon cartIconCount" data-count={this.state.cartItemCount}>
                                             <span className="glyphicon glyphicon-shopping-cart cartIcon"></span>
                                         </i>
                                     </a>
