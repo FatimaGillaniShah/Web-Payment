@@ -2,24 +2,10 @@ import _ from 'lodash';
 import m from 'moment';
 
 
-export function logout()
-{
-    localStorage.removeItem("sessionId");
-    localStorage.removeItem("sessionTime");
-    logoutHTML();
-    }
-
-export function logoutHTML()
-{
-   
-    localStorage.removeItem("sessionId");
-
-    }
-
 export function PaySuccessComplete()
 {
   localStorage.removeItem("Services");
-  localStorage.setItem('cartItemCo unt' , 0);
+  localStorage.setItem('cartItemCount' , 0);
 }
 
 export function validateLogin()
@@ -36,6 +22,8 @@ export function validateLogin()
         time = diff.split(":");
         var minutes = parseInt(time[1])
         if(minutes >= ExpiryMinutes){
+            localStorage.removeItem("sessionId");
+            localStorage.removeItem("sessionTime");
             return false;                
         }
         else
