@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../content/css/login.css';
-import {logoutHTML} from '../components/common/common';
 import {LoginRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
 
@@ -10,14 +9,9 @@ class Login extends Component {
     {
         super(props);
         this.login = this.login.bind(this);
-        this.state = {};
     }
 
-    componentDidMount()
-    {
-        logoutHTML();
-  
-    }
+    
 
     login()
     {       
@@ -52,7 +46,7 @@ class Login extends Component {
                     message = "Success";
                     let sessionId = _.get(result.data, 'session-id');
                     localStorage.setItem('sessionId' , sessionId);
-                    localStorage.setItem('sessionTime' , Date());
+                    localStorage.setItem('sessionTime' , Date());                    
                     this.props.history.push('/');
                 }
                 else

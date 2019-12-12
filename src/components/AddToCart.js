@@ -8,7 +8,7 @@ class AddToCart extends Component {
 
         super(props)
         this.state = {
-           
+            services: [],
             amount: null,
             Amount: null,
             serviceObject: [],

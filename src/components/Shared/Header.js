@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { logout,validateLogin,logoutHTML } from '../common/common';
+import { logout,validateLogin } from '../common/common';
 import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
@@ -11,6 +11,12 @@ class Header extends Component {
             cartItemCount: 0,
             isLoggedIn: false,           
         }
+    }
+
+    logout = () =>{
+        this.setState({isLoggedIn:false});
+        localStorage.removeItem("sessionId");
+        localStorage.removeItem("sessionTime");
     }
 
     NavigateToLogin = () => {
@@ -40,24 +46,16 @@ class Header extends Component {
     componentDidMount()
     {
       let isLogin = validateLogin();
-      if(!isLogin)
-      {
-        logoutHTML();
-      }     
+      if(isLogin){
+        this.setState({isLoggedIn:true});
+      }
+      else{
+          this.logout();
+      }
     }
 
     render() {
-        
-        let sessionId = localStorage.getItem('sessionId');
-        this.state.isLoggedIn = false;
-
-        if (sessionId !== "" && sessionId !== null && sessionId !== undefined) {            
-            this.state.isLoggedIn = true;
-        }
-
-        let cartItemCount = localStorage.getItem('cartItemCount');
-      
-        
+            this.state.cartItemCount = localStorage.getItem('cartItemCount');
         return (
 
             <div className="navbar navbar-default" role="navigation">
@@ -74,7 +72,7 @@ class Header extends Component {
                                      <div> 
                                      { this.state.isLoggedIn? (
                                      <div className = "col-lg-4">
-                                     <button className="btnn btn-green btnTopNavLogout" type="button" onClick={logout}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
+                                     <button className="btnn btn-green btnTopNavLogout" type="button" onClick={()=> this.logout()}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
                                  </div>
 
                                     ) : (

@@ -10,7 +10,6 @@ class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            transaction: [],
             services: [],
         }
         let isValid = validateLogin();
@@ -26,11 +25,10 @@ class History extends Component {
 
     render() {
       let data = this.props.historyData;
-      console.log(data)
       if(data!= null){
-        let details = [];
+       let details = [];
        data.forEach(element => {
-        details = _.get(element, 'information');
+         details = _.get(element, 'information');
          details["iconUrl"] = _.get(element, 'service-icon')
          this.state.services.push(details);
       });
@@ -39,7 +37,9 @@ class History extends Component {
 
            <div class="row">
 
-<div className={this.state.services.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{width:'100%'}} >
+          <div 
+          className={this.state.services.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{width:'100%'}} 
+          >
           <div className="col-md-12">
             <div className="ph-item">
               <div className="ph-col-12">
@@ -62,14 +62,10 @@ class History extends Component {
             </div>
           </div>
         </div>
-
                 
-                {this.state.services.map((e, i) =>
+           {this.state.services.map((e, i) =>
                     <div class="col-md-12">
-                        
-                         {/* {this.DateDivStyle((_.get(e, 'Date Time')).split(' ')[0])}  */}
-                         
-
+    
                         <div class="history-title" style={{ marginTop: '30px' }}>
                             
                             <p>{(_.get(e, 'Date Time')).split(' ')[0]}</p>
