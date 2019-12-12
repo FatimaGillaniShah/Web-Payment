@@ -16,7 +16,9 @@ class ShoppingCart extends Component {
             cartItemCount: 0,
             service: [],
             paymentsInfoRequestObj: {},
-            paymentsPayRequestObj: {}
+            paymentsPayRequestObj: {},
+            actionUrl: "",
+            paymentId: ""
         }
         let isValid = validateLogin();
         if (!isValid) {
@@ -42,8 +44,7 @@ class ShoppingCart extends Component {
                 cartItemCount: newItemCount
             })
             localStorage.setItem('cartItemCount', newItemCount);
-            
-           
+          
         }
 
         if (count === 1) {
@@ -102,10 +103,14 @@ class ShoppingCart extends Component {
                             let paymentUrl = payResponseUrl;
                             let splitURL = payResponseUrl.split('/');
                             let paymentId = splitURL[splitURL.length-1];
-                            // debugger;
-                            // document.getElementById('benefitForm').setAttribute('action', paymentUrl);
-                            // document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
-                            // document.getElementById('benefitForm').submit();
+                            
+                        //     handle through state
+                        //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
+                        //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
+                        //   check how to submit form in react : document.getElementById('benefitForm').submit();
+
+                        this.setState({actionUrl:paymentUrl, paymentId:paymentId});
+                        document.getElementById('benefitForm').submit();
                         }
                         console.log(payResponse);
                     }
@@ -120,7 +125,6 @@ class ShoppingCart extends Component {
         this.state.cartItemCount = cartItems.length;
         localStorage.setItem('cartItemCount', this.state.cartItemCount);
         this.state.Items = cartItems;
-     
         var sum = 0;
         this.state.Items.map((e) => {
 
@@ -209,8 +213,8 @@ class ShoppingCart extends Component {
                     </section>
 
                 </div>
-                <form action="" method="post" id="benefitForm">
-                    <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value="" />
+                <form action={this.state.actionUrl} method="post" id="benefitForm">
+                    <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
                 </form>
             </div>
         )

@@ -19,7 +19,7 @@ export function logoutHTML()
 export function PaySuccessComplete()
 {
   localStorage.removeItem("Services");
-  localStorage.setItem('cartItemCount' , 0);
+  localStorage.setItem('cartItemCo unt' , 0);
 }
 
 export function validateLogin()

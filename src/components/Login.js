@@ -17,14 +17,10 @@ class Login extends Component {
     {
         logoutHTML();
   
-           
     }
 
-    login(myphone,mypassword)
-    
-
-    {             
-        //debugger
+    login()
+    {       
         let msisdn = this.refs.phone.value;
         let password = this.refs.password.value;
       
@@ -117,7 +113,7 @@ class Login extends Component {
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                             </div>
                                             <div className="form-group">
-                                                {/* <span className="text-danger field-validation-error" data-valmsg-for="phoneNumber" data-valmsg-replace="true"><span for="phoneNumber" className="">Please enter your 8 digit phone number</span></span> */}
+                                            
                                             </div>
                                             <div className="form-group">
                                                 <fieldset>
