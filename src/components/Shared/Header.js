@@ -55,7 +55,7 @@ class Header extends Component {
             this.state.isLoggedIn = true;
         }
 
-        this.state.cartItemCount = localStorage.getItem('cartItemCount');
+        let cartItemCount = localStorage.getItem('cartItemCount');
       
         
         return (
@@ -110,7 +110,7 @@ class Header extends Component {
                                 <li><a href="https://sadadbahrain.com/app/help.html" target="_blank"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
                                 <li>
                                     <a onClick={this.NavigateToCart} className="main-cart-icon" style={{ padding: "10px 25px 13px 20px", backgroundColor: "#0061AE", borderTop: "solid 1px #ac63c0" }}>
-                                        <i className="fs-30 cartIcon cartIconCount" data-count={this.state.cartItemCount}>
+                                        <i className="fs-30 cartIcon cartIconCount" data-count={cartItemCount}>
                                             <span className="glyphicon glyphicon-shopping-cart cartIcon"></span>
                                         </i>
                                     </a>

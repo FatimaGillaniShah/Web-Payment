@@ -26,10 +26,10 @@ class History extends Component {
 
     render() {
       let data = this.props.historyData;
+      console.log(data)
       if(data!= null){
         let details = [];
-        this.state.transaction = data;
-        this.state.transaction.forEach(element => {
+       data.forEach(element => {
         details = _.get(element, 'information');
          details["iconUrl"] = _.get(element, 'service-icon')
          this.state.services.push(details);

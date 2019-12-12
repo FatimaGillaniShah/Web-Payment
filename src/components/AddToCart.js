@@ -8,7 +8,7 @@ class AddToCart extends Component {
 
         super(props)
         this.state = {
-            services: [],
+           
             amount: null,
             Amount: null,
             serviceObject: [],
@@ -22,7 +22,10 @@ class AddToCart extends Component {
         this.serviceRequestOptionalTargetsArray = [];
         this.finalizedTargetsArray = {};
     }
-
+    componentWillReceiveProps(){
+        let AllServices = _.get(this.props.StoreData, 'services');
+        console.log(AllServices)
+      }
     componentDidMount() {
 
         let OldServices = localStorage.getItem('Services');
@@ -37,20 +40,20 @@ class AddToCart extends Component {
         this.setState({ quantity: event.target.value });
     }
 
-    updateAmount(event) {
-        this.state.amount = event.target.value;
-        this.state.quantity = 1;
+    updateAmount() {
+
+        let amount = this.refs.amount.value;
+        let quantity = 1;
         this.setState({
-            amount: this.state.amount,
-            quantity: this.state.quantity
+            amount: amount,
+            quantity: quantity
         });
     }
 
     saveIntoCart(serviceObject) {
 
         let OldServices = localStorage.getItem('Services');
-
-        this.state.serviceObject = serviceObject;
+        this.setState({serviceObject:serviceObject})
 
         if (this.state.amount) {
 
@@ -117,7 +120,10 @@ class AddToCart extends Component {
     }
 
     amount(e) {
-        this.state.amount = e;
+        this.setState({
+            amount : e
+        })
+       
     }
 
     inputForTarget(targets) {
@@ -156,11 +162,8 @@ class AddToCart extends Component {
 
         var id = this.props.match.params.id;
         let serviceObject;
-        var services1 = [];
         let AllServices = _.get(this.props.StoreData, 'services');
-        this.state.services = AllServices;
-
-        _.map(this.state.services, function (o) {
+        _.map(AllServices, function (o) {
             if (o.id === id) {
                 serviceObject = o;
                 return false;
@@ -233,8 +236,7 @@ class AddToCart extends Component {
                                     </fieldset>
                                     <span className="field-validation-valid" data-valmsg-for="amount" data-valmsg-replace="true"></span>
                                 </div>
-                               
-                                
+    
                                 {this.state.PriceError ?  <p  style={{ color: "red" }} id="error">Please select above Amount</p>:""}
                                 
                                 <div className="form-group">
@@ -256,7 +258,7 @@ class AddToCart extends Component {
                                         <label>Amount*</label>
                                         <div className="input-group spinner">
                                             <input type="number" className="form-controll"
-                                                placeholder="1" name="amount" id="amount" required="required" onChange={this.updateAmount}
+                                                placeholder="1" name="amount" ref = 'amount' id="amount" required="required" onChange={this.updateAmount}
                                                 data-val-length-min={serviceObject.minAmount} data-val-length-max={serviceObject.maxAmount} />
                                             <div className="input-group-addon">
                                                 <a href="#" className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </a>

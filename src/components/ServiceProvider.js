@@ -7,7 +7,6 @@ class ServiceProvider extends Component {
     super(props);
     this.state = {
       servicesOrGroups: [],
-      CheckColor: true,
       FoundGroups: false
     }
   }
@@ -25,10 +24,8 @@ class ServiceProvider extends Component {
   }
 
   prepareDataToRender(Id) {
-    var Id = Id;
-    
+    var Id = Id; 
     var StoreData = this.props.StoreData;
-
     if (StoreData != null && StoreData != undefined) {
 
       let AllGroups = _.get(this.props.StoreData, 'groups');
@@ -58,16 +55,6 @@ class ServiceProvider extends Component {
 
     }
 }}
-
-  ChangeColor(i) {
-    if (i % 2 == 0) {
-      this.state.CheckColor = true
-
-    }
-    else {
-      this.state.CheckColor = false
-    }
-  }
   
   render() {
   

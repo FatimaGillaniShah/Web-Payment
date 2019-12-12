@@ -2,36 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { BalanceInfo } from '../api/ApiCalls';
-import { validateLogin,logoutHTML } from '../components/common/common';
+
 
 class Home extends Component {
   constructor(props) {
 
     super(props)
-    this.state = {
-      groups: [],
-      CheckColor: true
-    }
+  
   }
   
-
   ChangeColor(i) {
     if (i % 2 == 0) {
-      this.state.CheckColor = true;
+      return true;
     }
     else {
-      this.state.CheckColor = false;
+      return false;
     }
   }
 
   render() {
    
     var filteredGruops = [];
-    let data = this.props.data;
-    if(data!=null){
-      this.state.groups = data;
-      this.state.groups.forEach(e => {
+    let groups = this.props.data;
+    if(groups!=null){
+      groups.forEach(e => {
         let isParent = _.get(e, 'parent-group-id');
         if (isParent === "") {
           filteredGruops.push(e);
@@ -42,14 +36,14 @@ class Home extends Component {
         }
       });
    
-  }
-
-    this.state.groups = filteredGruops;
+   }
+    
+   groups = filteredGruops;
 
     return (
       <div className="Main">
         <div className="container-fluid online-pay-content">        
-          <div className={this.state.groups.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} >
+          <div className={groups.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} >
           <div className="col-md-3">
             <div className="ph-item">
               <div className="ph-col-12">
@@ -102,18 +96,17 @@ class Home extends Component {
         </div>
         
           <div className="row">
-            {this.state.groups.map((e, i) =>
+            {groups.map((e, i) =>
 
               <div className="col-md-3 col-sm-1" key={i}>
-                {this.ChangeColor(i)}
+                
                 <Link to={{
                   pathname: "/ServiceProvider/" + e.id,
 
                 }} className="portfolio-box">
 
                   <div
-                    className={this.state.CheckColor ? "portfolio-box-caption" : "portfolio-box-caption purple"}
-
+                    className={this.ChangeColor(i) ? "portfolio-box-caption" : "portfolio-box-caption purple"}
                   >
                     <div className="portfolio-box-caption-content">
 
@@ -133,7 +126,7 @@ class Home extends Component {
           </div>
         </div>
       </div>
-    );
+     );
   }
 }
 

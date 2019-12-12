@@ -25,16 +25,24 @@ class ShoppingCart extends Component {
             this.props.history.push("/login");
         }
     }
-
+ componentWillMount(){
+    var cartItems = JSON.parse(localStorage.getItem('Services'));
+    this.setState({
+        Items:cartItems
+    })
+    
+ }
     RemoveItem(id) {
 
         let count = this.state.Items.length;
-
-        let index = this.state.Items.findIndex(x => x.MyId === id);
-
+        let services = this.state.Items;
+        
+        let index = services.findIndex(x => x.MyId === id);
+        services.splice(index,1);
         this.setState({
-            Items: this.state.Items.splice(index, 1)
-        })
+            Items: services
+        });
+        
         localStorage.setItem('Services', JSON.stringify(this.state.Items));
 
         let newItemCount = this.state.cartItemCount - 1;
@@ -50,15 +58,10 @@ class ShoppingCart extends Component {
         if (count === 1) {
 
             this.setState({
-
-                sum: null
-
-            })
-            this.setState({
                 hidediv: true
             });
 
-        }
+         }
     }
     async pay() {
 
@@ -67,8 +70,12 @@ class ShoppingCart extends Component {
         else {
             let sessionId = localStorage.getItem('sessionId');
             let cartServices = JSON.parse(localStorage.getItem('Services'));
-            this.state.paymentsInfoRequestObj = Object.assign({ "session-id": sessionId, services: [] }, this.state.paymentsInfoRequestObj);
+            let payObj = Object.assign({ "session-id": sessionId, services: [] }, this.state.paymentsInfoRequestObj);
 
+            this.setState({
+                paymentsInfoRequestObj : payObj
+
+            })
             cartServices.map((s) => {
                 var ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
                 this.state.paymentsInfoRequestObj.services.push(ServiceObject);
@@ -84,7 +91,10 @@ class ShoppingCart extends Component {
                     let errorOuccured = false;
                 
                     if (!errorOuccured) {
-                        this.state.paymentsPayRequestObj = Object.assign({ "session-id": sessionId, gateway: "benefit" ,services: [] }, this.state.paymentsPayRequestObj);
+                        this.setState({
+                            paymentsInfoRequestObj : payObj
+            
+                        })
                         cartServices.map((s) => {
                             var ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
                             this.state.paymentsPayRequestObj.services.push(ServiceObject);
@@ -121,16 +131,10 @@ class ShoppingCart extends Component {
     }
 
     render() {
-        var cartItems = JSON.parse(localStorage.getItem('Services'));
-        this.state.cartItemCount = cartItems.length;
-        localStorage.setItem('cartItemCount', this.state.cartItemCount);
-        this.state.Items = cartItems;
+
         var sum = 0;
         this.state.Items.map((e) => {
-
             sum = sum + parseFloat(e.amount);
-            this.state.sum = sum;
-
         })
         return (
             <div>
@@ -174,7 +178,7 @@ class ShoppingCart extends Component {
                                     <div className=" cart-top-wrap">
                                         <div className="right">
                                             <a href="#"><img id="cartItemImage_1" src={require('../content/img/tag.png')} className="hidden-xs" /></a>
-                                            <span id="cartTotalAmount"><font className="dark">Total </font>BHD {this.state.sum}.000</span>
+                                            <span id="cartTotalAmount"><font className="dark">Total </font>BHD {sum}.000</span>
                                         </div>
                                     </div>
                                 </div>
