@@ -15,26 +15,6 @@ class Home extends Component {
     }
   }
   
-  async componentDidMount()
-  {
-    let isLogin = validateLogin();
-    if(isLogin)
-    {
-      let sessionId = localStorage.getItem('sessionId');
-
-      if (sessionId === null || sessionId === undefined) {
-        this.props.history.push("/login");
-      }
-      else {
-        await BalanceInfo(sessionId);;
-      }
-    }
-    else
-    {
-      logoutHTML();
-    }
-   
-  }
 
   ChangeColor(i) {
     if (i % 2 == 0) {

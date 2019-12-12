@@ -19,7 +19,7 @@ import ShoppingCart from './components/ShoppingCart';
 import PayUnsuccessful from './components/pay/PayUnsuccessful';
 import PaySuccessful from './components/pay/PaySuccessful';
 import History from './components/History';
-import PageNotFound from './components/common/PageNotFound';
+import PageNotFound from './components/PageNotFound';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import '../src/content/bootstrap.min.css';
@@ -35,10 +35,8 @@ class App extends Component {
     }
   }
  
-  componentDidMount() {
-    
-    this.props.allData();
-  
+  componentDidMount() {    
+    this.props.allData();  
     }
    
   render() {

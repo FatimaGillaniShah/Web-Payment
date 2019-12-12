@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { logout } from '../common/common';
+import { logout,validateLogin,logoutHTML } from '../common/common';
 import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
@@ -9,8 +9,7 @@ class Header extends Component {
         super(props);
         this.state = {
             cartItemCount: 0,
-            isLoggedIn: false,
-           
+            isLoggedIn: false,           
         }
     }
 
@@ -29,12 +28,22 @@ class Header extends Component {
     NavigateToAccount = () => {
         this.props.history.push('/activateAccount');
     }
+
     NavigateToSignUp = () => {
         this.props.history.push('/signup');
-
     }
+
     NavigateToHistory = () =>{
         this.props.history.push('/History');
+    }
+
+    componentDidMount()
+    {
+      let isLogin = validateLogin();
+      if(!isLogin)
+      {
+        logoutHTML();
+      }     
     }
 
     render() {
@@ -42,8 +51,7 @@ class Header extends Component {
         let sessionId = localStorage.getItem('sessionId');
         this.state.isLoggedIn = false;
 
-        if (sessionId !== "" && sessionId !== null && sessionId !== undefined) {
-            
+        if (sessionId !== "" && sessionId !== null && sessionId !== undefined) {            
             this.state.isLoggedIn = true;
         }
 

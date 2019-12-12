@@ -38,13 +38,14 @@ export function validateLogin()
         if(minutes >= ExpiryMinutes){
             return false;                
         }
-            else{
-                return true;
-            }
-        }
         else
         {
-        
+            return true;
         }
+    }
+    else
+    {
+        return false;
+    }
         
-        }
+}
