@@ -227,7 +227,7 @@ class AddToCart extends Component {
                                             {
                                                 fixedAmounts.map(e =>
                                                     // style={{focus:'link',focus:'visited',color:'blue',borderColor:'blue'}}
-                                                    <span id="focusmeplease" onClick={() => this.amount(e)} className="waves-effect waves-block fixedAmountChoice " key={e} value={e}>BHD {e}</span>
+                                                    <a id="focusmeplease" onClick={() => this.amount(e)} className="waves-effect waves-block fixedAmountChoice " key={e} value={e}>BHD {e}</a>
                                                 )
                                             }
                                         </div>
