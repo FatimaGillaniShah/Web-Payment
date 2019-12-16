@@ -72,7 +72,7 @@ class App extends Component {
             <Route path="/Pay/PayUnsuccessful" component={PayUnsuccessful} />
 
             <Route path="/History" component={History} />
-
+  
             <Route path="*" component={PageNotFound} />
 
           </Switch>

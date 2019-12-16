@@ -1,57 +1,113 @@
 import React, { Component } from 'react';
-
- import '../content/css/forgetPassword.css';
-
+import '../content/css/forgetPassword.css';
+import {ForgetRequestInfo} from '../api/ApiCalls';
+import _ from 'lodash';
 class ForgetPassword extends Component {
+    constructor(props)
+    {
+        super(props);
+        this.forgetPassword = this.forgetPassword.bind(this);
+    }
+    forgetPassword(){
+    
+        let msisdn = this.refs.phone.value;
+        let password = this.refs.password.value;
+        let repeatPassword = this.refs.repeatPassword.value;
+        
+        if(msisdn === "" || msisdn === null || msisdn === undefined)
+          {
+             alert("Phone number missing");
+             
+          }
+          else if(password === "" || password === null || password === undefined)
+          {
+              alert("Password missing");
+          
+          }
+         else if(password !== repeatPassword){
+              alert("Password don't match");
+              
+          }
+          else{
+        let forgetRequestObject = {
+            "msisdn": "973"+msisdn,
+            "password": password,
+           
+
+        }
+        ForgetRequestInfo(forgetRequestObject)
+        .then((result) => {
+            if (result  != undefined) {
+                let message = "";
+                let resultData = _.get(result.data, 'error-code');
+                let resultDataMessage = _.get(result.data, 'error-message');
+                if(resultData === 0){
+                   
+                    this.props.history.push('/login');
+                }
+                else{     
+                  
+                     alert(resultDataMessage);
+                    
+                }
+                console.log(result)
+
+            }
+        })
+        .catch((err) => {
+            console.log("error login failed !!!")
+            });
+    }
+    }
     render() {
         return (
-           <div className="ForgetPassword">
-                <div class="header-content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <div class="login-wrap">
-                                    <div class="header">
-                                        <h3>FORGOT YOUR PASSWORD</h3>
-                                    </div>
-                                    <div class="content-area">
-
-
-                                        <form >                               
-                                             <div class="login-form">
-                                            <div class="form-group">
-                                            <input className="form-control1 input-text" placeholder="30000004"/>
-                                                <span class="input-disabled-text-without-modal">+973</span><i class="phone"></i>
-                                            </div>
-                                            <div class="form-group">
-                                                {/* <span class="text-danger field-validation-error" data-valmsg-for="phoneNumber" data-valmsg-replace="true"><span for="phoneNumber" class="">Please enter your 8 digit phone number</span></span> */}
-                                            </div>
-                                            <div class="form-group">
-                                                <fieldset>
-                                                    <input autocomplete="off" class="form-control1" data-val="true" data-val-required="Enter Your Password" id="password" name="password" placeholder="Password" type="password" /><i class="password"></i>
-                                                </fieldset>
-                                            </div>
-                                            <div class="form-group">
-                                                <fieldset>
-                                                    <input autocomplete="off" class="form-control1" data-val="true" data-val-required="Enter Your Password" id="password" name="password" placeholder="Repeat Password" type="password" /><i class="password"></i>
-                                                </fieldset>
-                                            </div>
-
-
-
-                                            <button className="green-btn btn-block btn-lg" type="submit">SUBMIT</button>
-                                           
-                                        </div>
-                                        </form>                 
-                                    </div>
-                                    <div class="footer">Don’t have an account? <a href="/signup">Sign Up For Free</a></div>
+            <div className="SLogin">
+            <div className="header-content1">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 text-center">
+                            <div className="login-wrap">
+                                <div className="header">
+                                    <h3>FORGOT YOUR PASSWORD</h3>
                                 </div>
+                                <div className="content-area">
+                                    <form >                               
+                                         <div className="login-form">
+                                        <div className="form-group">
+                                        <input className="form-control1 input-text" name ='myphone' placeholder="30000004" id="phone" ref="phone"/>
+                                            <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
+                                        </div>
+                                        <div className="form-group">
+                                        
+                                        </div>
+                                        <div className="form-group">
+                                            <fieldset>
+                                                <input autoComplete="off"  className="form-control1" id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
+                                            </fieldset>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <fieldset>
+                                                <input autoComplete="off"  className="form-control1" id="password" ref="repeatPassword" name="password" placeholder="Repeat Password" type="password" /><i className="password"></i>
+                                            </fieldset>
+                                        </div>
+
+                                        <button className="green-btn btn-block btn-lg" type="button"  onClick={this.forgetPassword}>SUBMIT</button>
+                                        <div className="form-group clearfix">
+
+
+                                </div>
+                                    </div>
+                                    </form>                 
+                                </div>
+                           
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+        </div>
         );
     }
 }

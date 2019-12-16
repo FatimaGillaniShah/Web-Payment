@@ -2,6 +2,7 @@ import axios from "axios";
 export const FETCH_DATA = "FETCH_DATA";
 export const FETCH_HISTORY = 'FETCH_HISTORY';
 export const FETCH_BALANCE = 'FETCH_BALANCE';
+export const FETCH_REGISTER = 'FETCH_REGISTER';
 
 export const getAllData = () =>{
   return(dispatch)=>{
@@ -35,7 +36,7 @@ export const getHistory = () =>{
   axios.post(process.env.REACT_APP_BASEURL + 'api/web/v1/Payments/History',
   JSON.stringify(historyRequestObject))
     .then((res) => {
-     
+  
     dispatch({ 
       type: FETCH_HISTORY, payload:res.data
      })}
@@ -59,6 +60,3 @@ export const getBalanceInfo = () =>{
    )};
   
 }
-
-
-

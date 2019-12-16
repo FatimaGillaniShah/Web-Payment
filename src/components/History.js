@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
- import {getHistory} from "../store/actions/actions";
- import { connect } from 'react-redux';
- import { bindActionCreators } from 'redux'
- 
+import {getHistory} from "../store/actions/actions";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 class History extends Component {
     constructor(props) {
@@ -22,6 +21,18 @@ class History extends Component {
         this.props.Data();
 
     }
+    DateHeader(Date1,Date2){
+       if(Date1 != undefined && Date2 != undefined){
+        var date1 = _.get(Date1, 'Date Time').split(' ')[0];
+        var date2 = _.get(Date2, 'Date Time').split(' ')[0];
+        if(date1 === date2){
+           return false;
+        }
+        else{
+           return true;
+        }
+      }
+    }
 
     render() {
       let data = this.props.historyData;
@@ -31,6 +42,7 @@ class History extends Component {
          details = _.get(element, 'information');
          details["iconUrl"] = _.get(element, 'service-icon')
          this.state.services.push(details);
+
       });
       }
         return (
@@ -62,11 +74,15 @@ class History extends Component {
             </div>
           </div>
         </div>
-                
+          <div class="col-md-12">
+               <div class="pull-right">
+                  <a href="/User/History/1" class="btn btn-info">NEXT</a>
+                </div>
+          </div>
            {this.state.services.map((e, i) =>
                     <div class="col-md-12">
-    
-                        <div class="history-title" style={{ marginTop: '30px' }}>
+                    
+                        <div className={this.DateHeader(this.state.services[i],this.state.services[i+1]) ? "history-title show":"history-title hide"} style={{ marginTop: '30px' }}>
                             
                             <p>{(_.get(e, 'Date Time')).split(' ')[0]}</p>
                             
@@ -102,7 +118,6 @@ class History extends Component {
         );
     }
 }
-
 
 const mapStateToProps = state => {
   

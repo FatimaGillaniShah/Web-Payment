@@ -5,7 +5,31 @@ export function LoginRequestInfo(PaymentsLoginRequest){
   return axios.post(
     process.env.REACT_APP_BASEURL + 'api/web/v1/users/login',
     JSON.stringify(PaymentsLoginRequest)
-  );}
+  );
+  }
+
+export function RegisterRequestInfo(RegisterRequestObject){
+   
+  return axios.post(
+      process.env.REACT_APP_BASEURL + 'api/web/v1/users/register',
+      JSON.stringify(RegisterRequestObject)
+    );
+  }
+
+export function ForgetRequestInfo(ForgetRequestObject){
+   
+  return axios.post(
+        process.env.REACT_APP_BASEURL + 'api/web/v1/users/reset',
+        JSON.stringify(ForgetRequestObject)
+      );
+  }
+export function ActivateRequestInfo(ActivateRequestRequestObject){
+   
+  return axios.post(
+          process.env.REACT_APP_BASEURL + 'api/web/v1/users/activate',
+          JSON.stringify(ActivateRequestRequestObject)
+     );
+  }
 
 export async function RequestInfo (paymentsInfoRequestObj){
     let result;

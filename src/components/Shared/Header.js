@@ -55,7 +55,7 @@ class Header extends Component {
     }
 
     render() {
-            this.state.cartItemCount = localStorage.getItem('cartItemCount');
+           let cartItemCount = localStorage.getItem('cartItemCount');
         return (
 
             <div className="navbar navbar-default" role="navigation">

@@ -11,10 +11,10 @@ class Login extends Component {
         this.login = this.login.bind(this);
     }
 
-    
 
     login()
     {       
+        
         let msisdn = this.refs.phone.value;
         let password = this.refs.password.value;
       
@@ -80,6 +80,7 @@ class Login extends Component {
                         alert(message);
                     }
                 }
+                console.log(result) 
          
             }
         })
