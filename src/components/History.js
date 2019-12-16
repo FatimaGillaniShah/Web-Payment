@@ -9,28 +9,37 @@ class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            services: [],
+            services: []
         }
         let isValid = validateLogin();
         if (!isValid) {
             this.props.history.push("/login");
         }
+        const HistoryDateFlag = "";
     }
+
+    
+
     componentDidMount() {
 
         this.props.Data();
 
     }
-    DateHeader(Date1,Date2){
-       if(Date1 != undefined && Date2 != undefined){
-        var date1 = _.get(Date1, 'Date Time').split(' ')[0];
-        var date2 = _.get(Date2, 'Date Time').split(' ')[0];
-        if(date1 === date2){
-           return false;
-        }
-        else{
-           return true;
-        }
+    DateHeader(ServiceObject){
+
+
+      let ServiceObjectDate = _.get(ServiceObject, 'Date Time').split(' ')[0];
+
+      let OldServiceObjectDate = this.HistoryDateFlag;
+
+      if(ServiceObjectDate === OldServiceObjectDate)
+      {
+        return false;
+      }
+      else
+      {
+        this.HistoryDateFlag = ServiceObjectDate;
+        return true;
       }
     }
 
@@ -82,7 +91,7 @@ class History extends Component {
            {this.state.services.map((e, i) =>
                     <div class="col-md-12">
                     
-                        <div className={this.DateHeader(this.state.services[i],this.state.services[i+1]) ? "history-title show":"history-title hide"} style={{ marginTop: '30px' }}>
+                        <div className={this.DateHeader(e) ? "history-title show":"history-title hide"} style={{ marginTop: '30px' }}>
                             
                             <p>{(_.get(e, 'Date Time')).split(' ')[0]}</p>
                             
