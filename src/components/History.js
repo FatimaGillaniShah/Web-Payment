@@ -79,7 +79,7 @@ class History extends Component {
                                     <img alt="" class="img-responsive" src={e.iconUrl} />
 
                                     <div class="left">
-                                        <h4></h4>
+                                        <h4> </h4>
                                         <p>{_.get(e, 'Service Name')}</p>
                                     </div>
 

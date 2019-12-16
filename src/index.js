@@ -6,12 +6,12 @@ import * as serviceWorker from './serviceWorker';
 import "bootstrap/dist/css/bootstrap.css";
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
-import { BrowserRouter as Router} from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { Router} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
 import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
 import index from "./reducers/index";
-export const history = createHistory()
+export const history = createBrowserHistory()
 
 const store = createStore(index,applyMiddleware(logger,thunkMiddleware))
 const app = (

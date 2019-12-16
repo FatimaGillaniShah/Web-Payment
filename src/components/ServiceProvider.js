@@ -14,7 +14,7 @@ class ServiceProvider extends Component {
   validateGroupsForServices(groupObject) {
     let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
     let GroupId = _.get(groupObject, 'id');
-    if (serviceCheckHasSteps == undefined) {
+    if (serviceCheckHasSteps === undefined) {
       this.props.history.push("/SubGroups/" + GroupId);  
     }
     else {
@@ -24,13 +24,12 @@ class ServiceProvider extends Component {
   }
 
   prepareDataToRender(Id) {
-    var Id = Id; 
     var StoreData = this.props.StoreData;
-    if (StoreData != null && StoreData != undefined) {
+    if (StoreData !== null && StoreData !== undefined) {
 
       let AllGroups = _.get(this.props.StoreData, 'groups');
       let AllServices = _.get(this.props.StoreData, 'services');
-      if(AllGroups!=undefined && AllServices!=undefined){
+      if(AllGroups !== undefined && AllServices !== undefined){
       AllGroups.forEach(groupElement => {
        
         let parent_group_id = _.get(groupElement, 'parent-group-id');
@@ -58,9 +57,9 @@ class ServiceProvider extends Component {
   
   render() {
   
-    var Id = this.props.match.params.id
+    var Id = this.props.match.params.id;
    
-     this.prepareDataToRender(Id)
+     this.prepareDataToRender(Id);
     
     return (
 
@@ -71,23 +70,23 @@ class ServiceProvider extends Component {
 
             <div className="col-md-3 col-sm-1" key={i}>
         
-              <a class="portfolio-box " onClick={() => this.validateGroupsForServices(e)}>
+              <div className="portfolio-box " onClick={() => this.validateGroupsForServices(e)}>
               
                 <div >
                 
-                  <div class="price"></div>
-                  <img alt="" class="img-responsive" src={e.iconUrl} />
-                  <div class="portfolio-box-caption portfolio-box-block">
-                    <div class="portfolio-box-caption-content">
-                      <div class="project-name">{e.name}</div>
+                  <div className="price"></div>
+                  <img alt="" className="img-responsive" src={e.iconUrl} />
+                  <div className="portfolio-box-caption portfolio-box-block">
+                    <div className="portfolio-box-caption-content">
+                      <div className="project-name">{e.name}</div>
                     </div>
                   </div>
-                  <div class="info-wrap">
+                  <div className="info-wrap">
                     <h4>{e.name}</h4>
                   </div>
                 </div>
         
-    </a>
+    </div>
     
             </div>
           )}

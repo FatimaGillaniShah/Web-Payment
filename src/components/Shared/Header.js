@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { logout,validateLogin } from '../common/common';
+import { validateLogin } from '../common/common';
 import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
@@ -109,7 +109,7 @@ class Header extends Component {
                             <ul className="nav navbar-nav rightMenuItems">
                                 <li style={{ borderRight: "solid 1px #ddd" }}><a onClick={this.NavigateToAccount}><i><span className="glyphicon glyphicon-user"></span></i><span>Account</span></a></li>
                                 <li><a onClick={this.NavigateToHistory} style={{ borderRight: "solid 1px #ddd" }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
-                                <li><a href="https://sadadbahrain.com/app/help.html" target="_blank"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
+                                <li><a href="https://sadadbahrain.com/app/help.html" target="_blank" rel="noopener noreferrer"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
                                 <li>
                                     <a onClick={this.NavigateToCart} className="main-cart-icon" style={{ padding: "10px 25px 13px 20px", backgroundColor: "#0061AE", borderTop: "solid 1px #ac63c0" }}>
                                         <i className="fs-30 cartIcon cartIconCount" data-count={this.state.cartItemCount}>

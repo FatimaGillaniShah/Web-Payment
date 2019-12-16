@@ -5,14 +5,9 @@ import _ from 'lodash';
 
 
 class Home extends Component {
-  constructor(props) {
-
-    super(props)
-  
-  }
   
   ChangeColor(i) {
-    if (i % 2 == 0) {
+    if (i % 2 === 0) {
       return true;
     }
     else {

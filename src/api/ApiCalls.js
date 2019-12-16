@@ -50,8 +50,8 @@ export async function BalanceInfo (sessionId){
   ).then((res) => {
     let isError = _.get(res.data, 'error-code');
     if (isError === 0) {
-      let currency = _.get(res.data, 'currency');
-      let Amount = _.get(res.data, 'balance');
+      //let currency = _.get(res.data, 'currency');
+      //let Amount = _.get(res.data, 'balance');
      // document.getElementsByClassName("_accountBalance")[0].innerHTML = currency + " " + Amount;
     }
   });

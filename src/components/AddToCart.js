@@ -22,19 +22,8 @@ class AddToCart extends Component {
         this.serviceRequestOptionalTargetsArray = [];
         this.finalizedTargetsArray = {};
     }
-    componentWillReceiveProps(){
-        let AllServices = _.get(this.props.StoreData, 'services');
-        console.log(AllServices)
-      }
-    componentDidMount() {
-
-        let OldServices = localStorage.getItem('Services');
-        let arr = [];
-        if (OldServices) {
-            arr = JSON.parse(OldServices)
-        }
-
-    }
+    
+    
 
     updateInput(event) {
         this.setState({ quantity: event.target.value });
@@ -53,7 +42,7 @@ class AddToCart extends Component {
     saveIntoCart(serviceObject) {
 
         let OldServices = localStorage.getItem('Services');
-        this.setState({serviceObject:serviceObject})
+        this.setState({serviceObject:serviceObject});
 
         if (this.state.amount) {
 
@@ -62,15 +51,24 @@ class AddToCart extends Component {
             var arr = [];
 
 
-            this.serviceRequestRequiredTargetsArray.map((e) => {
-                if (e.key == "amount") {
+            this.serviceRequestRequiredTargetsArray.forEach((e) => {
+                if (e.key === "amount") {
                     this.finalizedTargetsArray = Object.assign({ "amount": this.state.amount }, this.finalizedTargetsArray);
                 }
-                if (e.key == "quantity") {
+                if (e.key === "quantity") {
                     this.finalizedTargetsArray = Object.assign({ "quantity": this.state.quantity }, this.finalizedTargetsArray);
                 }
-
             });
+
+            // this.serviceRequestRequiredTargetsArray.map((e) => {
+            //     if (e.key === "amount") {
+            //         this.finalizedTargetsArray = Object.assign({ "amount": this.state.amount }, this.finalizedTargetsArray);
+            //     }
+            //     if (e.key === "quantity") {
+            //         this.finalizedTargetsArray = Object.assign({ "quantity": this.state.quantity }, this.finalizedTargetsArray);
+            //     }
+
+            // });
 
             if (OldServices !== null) {
                 arr = JSON.parse(OldServices);
@@ -127,23 +125,23 @@ class AddToCart extends Component {
     }
 
     inputForTarget(targets) {
-        if (targets != null && targets != undefined) {
+        if (targets !== null && targets !== undefined) {
             let inputField = [];
             let targetName = targets.key;
             let targetType = "";
             let targetAttributes = targets.value;
             let _classValues = "form-controll target input-text";
 
-            if (targetName == "email") {
+            if (targetName === "email") {
                 targetType = "email";
             }
-            else if (targetName == "msisdn") {
+            else if (targetName === "msisdn") {
                 targetType = "number";
             }
             else {
                 targetType = "text";
             }
-            if (targetAttributes != null && targetAttributes != undefined) {
+            if (targetAttributes !== null && targetAttributes !== undefined) {
                 let min = _.get(targetAttributes, 'min');
                 let max = _.get(targetAttributes, 'max');
                 inputField.push(<input key={targetName} className={_classValues} data-val-length-min={min} data-val-length-max={max} data-val="true" type={targetType} id={targetName} name={targetName} placeholder="text" />);
@@ -181,7 +179,7 @@ class AddToCart extends Component {
         let serviceRequestOptionalTargets = _.get(serviceObject, 'request-targets.optional');
         this.serviceRequestOptionalTargetsArray = _.map(serviceRequestOptionalTargets, (value, key) => ({ key, value }));
 
-        if ((serviceObject != undefined)) {
+        if ((serviceObject !== undefined)) {
             serviceImage = _.get(serviceObject, 'icons.190x98');
             fixedAmounts = _.get(serviceObject, 'fixed-amount');
         }
@@ -192,13 +190,13 @@ class AddToCart extends Component {
 
             <div className="AddToCart">
                 <div className="header-logo">
-                    <img src={serviceImage} className="img-responsive" />
+                    <img src={serviceImage} className="img-responsive" alt="ServiceImg" />
                 </div>
                 <h4><span>{serviceObject.name}</span></h4>
                 <form action="/User/AddToCart" id="formModal_1" method="post">
                     <div className="AddToCartFormBody">
 
-                        {servicePaymentTargets != null && servicePaymentTargets != undefined ? (
+                        {servicePaymentTargets !== null && servicePaymentTargets !== undefined ? (
 
                             servicePaymentTargetsArray.map(e =>
 
@@ -229,7 +227,7 @@ class AddToCart extends Component {
                                             {
                                                 fixedAmounts.map(e =>
                                                     // style={{focus:'link',focus:'visited',color:'blue',borderColor:'blue'}}
-                                                    <a href='#' id="focusmeplease" onClick={() => this.amount(e)} className="waves-effect waves-block fixedAmountChoice " key={e} value={e}>BHD {e}</a>
+                                                    <span id="focusmeplease" onClick={() => this.amount(e)} className="waves-effect waves-block fixedAmountChoice " key={e} value={e}>BHD {e}</span>
                                                 )
                                             }
                                         </div>
@@ -245,8 +243,8 @@ class AddToCart extends Component {
                                         <div className="input-group spinner">
                                             <input type="text" className="form-control text-center quantity" placeholder="1" name="quantity" onChange={this.updateInput} />
                                             <div className="input-group-addon">
-                                                <a href="#" className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </a>
-                                                <a href="#" className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </a>
+                                                <span className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </span>
+                                                <span className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </span>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -261,8 +259,8 @@ class AddToCart extends Component {
                                                 placeholder="1" name="amount" ref = 'amount' id="amount" required="required" onChange={this.updateAmount}
                                                 data-val-length-min={serviceObject.minAmount} data-val-length-max={serviceObject.maxAmount} />
                                             <div className="input-group-addon">
-                                                <a href="#" className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </a>
-                                                <a href="#" className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </a>
+                                                <span className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </span>
+                                                <span className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </span>
                                             </div>
                                         </div>
                                         <p style={{ color: "red" }} id="error"></p>

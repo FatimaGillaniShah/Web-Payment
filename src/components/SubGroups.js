@@ -14,7 +14,7 @@ class ServiceProvider extends Component {
   validateGroupsForServices(groupObject) {
     let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
     let GroupId = _.get(groupObject, 'id');
-    if (serviceCheckHasSteps == undefined) {
+    if (serviceCheckHasSteps === undefined) {
       this.prepareDataToRender(GroupId);
     }
     else {
@@ -25,10 +25,10 @@ class ServiceProvider extends Component {
   prepareDataToRender(Id) {
     var StoreData = this.props.StoreData;
 
-    if (StoreData != null && StoreData != undefined) {
+    if (StoreData !== null && StoreData !== undefined) {
       let AllGroups = _.get(this.props.StoreData, 'groups');
       let AllServices = _.get(this.props.StoreData, 'services');
-      if(AllGroups!=undefined && AllServices!=undefined){
+      if(AllGroups !== undefined && AllServices !== undefined){
       AllGroups.forEach(groupElement => {
         let parent_group_id = _.get(groupElement, 'parent-group-id');
         if (parent_group_id === Id) {

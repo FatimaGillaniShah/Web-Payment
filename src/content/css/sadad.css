@@ -1464,3 +1464,7 @@ img::-moz-selection {
   .hide{
 	display: none !important;
   }
+  .Main
+  {
+	  width: 99%;
+  }
