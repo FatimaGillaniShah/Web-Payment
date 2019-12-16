@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as actions from "./store/actions/actions";
 import '../src/content/css/online-pay.css';
 import '../src/content/css/sadad.css';
 import '../src/content/css/placeholder-loading.css';
@@ -21,7 +20,6 @@ import PaySuccessful from './components/pay/PaySuccessful';
 import History from './components/History';
 import PageNotFound from './components/PageNotFound';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import '../src/content/bootstrap.min.css';
 import './content/css/overlay.css';
 import {getAllData} from './store/actions/actions';

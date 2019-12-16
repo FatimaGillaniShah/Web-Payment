@@ -37,7 +37,7 @@ class Login extends Component {
         
         LoginRequestInfo(LoginRequestObject)
             .then((result) => {
-            if (result  != undefined) {
+            if (result  !== undefined) {
                 let message = "";
                 let resultData = _.get(result.data, 'error-code');
                 let resultDataMessage = _.get(result.data, 'error-message');
@@ -85,7 +85,7 @@ class Login extends Component {
             }
         })
         .catch((err) => {
-            console.log("error login failed !!!")
+            console.log("error login failed !!!");
             });        
       }
 
@@ -112,7 +112,7 @@ class Login extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <fieldset>
-                                                    <input autoComplete="off"  className="form-control1" name = 'mypassword'data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
+                                                    <input autoComplete="off"  className="form-control1" name = 'mypassword'data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' ref="password" placeholder="Password" type="password" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
 
