@@ -161,9 +161,6 @@ class ShoppingCart extends Component {
             sum = sum + parseFloat(e.amount);
         });
 
-        // this.state.Items.map((e) => {
-        //     sum = sum + parseFloat(e.amount);
-        // })
         return (
             <div>
                 <div id="quick-pay" hidden={this.state.hidediv}>

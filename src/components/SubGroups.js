@@ -61,14 +61,14 @@ class ServiceProvider extends Component {
 
               <div className="portfolio-box" onClick={() => this.validateGroupsForServices(e)}>
 
-              <div class="price"></div>
-                <img alt="" class="img-responsive" src={e.iconUrl} />
-                <div class="portfolio-box-caption portfolio-box-block">
-                  <div class="portfolio-box-caption-content">
-                    <div class="project-name">{e.identifier}</div>
+              <div className="price"></div>
+                <img alt="" className="img-responsive" src={e.iconUrl} />
+                <div className="portfolio-box-caption portfolio-box-block">
+                  <div className="portfolio-box-caption-content">
+                    <div className="project-name">{e.identifier}</div>
                   </div>
                 </div>
-                <div class="info-wrap">
+                <div className="info-wrap">
                   <h4>{e.identifier}</h4>
                 </div>
               </div>

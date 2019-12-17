@@ -12,7 +12,8 @@ export default (state = initialState, action) => {
       case FETCH_DATA:
 
           {
-           return {           
+           return {   
+            ...state,       
             groups: action.payload.groups,
             services: action.payload.services
            }

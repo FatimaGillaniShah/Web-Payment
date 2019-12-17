@@ -1,6 +1,4 @@
 import m from 'moment';
-
-
 export function PaySuccessComplete()
 {
   localStorage.removeItem("Services");

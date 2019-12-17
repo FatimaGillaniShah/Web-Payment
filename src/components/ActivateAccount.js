@@ -77,9 +77,9 @@ class ActivateAccount extends Component {
                                         <div className="form-group">
                                         
                                         </div>
-                                        <div class="form-group">
+                                        <div className="form-group">
                                                 <fieldset>
-                                                    <input autocomplete="off" ref='code' class="form-control1" placeholder="Activation Code" type="text" /><i class="password"></i>
+                                                    <input autoComplete="off" ref='code' className="form-control1" placeholder="Activation Code" type="text" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
                                        

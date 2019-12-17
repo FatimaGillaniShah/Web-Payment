@@ -18,8 +18,6 @@ class History extends Component {
         const HistoryDateFlag = "";
     }
 
-    
-
     componentDidMount() {
 
         this.props.Data();
@@ -56,7 +54,7 @@ class History extends Component {
       }
         return (
 
-           <div class="row">
+           <div className="row">
 
           <div 
           className={this.state.services.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{width:'100%'}} 
@@ -83,13 +81,13 @@ class History extends Component {
             </div>
           </div>
         </div>
-          <div class="col-md-12">
-               <div class="pull-right">
-                  <a href="/User/History/1" class="btn btn-info">NEXT</a>
-                </div>
+          <div className="col-md-12">
+               {/* <div className="pull-right">
+                  <a href="/User/History/1" className="btn btn-info">NEXT</a>
+                </div> */}
           </div>
            {this.state.services.map((e, i) =>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                     
                         <div className={this.DateHeader(e) ? "history-title show":"history-title hide"} style={{ marginTop: '30px' }}>
                             
@@ -97,18 +95,18 @@ class History extends Component {
                             
                         </div>
                         
-                        <div class="col-md-12">
-                            <div class="history-wrap clearfix">
-                                <div class="col-md-12 history-content clearfix">
+                        <div className="col-md-12">
+                            <div className="history-wrap clearfix">
+                                <div className="col-md-12 history-content clearfix">
 
-                                    <img alt="" class="img-responsive" src={e.iconUrl} />
+                                    <img alt="" className="img-responsive" src={e.iconUrl} />
 
-                                    <div class="left">
+                                    <div className="left">
                                         <h4> </h4>
                                         <p>{_.get(e, 'Service Name')}</p>
                                     </div>
 
-                                    <div class="right">
+                                    <div className="right">
 
                                         <span>
                                             BHD {e.Amount}
@@ -130,7 +128,7 @@ class History extends Component {
 
 const mapStateToProps = state => {
   
-  return {historyData:state.historyReducer}
+  return {historyData:state.historyReducer.transactions}
 };
 
 const mapDispatchToProps = (dispatch) => {

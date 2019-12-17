@@ -3,18 +3,19 @@ import '../content/css/login.css';
 import {LoginRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
 
+
 class Login extends Component {
 
     constructor(props)
     {
         super(props);
-        this.login = this.login.bind(this);
+        this.login = this.login.bind(this);    
+         
     }
-
-
+   
     login()
     {       
-        
+        let isLoggedIn = this.props.location.state;
         let msisdn = this.refs.phone.value;
         let password = this.refs.password.value;
       
@@ -47,10 +48,7 @@ class Login extends Component {
                     let sessionId = _.get(result.data, 'session-id');
                     localStorage.setItem('sessionId' , sessionId);
                     localStorage.setItem('sessionTime' , Date());
-                    
-                    //Set Header Component state "isLoggedIn = true";
-
-                    // Check where to redirect after login
+                 // console.log(this.props.updateState)
                     let redirectLogin = localStorage.getItem('redirectTo');
                     if(redirectLogin !== null && redirectLogin !== undefined && redirectLogin !== "")
                     {
@@ -92,7 +90,7 @@ class Login extends Component {
                         alert(message);
                     }
                 }
-                console.log(result) 
+               
          
             }
         })
@@ -102,6 +100,7 @@ class Login extends Component {
       }
 
     render() {
+       
         return (
             <div className="SLogin">
                 <div className="header-content1">
@@ -116,7 +115,7 @@ class Login extends Component {
                                         <form >                               
                                              <div className="login-form">
                                             <div className="form-group">
-                                            <input className="form-control1 input-text" name ='myphone' value ='88224466' placeholder="30000004" id="phone" ref="phone"/>
+                                            <input className="form-control1 input-text" name ='myphone' placeholder="30000004" id="phone" ref="phone"/>
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                             </div>
                                             <div className="form-group">
@@ -124,7 +123,7 @@ class Login extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <fieldset>
-                                                    <input autoComplete="off"  className="form-control1" name = 'mypassword'data-val="true" data-val-required="Enter Your Password" value ='Abcd@12345' ref="password" placeholder="Password" type="password" /><i className="password"></i>
+                                                    <input autoComplete="off"  className="form-control1"  ref="password" placeholder="Password" type="password" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
 

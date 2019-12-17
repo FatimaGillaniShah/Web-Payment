@@ -2,14 +2,34 @@ import React, { Component } from 'react';
 import '../content/css/signup.css';
 import {RegisterRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
+import Recaptcha from 'react-recaptcha';
 
 class SignUp extends Component {
     constructor(props)
     {
         super(props);
+        this.state = {
+            isVerified : false
+        }
        
         this.signUp = this.signUp.bind(this);
+        this.verifyCallback = this.verifyCallback.bind(this);
     }
+    captchaLoaded(){
+      
+        console.log("successfully loaded");
+
+    }
+  
+    verifyCallback(response){
+        if(response){
+            this.setState({
+                isVerified : true
+
+            })
+        }
+    }
+        
     signUp(){
   
         let msisdn = this.refs.phone.value;
@@ -29,6 +49,10 @@ class SignUp extends Component {
          else if(password !== RepeatPassword){
 
               alert("Password don't match");       
+          }
+        else if (this.state.isVerified === false){
+            alert("Captcha answer cannot be empty")
+
           }
         else{
           
@@ -73,17 +97,17 @@ class SignUp extends Component {
                                         <form >                               
                                              <div className="login-form">
                                             <div className="form-group">
-                                            <input className="form-control1 input-text" name ='myphone' placeholder="30000004" id="phone" ref="phone"/>
+                                            <input className="form-control1 input-text" name ='myphone'  placeholder="30000004" id="phone" ref="phone"/>
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                             </div>
                                             
-                                            <span  style={{display:'none'}} for="phoneNumber" class="">Phone number is required</span>
+                                            <span  style={{display:'none'}}  className="">Phone number is required</span>
                                             
                                             <div className="form-group">
                                             
                                             </div>
                                             <div className="form-group">
-                                                    <input className="form-control1" type="email"  ref="email"  required="required" placeholder="Email"  /><i class="email"></i>
+                                                    <input className="form-control1" type="email" ref="email"  required="required" placeholder="Email"  /><i className="email"></i>
 
                                                 </div>
                                                 
@@ -92,13 +116,13 @@ class SignUp extends Component {
                                                     <input autoComplete="off"  className="form-control1" id="password" ref="password" name="password" placeholder="Password" type="password" /><i className="password"></i>
                                                 </fieldset>
                                             </div>
-                                            <span  style={{display:'none' }} for="phoneNumber" class="">Password is required</span>
+                                            <span  style={{display:'none' }} className="">Password is required</span>
 
                                             <div className="form-group">
                                                 <fieldset>
                                                     <input autoComplete="off"  className="form-control1" ref="RepeatPassword" name = 'mypassword' id="password"  placeholder="Repeat Password" type="password" /><i className="password"></i>
                                                 </fieldset>
-                                                <span style={{display:'none'}} for="phoneNumber" class="">Password don't match</span>
+                                                <span style={{display:'none'}} className="">Password don't match</span>
 
                                             </div>
                                             <div className="form-group clearfix">
@@ -107,13 +131,19 @@ class SignUp extends Component {
                                                         <input  type="hidden" value="false" /> <a href="https://sadadbahrain.com/app/tos.html" >I agree to the terms of use</a>
                                                     </span>
                                              </div>
+                                             
+                                        <Recaptcha
+                                                sitekey="6LeSJ8gUAAAAAOxhKgqZWPbksYIlYCXzi2Nbqn1Q"
+                                                render="explicit"
+                                                onloadCallback={this.captchaLoaded}
+                                                verifyCallback={this.verifyCallback}
+                                        />   
 
                                             <button className="green-btn btn-block btn-lg" type="button"  onClick={this.signUp}>SIGN UP</button>
-                                            <div className="form-group clearfix">
-
-                                    </div>
+                                            
                                         </div>
-                                        </form>                 
+                                        </form>  
+     
                                     </div>
                                  
                                 </div>
@@ -121,6 +151,7 @@ class SignUp extends Component {
                         </div>
                     </div>
                 </div>
+               
 
             </div>
         );

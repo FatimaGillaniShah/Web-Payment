@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { validateLogin } from '../common/common';
 import { withRouter } from 'react-router-dom';
 
+
 class Header extends Component {
 
     constructor(props) {
@@ -11,7 +12,9 @@ class Header extends Component {
             cartItemCount: 0,
             isLoggedIn: false,           
         }
+    
     }
+
 
     logout = () =>{
         this.setState({isLoggedIn:false});
@@ -19,7 +22,7 @@ class Header extends Component {
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
     }
-
+    
     NavigateToLogin = () => {
         this.props.history.push('/login');
     }
@@ -46,6 +49,7 @@ class Header extends Component {
 
     componentDidMount()
     {
+        
         this.setState({cartItemCount:localStorage.getItem('cartItemCount')});
         let isLogin = validateLogin();
       
@@ -55,22 +59,20 @@ class Header extends Component {
         else{
           this.logout();
         }
+        
     }
 
     render() {
-        
-        
+         
         return (
-
+            
             <div className="navbar navbar-default" role="navigation">
                 <div className="container-fluid">
                     <div className="navbar-header basecolor pt-10 " style={{ height: '75px' }}>
 
                         <div className="hidden-xs float-right navbar-brand  ">
                             <ul className="languageBox">
-                                {/* <li>
-                                    <a className="page-scroll active _accountBalance fs-15" href="/"> </a>
-                                </li> */}
+                              
                                 <li >
                                     <div className='row'>
                                      <div> 

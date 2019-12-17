@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import logo from '../../content/img/PCI_logo.gif';
 
-
 class Footer extends Component {
   render(){
   return (
