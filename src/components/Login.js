@@ -46,8 +46,20 @@ class Login extends Component {
                     message = "Success";
                     let sessionId = _.get(result.data, 'session-id');
                     localStorage.setItem('sessionId' , sessionId);
-                    localStorage.setItem('sessionTime' , Date());                    
-                    this.props.history.push('/');
+                    localStorage.setItem('sessionTime' , Date());
+                    
+                    //Set Header Component state "isLoggedIn = true";
+
+                    // Check where to redirect after login
+                    let redirectLogin = localStorage.getItem('redirectTo');
+                    if(redirectLogin !== null && redirectLogin !== undefined && redirectLogin !== "")
+                    {
+                        this.props.history.push('/' + redirectLogin);
+                    }
+                    else
+                    {
+                        this.props.history.push('/');
+                    }
                 }
                 else
                 {

@@ -17,6 +17,7 @@ class Header extends Component {
         this.setState({isLoggedIn:false});
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
+        localStorage.removeItem("redirectTo");
     }
 
     NavigateToLogin = () => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
 
 class ServiceProvider extends Component {
@@ -12,15 +13,23 @@ class ServiceProvider extends Component {
   }
   
   validateGroupsForServices(groupObject) {
-    let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
-    let GroupId = _.get(groupObject, 'id');
-    if (serviceCheckHasSteps === undefined) {
-      this.props.history.push("/SubGroups/" + GroupId);  
+    let serviceProviderId = _.get(groupObject, 'group-id');
+    let isValid = validateLogin();
+    if (!isValid) {
+      localStorage.setItem('redirectTo' , 'ServiceProvider/'+serviceProviderId);
+      this.props.history.push("/login");
     }
-    else {
-      this.props.history.push("/AddToCart/" + GroupId);
+    else
+    {
+      let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
+      let GroupId = _.get(groupObject, 'id');
+      if (serviceCheckHasSteps === undefined) {
+        this.props.history.push("/SubGroups/" + GroupId);  
+      }
+      else {
+        this.props.history.push("/AddToCart/" + GroupId);
+      }
     }
-
   }
 
   prepareDataToRender(Id) {

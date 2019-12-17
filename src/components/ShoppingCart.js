@@ -65,9 +65,7 @@ class ShoppingCart extends Component {
     }
     async pay() {
 
-        let isValid = validateLogin();
-        if (!isValid) { this.props.history.push("/login"); }
-        else {
+        
             let cartServices = [];
             let sessionId = localStorage.getItem('sessionId');
             cartServices = JSON.parse(localStorage.getItem('Services'));
@@ -154,7 +152,6 @@ class ShoppingCart extends Component {
 
                 }
             }
-        }
     }
 
     render() {
