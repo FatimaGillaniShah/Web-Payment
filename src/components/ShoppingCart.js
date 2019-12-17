@@ -27,9 +27,13 @@ class ShoppingCart extends Component {
     }
  componentWillMount(){
     var cartItems = JSON.parse(localStorage.getItem('Services'));
-    this.setState({
-        Items:cartItems
-    })
+
+    if(cartItems !== null)
+    {
+        this.setState({
+            Items:cartItems
+        });
+    }
     
  }
     RemoveItem(id) {
@@ -99,16 +103,35 @@ class ShoppingCart extends Component {
                     alert(errorMessage);
                 }
                 else {
-                    let errorOuccured = false;                
+                    let errorOuccured = false; 
+                    
+                    //Validation should be done here
+                    let serviceResults = [];
+                    serviceResults =  _.get(PaymentsInfoResponse, 'info');
+                    
+                    for(let i = 0; i < serviceResults.length; i++)
+                    {
+                        let serviceError = _.get(serviceResults[i], 'error');
+
+                        if(serviceError !== null && serviceError !== undefined && serviceError !== 0)
+                        {
+                            errorOuccured = true;
+                            alert("Error In Cart");
+                            break;
+                        }
+                    }
+                    payObj = Object.assign({ "session-id": sessionId, services: [], gateway:"benefit" }, this.state.paymentsPayRequestObj);
                     if (!errorOuccured) {
                         this.setState({
-                            paymentsInfoRequestObj : payObj            
+                            paymentsPayRequestObj : payObj            
                         });
+
                         cartServices.forEach((s)=> {
                             var ServiceObject;
                             ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
                             this.state.paymentsPayRequestObj.services.push(ServiceObject);
                         });
+
                         // cartServices.map((s) => {
                         //     var ServiceObject;
                         //     ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
@@ -157,13 +180,13 @@ class ShoppingCart extends Component {
     render() {
 
         var sum = 0;
-        this.state.Items.forEach((e) => {
-            sum = sum + parseFloat(e.amount);
-        });
-
-        // this.state.Items.map((e) => {
-        //     sum = sum + parseFloat(e.amount);
-        // })
+       
+        if(this.state.Items !== null && this.state.Items !== undefined && this.state.Items !== 0)
+        {
+            this.state.Items.forEach((e) => {
+                sum = sum + parseFloat(e.amount);
+            });
+        }
         return (
             <div>
                 <div id="quick-pay" hidden={this.state.hidediv}>
@@ -180,17 +203,17 @@ class ShoppingCart extends Component {
 
                                     <div className="col-md-12 no-padding cart-content clearfix">
 
-                                        <div style={{ marginTop: "11px" }} >
+                                        <a style={{ marginTop: "11px" }} >
 
                                             <img alt="img" className="img-responsive" src={e.iconUrl} />
                                             <div className="left">
                                                 <h4>{e.amount}</h4>
                                                 <p>{e.name}</p>
                                             </div>
-                                        </div>
+                                        </a>
                                         <div className="cart-top-wrap">
                                             <div className="right">
-                                                <span onClick={() => this.RemoveItem(e.MyId)}><img src={require('../content/img/close_small.png')} id="cartItemImage_" i  alt="cartImg" /> </span>
+                                                <a onClick={() => this.RemoveItem(e.MyId)}><img src={require('../content/img/close_small.png')} id="cartItemImage_" i  alt="cartImg" /> </a>
                                                 <span>BHD {e.amount}</span>
                                             </div>
                                         </div>
