@@ -27,11 +27,20 @@ class ShoppingCart extends Component {
     }
  componentWillMount(){
     var cartItems = JSON.parse(localStorage.getItem('Services'));
-
-    if(cartItems !== null)
+    var cartItemsLength = cartItems.length;
+    if(cartItems !== null && cartItemsLength !== null && cartItemsLength > 0)
+    {
+        localStorage.setItem('cartItemCount',cartItemsLength);
+        this.setState({
+            Items:cartItems,
+            cartItemCount:cartItemsLength,
+            hidediv:false
+        });
+    }
+    else
     {
         this.setState({
-            Items:cartItems
+            hidediv:true
         });
     }
     
@@ -47,7 +56,7 @@ class ShoppingCart extends Component {
             Items: services
         });
         
-        localStorage.setItem('Services', JSON.stringify(this.state.Items));
+        
 
         let newItemCount = this.state.cartItemCount - 1;
 
@@ -56,15 +65,21 @@ class ShoppingCart extends Component {
                 cartItemCount: newItemCount
             })
             localStorage.setItem('cartItemCount', newItemCount);
-          
+            localStorage.setItem('Services', JSON.stringify(this.state.Items));
         }
 
-        if (count === 1) {
+        if (newItemCount > 0) {
 
+            this.setState({
+                hidediv: false
+            });
+
+         }
+         else
+         {
             this.setState({
                 hidediv: true
             });
-
          }
     }
     async pay() {

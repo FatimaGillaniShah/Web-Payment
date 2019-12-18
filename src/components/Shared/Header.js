@@ -50,7 +50,9 @@ class Header extends Component {
     componentDidMount()
     {
         
-        this.setState({cartItemCount:localStorage.getItem('cartItemCount')});
+        this.setState({
+            cartItemCount:localStorage.getItem('cartItemCount')
+        });
         let isLogin = validateLogin();
       
         if(isLogin){
