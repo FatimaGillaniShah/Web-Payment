@@ -1,8 +1,6 @@
 import axios from "axios";
 export const FETCH_DATA = "FETCH_DATA";
 export const FETCH_HISTORY = 'FETCH_HISTORY';
-export const FETCH_BALANCE = 'FETCH_BALANCE';
-export const FETCH_REGISTER = 'FETCH_REGISTER';
 export const FETCH_HEADER_DATA = "FETCH_HEADER_DATA";
 
 export const getAllData = () =>{
@@ -45,22 +43,7 @@ export const getHistory = () =>{
   
 }
 
-export const getBalanceInfo = () =>{
-  debugger;
-  return(dispatch)=>{
-    let sessionId = localStorage.getItem('sessionId');
-    let balnaceObject = {
-      'session-id': sessionId,
-  }
-  axios.post( process.env.REACT_APP_BASEURL + 'api/web/v1/users/balance',
-  JSON.stringify(balnaceObject))
-    .then((res) => {   
-    dispatch({ 
-      type: FETCH_BALANCE, payload:res.data
-     })}
-   )};
-  
-}
+
 
 export const getHeaderInfo = (cartItemCount,isLoggin) => {
   return {

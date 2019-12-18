@@ -9,7 +9,8 @@ class SignUp extends Component {
     {
         super(props);
         this.state = {
-            isVerified : false
+            isVerified : false,
+            Recaptchatoken:''
         }
        
         this.signUp = this.signUp.bind(this);
@@ -22,6 +23,11 @@ class SignUp extends Component {
     }
   
     verifyCallback(response){
+       
+       // console.log(response)
+        this.setState({
+            Recaptchatoken : response
+        })
         if(response){
             this.setState({
                 isVerified : true
@@ -35,6 +41,7 @@ class SignUp extends Component {
         let msisdn = this.refs.phone.value;
         let password = this.refs.password.value;
         let RepeatPassword =  this.refs.RepeatPassword.value;
+        let Recaptchatoken = this.state.Recaptchatoken;
     
         if(msisdn === "" || msisdn === null || msisdn === undefined)
           {
@@ -59,7 +66,7 @@ class SignUp extends Component {
         let RegisterRequestObject = {
             "msisdn": "973"+msisdn,
             "password": password,
-            "g-recaptcha-response": "uuu"
+            "g-response-recaptcha": Recaptchatoken
         }
         RegisterRequestInfo(RegisterRequestObject)
         .then((result) => {
@@ -134,6 +141,7 @@ class SignUp extends Component {
                                         <Recaptcha
                                                 sitekey="6LeSJ8gUAAAAAOxhKgqZWPbksYIlYCXzi2Nbqn1Q"
                                                 render="explicit"
+                                               // ref = {backendResponse}
                                                 onloadCallback={this.captchaLoaded}
                                                 verifyCallback={this.verifyCallback}
                                         />   
