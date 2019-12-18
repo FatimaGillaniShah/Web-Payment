@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
 import { Pay,RequestInfo } from '../api/ApiCalls';
+import * as actions from '../store/actions/actions';
+import { connect } from 'react-redux';
 
 class ShoppingCart extends Component {
     
@@ -36,6 +38,8 @@ class ShoppingCart extends Component {
             cartItemCount:cartItemsLength,
             hidediv:false
         });
+
+        this.props.getHeaderInfo(cartItemsLength,true);
     }
     else
     {
@@ -81,6 +85,8 @@ class ShoppingCart extends Component {
                 hidediv: true
             });
          }
+
+         this.props.getHeaderInfo(newItemCount,true);
     }
     async pay() {
 
@@ -293,4 +299,12 @@ class ShoppingCart extends Component {
 
 }
 
-export default ShoppingCart;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getHeaderInfo: (itemCartCount, isLoggedIn) => {
+            dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
+        }
+           };
+  };
+  export default connect(null, mapDispatchToProps)(ShoppingCart);
+

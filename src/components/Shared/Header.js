@@ -2,27 +2,24 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { validateLogin } from '../common/common';
 import { withRouter } from 'react-router-dom';
-
+import * as actions from '../../store/actions/actions'
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 class Header extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            cartItemCount: 0,
-            isLoggedIn: false,           
-        }
-    
     }
 
 
-    logout = () =>{
-        this.setState({isLoggedIn:false});
+    logout = () => {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
+        this.props.getHeaderInfo(0, false);
     }
-    
+
     NavigateToLogin = () => {
         this.props.history.push('/login');
     }
@@ -43,59 +40,60 @@ class Header extends Component {
         this.props.history.push('/signup');
     }
 
-    NavigateToHistory = () =>{
+    NavigateToHistory = () => {
         this.props.history.push('/History');
     }
 
-    componentDidMount()
-    {
-        
-        this.setState({
-            cartItemCount:localStorage.getItem('cartItemCount')
-        });
+    componentDidMount() {
         let isLogin = validateLogin();
-      
-        if(isLogin){
-        this.setState({isLoggedIn:true});
+
+        if (!isLogin) {
+            this.logout();
         }
-        else{
-          this.logout();
+        else {
+            let cartItemCount = localStorage.getItem('cartItemCount');
+            if (cartItemCount === null) {
+                this.props.getHeaderInfo(0, true);
+            }
+            else {
+                this.props.getHeaderInfo(cartItemCount, true);
+            }
         }
-        
+
     }
 
     render() {
-         
+
         return (
-            
+
             <div className="navbar navbar-default" role="navigation">
                 <div className="container-fluid">
                     <div className="navbar-header basecolor pt-10 " style={{ height: '75px' }}>
 
                         <div className="hidden-xs float-right navbar-brand  ">
                             <ul className="languageBox">
-                              
+
                                 <li >
                                     <div className='row'>
-                                     <div> 
-                                     { this.state.isLoggedIn? (
-                                     <div className = "col-lg-4">
-                                     <button className="btnn btn-green btnTopNavLogout" type="button" onClick={()=> this.logout()}><Link to="/login" style={{color:'white'}}> Logout</Link></button>
-                                 </div>
+                                        <div>
+                                            {this.props.isLoggedIn ? (
+                                                <div className="col-lg-4">
+                                                    <button className="btnn btn-green btnTopNavLogout" type="button" onClick={() => this.logout()}><Link to="/login" style={{ color: 'white' }}> Logout</Link></button>
+                                                </div>
 
-                                    ) : (
-                                        <div className = "col-lg-4">
-                                       <button className="btnn btn-green btnTopNavLogin " type="button"  onClick={this.NavigateToLogin} style={{marginRight: '13px'}}>Login</button>
-                                       <button className="btnn btn-green btnTopNavSignup" type="button"  onClick={this.NavigateToSignUp}>Sign Up</button> 
-                                    </div>
+                                            ) : (
+                                                    <div className="col-lg-4">
+                                                        <button className="btnn btn-green btnTopNavLogin " type="button" onClick={this.NavigateToLogin} style={{ marginRight: '13px' }}>Login</button>
+                                                        <button className="btnn btn-green btnTopNavSignup" type="button" onClick={this.NavigateToSignUp}>Sign Up</button>
+                                                    </div>
 
-                                   
-                                    )}
-                                    </div>
+
+                                                )}
+                                        </div>
 
                                     </div>
                                 </li>
-                                <li><a href="/Home/ChangeCulture?lang=ar-BH&amp;returnUrl=%2F" id="change-lang" style={{fontSize:'21px'}}>عربي</a></li>
+                                <li><a href="/Home/ChangeCulture?lang=ar-BH&amp;returnUrl=%2F" id="change-lang" style={{ fontSize: '21px' }}>عربي</a></li>
                                 <li><a className="main-home" href="https://sadadbahrain.com"> </a></li>
 
                             </ul>
@@ -104,7 +102,7 @@ class Header extends Component {
                             <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
                         </a>
                     </div>
-                    <div className={this.state.isLoggedIn ? "navbar-collapse show" : "navbar-collapse hide"} style={{ backgroundColor: 'white' }}>
+                    <div className={this.props.isLoggedIn ? "navbar-collapse show" : "navbar-collapse hide"} style={{ backgroundColor: 'white' }}>
                         <div className="customNav">
                             <ul className="nav navbar-nav leftMenuItems">
                                 <li style={{ padding: '19px 17px 11px 51px', borderRight: 'solid 1px #ddd' }}><a onClick={this.NavigateToHome} className="qp-home hidden-xs"> </a></li>
@@ -116,7 +114,7 @@ class Header extends Component {
                                 <li><a href="https://sadadbahrain.com/app/help.html" target="_blank" rel="noopener noreferrer"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
                                 <li>
                                     <a onClick={this.NavigateToCart} className="main-cart-icon" style={{ padding: "10px 25px 13px 20px", backgroundColor: "#0061AE", borderTop: "solid 1px #ac63c0" }}>
-                                        <i className="fs-30 cartIcon cartIconCount" data-count={this.state.cartItemCount}>
+                                        <i className="fs-30 cartIcon cartIconCount" data-count={this.props.cartItemCount}>
                                             <span className="glyphicon glyphicon-shopping-cart cartIcon"></span>
                                         </i>
                                     </a>
@@ -131,4 +129,21 @@ class Header extends Component {
     }
 }
 
-export default withRouter(Header);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getHeaderInfo: (itemCartCount, isLoggedIn) => {
+            dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
+        }
+    };
+};
+const mapStateToProps = state => {
+    console.log(state.headerContent);
+    return {
+        cartItemCount: state.headerContent.cartItemCount,
+        isLoggedIn: state.headerContent.isLoggin
+    }
+};
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(Header);

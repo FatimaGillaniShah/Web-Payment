@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../content/css/login.css';
 import {LoginRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
-
+import * as actions from '../store/actions/actions';
+import { connect } from 'react-redux';
 
 class Login extends Component {
 
@@ -48,7 +49,18 @@ class Login extends Component {
                     let sessionId = _.get(result.data, 'session-id');
                     localStorage.setItem('sessionId' , sessionId);
                     localStorage.setItem('sessionTime' , Date());
-                 // console.log(this.props.updateState)
+                 
+                    let cartItemCount = localStorage.getItem('cartItemCount');
+                    if(cartItemCount === null)
+                    {
+                        this.props.getHeaderInfo(0,true);
+                    }
+                    else
+                    {
+                        this.props.getHeaderInfo(cartItemCount,true);
+                    }
+
+                    
                     let redirectLogin = localStorage.getItem('redirectTo');
                     if(redirectLogin !== null && redirectLogin !== undefined && redirectLogin !== "")
                     {
@@ -152,6 +164,13 @@ class Login extends Component {
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getHeaderInfo: (itemCartCount, isLoggedIn) => {
+            dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
+        }
+           };
+  };
+  export default connect(null, mapDispatchToProps)(Login);
 
-  export default Login;
   

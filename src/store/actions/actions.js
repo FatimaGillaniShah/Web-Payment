@@ -3,6 +3,7 @@ export const FETCH_DATA = "FETCH_DATA";
 export const FETCH_HISTORY = 'FETCH_HISTORY';
 export const FETCH_BALANCE = 'FETCH_BALANCE';
 export const FETCH_REGISTER = 'FETCH_REGISTER';
+export const FETCH_HEADER_DATA = "FETCH_HEADER_DATA";
 
 export const getAllData = () =>{
   return(dispatch)=>{
@@ -59,4 +60,12 @@ export const getBalanceInfo = () =>{
      })}
    )};
   
+}
+
+export const getHeaderInfo = (cartItemCount,isLoggin) => {
+  return {
+    type: FETCH_HEADER_DATA,
+    cartItemCount: cartItemCount,
+    isLoggin: isLoggin
+  };
 }

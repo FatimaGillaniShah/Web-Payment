@@ -59,6 +59,7 @@ class SignUp extends Component {
         let RegisterRequestObject = {
             "msisdn": "973"+msisdn,
             "password": password,
+            "g-recaptcha-response": "uuu"
         }
         RegisterRequestInfo(RegisterRequestObject)
         .then((result) => {
@@ -69,10 +70,8 @@ class SignUp extends Component {
                 if(resultData === 0){
                     this.props.history.push('/login');
                 }
-                else{     
-                  
-                     alert(resultDataMessage);
-                    
+                else{                       
+                     alert(resultDataMessage);                    
                 }
 
             }
