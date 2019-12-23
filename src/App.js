@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import '../src/content/css/online-pay.css';
 import '../src/content/css/sadad.css';
 import '../src/content/css/placeholder-loading.css';
+import '../src/content/css/online-pay.css';
 import Header from './components/Shared/Header';
 import Footer from './components/Shared/Footer';
 import Home from './components/Home';

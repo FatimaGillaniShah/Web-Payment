@@ -90,10 +90,10 @@ class Home extends Component {
           </div>
         </div>
         
-          <div className="row">
+          <div className="col-md-12">
             {groups.map((e, i) =>
 
-              <div className="col-md-3 col-sm-1" key={i}>
+              <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1" key={i}>
                 
                 <Link to={{
                   pathname: "/ServiceProvider/" + e.id,

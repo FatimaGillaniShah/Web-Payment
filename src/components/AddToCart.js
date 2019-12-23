@@ -120,8 +120,7 @@ class AddToCart extends Component {
     amount(e) {
         this.setState({
             amount : e
-        })
-       
+        });
     }
 
     inputForTarget(targets) {

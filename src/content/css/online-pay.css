@@ -602,6 +602,7 @@ header {
 .pay-btn:hover {
     background: #c092dd;
 }
+
 .main-cart-icon:hover {
     background: #1CC1F7 !important;
 }
@@ -1624,6 +1625,10 @@ div#success-alert {
     font-weight: normal;
     display: block;
 }
+.customNav {
+    height: 62px;
+    background-color: #fff;
+}
 .customNav > ul > li > h3 {
 
     padding:10px;
@@ -1633,6 +1638,7 @@ div#success-alert {
     background-color: #fff;
     border-bottom: solid 1px #ddd;
     margin-bottom: -3px;
+    height: 63px !important;
     /*width: 100% !important;*/
 }
 
@@ -1652,15 +1658,18 @@ div#success-alert {
 .rightMenuItems {
     float: right !important;
 }
-.rightMenuItems > li > a {
-    padding: 18px 52px 19px 52px;
-    border:unset !important;
+.rightMenuItems > li > a:not(.main-cart-icon) {
+    padding: 18px 52px 19px 52px !important;
+    border:unset !important;    
+}
+.rightMenuItems > li {
+    border-right:solid 1px #ddd !important;    
 }
 .leftMenuItems {
     float: left !important;
 }
 .leftMenuItems > li > a {
-    padding: 18px 52px 19px 52px;
+    padding: 18px 52px 19px 52px !important;
     border: unset !important;
 }
 
@@ -1669,7 +1678,7 @@ div#success-alert {
 }
 
     .rightMenuMerchantItems > li > a {
-        padding: 28px 15px 28px 15px;
+        padding: 28px 15px 28px 15px !important;
         border: unset !important;
     }
 
@@ -1718,6 +1727,7 @@ div#success-alert {
 .navbar-brand {
     padding: 0 !important;
     margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 .container-fluid, .navbar-collapse {
     padding-right: 0 !important;
@@ -1769,4 +1779,13 @@ div#success-alert {
     margin-top: 25px;
     margin-left: 40px;
     height: 32px;
+}
+.main-cart-icon {
+    padding: 10px 15px 17px 20px !important;
+    background-color: #0061AE !important;
+    border-top: solid 1px #ac63c0 !important;
+}
+.main-cart-icon > i > span{
+
+    color: white !important;
 }
