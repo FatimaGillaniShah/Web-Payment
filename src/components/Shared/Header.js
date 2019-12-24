@@ -110,7 +110,7 @@ class Header extends Component {
                             <div className={this.props.isLoggedIn ? 'customNav show' : 'customNav hide'}>
 
                                 <ul className="nav navbar-nav leftMenuItems">
-                                    <li style={{ padding: '13px 0px 12px 22px', borderRight: 'solid 1px #ddd' }}><a href="/Merchant" className="qp-home hidden-xs"></a></li>
+                                    <li style={{ padding: '13px 0px 12px 22px', borderRight: 'solid 1px #ddd' }}><a href="/" className="qp-home hidden-xs"></a></li>
                                     <li className="pl-18"><h3 className="p-unset fs-18 font-weight-bold text-uppercase" style={{ color: '#0061ae' }}>OnlineExpressPayment</h3></li>
                                 </ul>
 
