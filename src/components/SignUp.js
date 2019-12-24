@@ -23,8 +23,7 @@ class SignUp extends Component {
     }
   
     verifyCallback(response){
-       
-       // console.log(response)
+      
         this.setState({
             Recaptchatoken : response
         })
@@ -141,7 +140,6 @@ class SignUp extends Component {
                                         <Recaptcha
                                                 sitekey="6LeSJ8gUAAAAAOxhKgqZWPbksYIlYCXzi2Nbqn1Q"
                                                 render="explicit"
-                                               // ref = {backendResponse}
                                                 onloadCallback={this.captchaLoaded}
                                                 verifyCallback={this.verifyCallback}
                                         />   
