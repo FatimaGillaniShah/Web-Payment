@@ -5,104 +5,135 @@ import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 
+const initialState = {
+    phone: '',
+    password: '',
+    error: '',
+    loading:''
+
+}
 class Login extends Component {
 
     constructor(props) {
         super(props);
+        this.state = initialState
         this.login = this.login.bind(this);
 
     }
-
-    login() {
-        
-        let msisdn = this.refs.phone.value;
-        let password = this.refs.password.value;
+    validate(msisdn, password) {
 
         if (msisdn === "" || msisdn === null || msisdn === undefined) {
-            alert("Phone number missing");
-            return;
-        }
-        if (password === "" || password === null || password === undefined) {
-            alert("Password missing");
-            return;
-        }
-      
-
-        let LoginRequestObject = {
-            "msisdn": "973" + msisdn,
-            "password": password,
-            "locale": "en-US"
-        }
-
-        LoginRequestInfo(LoginRequestObject)
-            .then((result) => {
-                if (result !== undefined) {
-                    let message = "";
-                    let resultData = _.get(result.data, 'error-code');
-                    let resultDataMessage = _.get(result.data, 'error-message');
-                    if (resultData === 0) {
-                        message = "Success";
-                        let sessionId = _.get(result.data, 'session-id');
-                        localStorage.setItem('sessionId', sessionId);
-                        localStorage.setItem('sessionTime', Date());
-
-                        let cartItemCount = localStorage.getItem('cartItemCount');
-                        if (cartItemCount === null) {
-                             this.props.getHeaderInfo(0, true);
-                        }
-                        else {
-                            this.props.getHeaderInfo(cartItemCount, true);
-                        }
-
-
-                        let redirectLogin = localStorage.getItem('redirectTo');
-                        if (redirectLogin !== null && redirectLogin !== undefined && redirectLogin !== "") {
-                            this.props.history.push('/' + redirectLogin);
-                        }
-                        else {
-                            this.props.history.push('/');
-                        }
-                    }
-                    else {
-                        if (resultData === null) {
-                            alert("Wrong Activation Code");
-                            message = "Wrong Activation Code";
-                        }
-                        else {
-                            switch (resultData) {
-                                case 100:
-                                    message = "This Number is locked";
-                                    break;
-                                case 101:
-                                    message = "Incorrect password";
-                                    break;
-                                case 103:
-                                    message = "Activate User";
-                                    break;
-                                case 109:
-                                    message = resultDataMessage;
-                                    break;
-                                case 106:
-                                    message = "Something went wrong";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            alert(message);
-                        }
-                    }
-
-
-                }
-                console.log(result)
+            this.setState({
+                phone: "Phone is required"
             })
-            .catch((err) => {
-                console.log("error login failed !!!");
-            });
+            return false;
+        }
+        if (msisdn.length < 8) {
+            this.setState({
+                phone: "Please enter your 8 digit phone number"
+            })
+            return false;
+        }
+
+        if (password === "" || password === null || password === undefined) {
+            this.setState({
+                password: "password is required"
+            })
+            return false;
+        }
+        return true;
     }
 
-    render() {
+    login() {
+     
+        let msisdn = this.refs.phone.value;
+        let password = this.refs.password.value;
+        const isValid = this.validate(msisdn, password);
+        if (isValid) {
+            this.setState(initialState);
+            let LoginRequestObject = {
+                "msisdn": "973" + msisdn,
+                "password": password,
+                "locale": "en-US"
+            }
+            this.setState({loading:true})
 
+            LoginRequestInfo(LoginRequestObject)
+                .then((result) => {
+                    this.setState({loading : false})
+                    if (result !== undefined) {
+                        let message = "";
+                        let resultData = _.get(result.data, 'error-code');
+                        let resultDataMessage = _.get(result.data, 'error-message');
+                        if (resultData === 0) {
+                            message = "Success";
+                            let sessionId = _.get(result.data, 'session-id');
+                            localStorage.setItem('sessionId', sessionId);
+                            localStorage.setItem('sessionTime', Date());
+                            let cartItemCount = localStorage.getItem('cartItemCount');
+                            if (cartItemCount === null) {
+                                this.props.getHeaderInfo(0, true);
+                            }
+                            else {
+                                this.props.getHeaderInfo(cartItemCount, true);
+                            }
+                            let redirectLogin = localStorage.getItem('redirectTo');
+                            if (redirectLogin !== null && redirectLogin !== undefined && redirectLogin !== "") {
+                                this.props.history.push('/' + redirectLogin);
+                            }
+                            else {
+                                this.props.history.push('/');
+                            }
+                        }
+                        else {
+                            if (resultData === null) {
+                                this.setState({
+                                    error: "Wrong Activation Code"
+                                })
+                            }
+                            else {
+                                switch (resultData) {
+                                    case 100:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        })
+                                        break;
+                                    case 101:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        })
+                                        break;
+                                    case 103:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        })
+                                        break;
+                                    case 109:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        })
+                                        break;
+                                    case 106:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            }
+                        }
+                    }
+                    console.log(result)
+                })
+                .catch((err) => {
+
+                    console.log("error login failed !!!");
+                });
+        }
+    }
+    render() {
         return (
             <div className="SLogin">
                 <div className="header-content1">
@@ -113,23 +144,25 @@ class Login extends Component {
                                     <div className="header">
                                         <h3>Login</h3>
                                     </div>
+
                                     <div className="content-area">
                                         <form >
+                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
                                             <div className="login-form">
                                                 <div className="form-group">
                                                     <input
                                                         className="form-control1 input-text"
-                                                        name='myphone'
+                                                        name='phone'
                                                         placeholder="30000004"
                                                         id="phone"
                                                         ref="phone"
-                                                        required
+
                                                     />
                                                     <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
+                                                    <i id="numberLoading" className={this.state.loading ? "loading":""}></i>
                                                 </div>
-                                                <div className="form-group">
+                                                {this.state.phone ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phone}</div> : null}
 
-                                                </div>
                                                 <div className="form-group">
 
                                                     <input
@@ -138,27 +171,28 @@ class Login extends Component {
                                                         ref="password"
                                                         placeholder="Password"
                                                         type="password"
-                                                        required 
-                                                        />
+
+                                                    />
                                                     <i className="password"></i>
 
                                                 </div>
+                                                {this.state.password ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.password}</div> : null}
 
                                                 <button className="green-btn btn-block btn-lg" type="button" onClick={this.login}>LOGIN</button>
                                                 <div className="form-group clearfix">
 
                                                     <div className="pull col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <a href="/forgetPassword">Forgot your password</a>
+                                                        <a href="/forgetPassword"  style={{ fontSize: '15px' }}>Forgot your password</a>
                                                     </div>
                                                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <a href="/activateAccount">Activate Account</a>
+                                                        <a href="/activateAccount"  style={{ fontSize: '15px' }}>Activate Account</a>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                    <div className="footer">Don’t have an account? <a href="/signup">Sign Up For Free</a></div>
+                                    <div className="footer" >Don’t have an account? <a href="/signup">Sign Up For Free</a></div>
                                 </div>
                             </div>
                         </div>
@@ -172,14 +206,11 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        getHeaderInfo: (itemCartCount,isLoggedIn,msisdn,password) => {
+        getHeaderInfo: (itemCartCount, isLoggedIn, msisdn, password) => {
             dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
         }
     };
 };
-const actionCreators = {
-    // getUsers: userActions.getAll,
-    // deleteUser: userActions.delete
-}
-export default connect(null, mapDispatchToProps,actionCreators)(Login);
+
+export default connect(null, mapDispatchToProps)(Login);
 

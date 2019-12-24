@@ -12,7 +12,6 @@ class Header extends Component {
         super(props);
     }
 
-
     logout = () => {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
@@ -61,9 +60,7 @@ class Header extends Component {
         }
 
     }
-
     render() {
-
         return (
                 <div className="navbar navbar-default" role="navigation">
                     <div className="container-fluid">
@@ -91,7 +88,6 @@ class Header extends Component {
                                                             <button className="btnn btn-green btnTopNavSignup" type="button" onClick={this.NavigateToSignUp}>Sign Up</button>
                                                         </div>
 
-
                                                     )}
                                             </div>
 
@@ -110,14 +106,14 @@ class Header extends Component {
                             <div className={this.props.isLoggedIn ? 'customNav show' : 'customNav hide'}>
 
                                 <ul className="nav navbar-nav leftMenuItems">
-                                    <li style={{ padding: '13px 0px 12px 22px', borderRight: 'solid 1px #ddd' }}><a href="/Merchant" className="qp-home hidden-xs"></a></li>
+                                    <li style={{ padding: '13px 0px 12px 22px', borderRight: 'solid 1px #ddd' }}><a href="/" className="qp-home hidden-xs"></a></li>
                                     <li className="pl-18"><h3 className="p-unset fs-18 font-weight-bold text-uppercase" style={{ color: '#0061ae' }}>OnlineExpressPayment</h3></li>
                                 </ul>
 
                                 <ul className="nav navbar-nav rightMenuItems">
                                     
-                                    <li style={{ borderRight: 'solid 1px #ddd !important' }}><a href="/User/Account"><i><span className="glyphicon glyphicon-user"></span></i><span>Account</span></a></li>
-                                    <li><a href="/User/History" style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
+                                    <li style={{ borderRight: 'solid 1px #ddd !important' }}><a href="/Account"><i><span className="glyphicon glyphicon-user"></span></i><span>Account</span></a></li>
+                                    <li><a href="/History" style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
                                     <li><a href="https://sadadbahrain.com/app/help.html" target="_blank"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
                                     <li><a href="/User/ShoppingCart" className="main-cart-icon"><i className="fs-30"><span className="glyphicon glyphicon-shopping-cart" style={{ Color: 'white !important' }}></span></i></a></li>
                                     <li className="btn-group clearfix hidden-md hidden-lg hidden-sm">
@@ -126,15 +122,6 @@ class Header extends Component {
                                 </ul>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
 
 
                         {/* <div className={this.props.isLoggedIn ? "navbar-collapse show" : "navbar-collapse hide"} style={{ backgroundColor: 'white' }}>
