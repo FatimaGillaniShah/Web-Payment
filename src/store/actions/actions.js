@@ -2,6 +2,7 @@ import axios from "axios";
 export const FETCH_DATA = "FETCH_DATA";
 export const FETCH_HISTORY = 'FETCH_HISTORY';
 export const FETCH_HEADER_DATA = "FETCH_HEADER_DATA";
+export const FETCH_LOGIN = "FETCH_LOGIN";
 
 export const getAllData = () =>{
   return(dispatch)=>{
@@ -43,8 +44,6 @@ export const getHistory = () =>{
   
 }
 
-
-
 export const getHeaderInfo = (cartItemCount,isLoggin) => {
   return {
     type: FETCH_HEADER_DATA,
@@ -52,3 +51,23 @@ export const getHeaderInfo = (cartItemCount,isLoggin) => {
     isLoggin: isLoggin
   };
 }
+
+// export const login = (msisdn,password) =>{
+//   return(dispatch)=>{
+//     // let sessionId = localStorage.getItem('sessionId');
+//     let loginRequestObject = {
+//       "msisdn" : "973" + msisdn,
+//       "password" : password,
+//       "locale": "en-US"
+  
+//   }
+//   axios.post(process.env.REACT_APP_BASEURL + 'api/web/v1/users/register',
+//   JSON.stringify(loginRequestObject))
+//     .then((res) => {
+  
+//     dispatch({ 
+//       type: FETCH_LOGIN, payload:res.data
+//      })}
+//    )};
+  
+// }

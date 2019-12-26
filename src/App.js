@@ -19,6 +19,7 @@ import PayUnsuccessful from './components/pay/PayUnsuccessful';
 import PaySuccessful from './components/pay/PaySuccessful';
 import History from './components/History';
 import PageNotFound from './components/PageNotFound';
+import Account from './components/Account';
 import { connect } from 'react-redux';
 import '../src/content/bootstrap.min.css';
 import './content/css/overlay.css';
@@ -70,8 +71,11 @@ class App extends Component {
             <Route path="/Pay/PayUnsuccessful" component={PayUnsuccessful} />
 
             <Route path="/History" component={History} />
+            
+            <Route path="/Account" component={Account} />
   
             <Route path="*" component={PageNotFound} />
+
 
           </Switch>
 
