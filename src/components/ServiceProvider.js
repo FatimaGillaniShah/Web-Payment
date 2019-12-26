@@ -73,11 +73,11 @@ class ServiceProvider extends Component {
     return (
 
       <div className="Main">
-        <div className="row">
+        <div className="col-md-12">
 
           {this.state.servicesOrGroups.map((e, i) =>
 
-            <div className="col-md-3 col-sm-1" key={i}>
+            <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1" key={i}>
         
               <div className="portfolio-box " onClick={() => this.validateGroupsForServices(e)}>
               
