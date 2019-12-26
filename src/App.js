@@ -22,6 +22,7 @@ import PageNotFound from './components/PageNotFound';
 import Account from './components/Account';
 import { connect } from 'react-redux';
 import '../src/content/bootstrap.min.css';
+import '../src/content/bootstrap-spinner.css';
 import './content/css/overlay.css';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';

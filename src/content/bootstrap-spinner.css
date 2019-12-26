@@ -1,0 +1,77 @@
+.spinner.input-group .input-group-addon a.spin-up, .spinner.input-group .input-group-addon a.spin-down {
+	height: 13px;
+	width: 10px;
+	font-size: 10px;
+	overflow: hidden;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	position: relative;
+	color: #999;
+	font-family: 'Montserrat', Arial, sans-serif;
+}
+.spinner.input-group .input-group-addon a.spin-up .icon-sort-down, .spinner.input-group .input-group-addon a.spin-down .icon-sort-down {
+	position: relative;
+	top: -6px
+}
+.spinner.input-group .input-group-addon a.spin-up:hover, .spinner.input-group .input-group-addon a.spin-down:hover {
+	color: #555 !important;
+}
+.spinner.input-group input {
+	text-align: center
+}
+.spinner.input-group.input-group-lg .input-group-addon a.spin-up, .spinner.input-group.input-group-lg .input-group-addon a.spin-down {
+	font-size: 16px;
+	height: 12px
+}
+.spinner.input-group.input-group-sm .input-group-addon a.spin-up, .spinner.input-group.input-group-sm .input-group-addon a.spin-down {
+	font-size: 12px;
+	height: 9px
+}
+.spinner .form-control {
+	height:40px;
+	width:55px;
+	padding-left: 5px;
+}
+.spinner label{
+	float:left;
+	font-weight:400;
+	font-family: "Raleway",Arial,sans-serif;
+	margin:7px 10px;
+}
+.spinner .input-group-addon {
+    border-radius: 0px;
+}
+.spinner{
+   margin-top:25px;
+   display:inline-block;
+   width:136px;
+}
+.form-group .spinner{
+	margin-top:0px;
+   display:block;
+   width:auto;
+}
+.form-group .spinner .fa {
+    position: static;
+	color:#999;
+}
+.form-group .spinner .form-control {
+    width: 90%;
+	height:55px;
+	text-align:left;
+	padding-left:15px;
+	font-family: 'Montserrat', Arial, sans-serif;
+}
+.form-group .spinner.input-group .input-group-addon a.spin-up, .form-group .spinner.input-group .input-group-addon a.spin-down {
+	width: 18px;
+}
+.form-group .spinner.input-group .input-group-addon a.spin-up:hover, .form-group .spinner.input-group .input-group-addon a.spin-down:hover {
+	color: #555 !important;
+}
+.form-group .spinner .input-group-addon {
+    height: 55px;
+}
+.input-group-addon{
+	width: unset !important;
+}

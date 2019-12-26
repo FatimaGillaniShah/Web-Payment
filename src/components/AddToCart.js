@@ -117,12 +117,61 @@ class AddToCart extends Component {
         }
     }
 
-    amount(e) {
+    amount(e , data) {
+        debugger;
+
+        let ele = document.getElementsByClassName('active');
+        if(ele.length > 0)
+        {
+            ele[0].classList.remove("active");
+        }
+
+        data.target.className = data.target.className + " active";
         this.setState({
             amount : e
         });
     }
 
+    AddOne()
+    {
+        debugger;
+        let amountInput = this.refs.amount;
+        let num = 0;
+        if(amountInput != undefined)
+        {
+            num = parseInt(this.refs.amount.value);
+            num = num + 1;
+            this.refs.amount.value = num;
+        }
+        else
+        {
+            num = parseInt(this.refs.quantity.value);
+            num = num + 1;
+            this.refs.quantity.value = num;
+        }
+        
+    }
+
+    SubOne()
+    {
+        debugger;
+        let amountInput = this.refs.amount;
+        let num = 0;
+        if(amountInput != undefined)
+        {
+            num = parseInt(this.refs.amount.value);
+            num = num - 1;
+            this.refs.amount.value = num;
+        }
+        else
+        {
+            num = parseInt(this.refs.quantity.value);
+            num = num - 1;
+            this.refs.quantity.value = num;
+        }
+        
+    }
+    
     inputForTarget(targets) {
         if (targets !== null && targets !== undefined) {
             let inputField = [];
@@ -226,7 +275,7 @@ class AddToCart extends Component {
                                             {
                                                 fixedAmounts.map(e =>
                                                     // style={{focus:'link',focus:'visited',color:'blue',borderColor:'blue'}}
-                                                    <a id="focusmeplease" onClick={() => this.amount(e)} className="waves-effect waves-block fixedAmountChoice " key={e} value={e}>BHD {e}</a>
+                                                    <a id="focusmeplease" onClick={(data) => this.amount(e,data)} className="waves-effect waves-block fixedAmountChoice" key={e} value={e}>BHD {e}</a>
                                                 )
                                             }
                                         </div>
@@ -240,26 +289,27 @@ class AddToCart extends Component {
                                     <fieldset>
                                         <label>Quantity*</label>
                                         <div className="input-group spinner">
-                                            <input type="text" className="form-control text-center quantity" placeholder="1" name="quantity" onChange={this.updateInput} />
+                                            <input type="text" className="form-controll form-control text-center quantity" 
+                                            ref="quantity" value="0" placeholder="Enter Quantity" name="quantity" required="required" onChange={this.updateInput} />
                                             <div className="input-group-addon">
-                                                <span className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </span>
-                                                <span className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </span>
+                                                <a className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </a>
+                                                <a className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </a>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
                         ) : (
-                                <div>
+                                <div className="form-group">
                                     <fieldset>
                                         <label>Amount*</label>
                                         <div className="input-group spinner">
-                                            <input type="number" className="form-controll"
-                                                placeholder="1" name="amount" ref = 'amount' id="amount" required="required" onChange={this.updateAmount}
+                                            <input type="text" className="form-controll form-control text-center quantity"
+                                            ref="amount" value="0" placeholder="Enter Amount" name="amount" id="amount" required="required" onChange={this.updateAmount}
                                                 data-val-length-min={serviceObject.minAmount} data-val-length-max={serviceObject.maxAmount} />
                                             <div className="input-group-addon">
-                                                <span className="spin-up quantitySpinnerUp"><i className="fa fa-caret-up"></i> </span>
-                                                <span className="spin-down quantitySpinnerDown"><i className="fa fa-caret-down"></i> </span>
+                                                <a className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </a>
+                                                <a className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </a>
                                             </div>
                                         </div>
                                         <p style={{ color: "red" }} id="error"></p>
