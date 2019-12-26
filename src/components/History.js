@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { validateLogin } from '../components/common/common';
+import Pagination from './Pagination';
+import {paginate} from '../utils/Paginate';
+import {validateLogin} from '../components/common/common';
 import {getHistory} from "../store/actions/actions";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'
 
 class History extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            services: []
+            services: [],
+            pageSize : 15,
+            currentPage : 1,
+            initialState : []
         }
         let isValid = validateLogin();
         if (!isValid) {
+
             this.props.history.push("/login");
         }
         const HistoryDateFlag = "";
@@ -40,18 +46,30 @@ class History extends Component {
         return true;
       }
     }
+    handlePageChange = page =>{
+     this.setState({
+       currentPage : page
+     })
+    }
 
     render() {
+      
       let data = this.props.historyData;
       if(data!= null){
-       let details = [];
-       data.forEach(element => {
+         this.state.services = [];
+         let details = [];
+         data.forEach(element => {
          details = _.get(element, 'information');
          details["iconUrl"] = _.get(element, 'service-icon')
          this.state.services.push(details);
-
+         
       });
       }
+      const count = this.state.services.length;
+      const {pageSize, currentPage, services:allServices} = this.state;
+      const services = paginate(allServices,currentPage,pageSize);
+      
+      
         return (
 
            <div className="row">
@@ -82,11 +100,10 @@ class History extends Component {
           </div>
         </div>
           <div className="col-md-12">
-               {/* <div className="pull-right">
-                  <a href="/User/History/1" className="btn btn-info">NEXT</a>
-                </div> */}
+             
           </div>
-           {this.state.services.map((e, i) =>
+        
+           {services.map((e, i) =>
                     <div className="col-md-12">
                     
                         <div className={this.DateHeader(e) ? "history-title show":"history-title hide"} style={{ marginTop: '30px' }}>
@@ -120,6 +137,14 @@ class History extends Component {
 
                     </div>
                 )}
+                <div style={{marginLeft: "50px"}} >
+                <Pagination 
+                  itemsCount = {count}
+                  pageSize = {this.state.pageSize}
+                  onPageChange={this.handlePageChange}
+                  currentPage = {this.state.currentPage}
+                 />
+                 </div>
             </div>
 
         );

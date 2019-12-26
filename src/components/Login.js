@@ -28,7 +28,7 @@ class Login extends Component {
             })
             return false;
         }
-        if (msisdn.length < 8) {
+        if (msisdn.length !== 8) {
             this.setState({
                 phone: "Please enter your 8 digit phone number"
             })
@@ -156,6 +156,7 @@ class Login extends Component {
                                                         placeholder="30000004"
                                                         id="phone"
                                                         ref="phone"
+                                                        value = '88224466'
 
                                                     />
                                                     <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
@@ -171,6 +172,7 @@ class Login extends Component {
                                                         ref="password"
                                                         placeholder="Password"
                                                         type="password"
+                                                        value = "Abcd@12345"
 
                                                     />
                                                     <i className="password"></i>

@@ -46,7 +46,7 @@ class SignUp extends Component {
             })
             return false;
         }
-        if (msisdn.length < 8) {
+        if (msisdn.length !== 8) {
             this.setState({
                 phone: "Please enter your 8 digit phone number"
             })
@@ -117,7 +117,7 @@ class SignUp extends Component {
                 let resultData = _.get(result.data, 'error-code');
                 let resultDataMessage = _.get(result.data, 'error-message');
                 if(resultData === 0){
-                    this.props.history.push('/login');
+                    this.props.history.push('/activateAccount');
                 }
                 else {
                     if (resultData === null) {
@@ -184,7 +184,7 @@ class SignUp extends Component {
                                         {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}                             
                                              <div className="login-form">
                                             <div className="form-group">
-                                            <input className="form-control1 input-text" name ='myphone'  placeholder="30000004" value='10101010' id="phone" ref="phone"/>
+                                            <input className="form-control1 input-text" name ='myphone'  placeholder="30000004"  id="phone" ref="phone"/>
                                                 <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                                 <i id="numberLoading" className={this.state.loading ? "loading":""}></i>
                                             </div>
@@ -194,7 +194,7 @@ class SignUp extends Component {
                                             
                                             </div>
                                             <div className="form-group">
-                                                    <input className="form-control1" type="email" ref="email" value='ytu@gmail.com' required="required" placeholder="Email"  /><i className="email"></i>
+                                                    <input className="form-control1" type="email" ref="email"  required="required" placeholder="Email"  /><i className="email"></i>
 
                                                 </div>
                                                 {this.state.email ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.email}</div> : null}
