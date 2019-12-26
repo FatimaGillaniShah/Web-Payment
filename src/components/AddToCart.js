@@ -118,8 +118,6 @@ class AddToCart extends Component {
     }
 
     amount(e , data) {
-        debugger;
-
         let ele = document.getElementsByClassName('active');
         if(ele.length > 0)
         {
@@ -134,7 +132,6 @@ class AddToCart extends Component {
 
     AddOne()
     {
-        debugger;
         let amountInput = this.refs.amount;
         let num = 0;
         if(amountInput != undefined)
@@ -154,7 +151,6 @@ class AddToCart extends Component {
 
     SubOne()
     {
-        debugger;
         let amountInput = this.refs.amount;
         let num = 0;
         if(amountInput != undefined)
@@ -168,6 +164,7 @@ class AddToCart extends Component {
             num = parseInt(this.refs.quantity.value);
             num = num - 1;
             this.refs.quantity.value = num;
+            
         }
         
     }
