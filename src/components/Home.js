@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-
+import LoadingHtml from '../components/Shared/LoadingHtml';
 
 class Home extends Component {
   
@@ -37,74 +37,14 @@ class Home extends Component {
 
     return (
       <div className="Main">
-        <div className="container-fluid online-pay-content">        
-          <div className={groups.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} >
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
+        <div className="container-fluid online-pay-content">
+        {groups.length === 0 ? <LoadingHtml /> : "" }        
           <div className="col-md-12">
             {groups.map((e, i) =>
-
-              <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1" key={i}>
-                
-                <Link to={{
-                  pathname: "/ServiceProvider/" + e.id,
-
-                }} className="portfolio-box">
-
-                  <div
-                    className={this.ChangeColor(i) ? "portfolio-box-caption" : "portfolio-box-caption purple"}
-                  >
+              <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1" key={i}>                
+                <Link to={{ pathname: "/ServiceProvider/" + e.id,}} className="portfolio-box">
+                  <div className={this.ChangeColor(i) ? "portfolio-box-caption" : "portfolio-box-caption purple"}>
                     <div className="portfolio-box-caption-content">
-
                       <div className="project-category">
                         <img alt="img" src={e.iconUrlSmall} />
                       </div>
@@ -112,11 +52,8 @@ class Home extends Component {
                     </div>
                   </div>
                   <img alt="img" className="img-responsive" src={e.iconUrlLarge} />
-
                 </Link>
-
               </div>
-
             )}
           </div>
         </div>
