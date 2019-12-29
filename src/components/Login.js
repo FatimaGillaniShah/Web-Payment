@@ -6,9 +6,11 @@ import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 
 const initialState = {
-    phone: '',
-    password: '',
     error: '',
+    phoneError: '',
+    passwordError: '',
+    msisdn:'',
+    password: '',    
     loading:''
 
 }
@@ -18,26 +20,27 @@ class Login extends Component {
         super(props);
         this.state = initialState
         this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
     }
     validate(msisdn, password) {
 
         if (msisdn === "" || msisdn === null || msisdn === undefined) {
             this.setState({
-                phone: "Phone is required"
+                phoneError: "Phone is required"
             })
             return false;
         }
         if (msisdn.length !== 8) {
             this.setState({
-                phone: "Please enter your 8 digit phone number"
+                phoneError: "Please enter your 8 digit phone number"
             })
             return false;
         }
 
         if (password === "" || password === null || password === undefined) {
             this.setState({
-                password: "password is required"
+                passwordError: "password is required"
             })
             return false;
         }
@@ -46,8 +49,8 @@ class Login extends Component {
 
     login() {
      
-        let msisdn = this.refs.phone.value;
-        let password = this.refs.password.value;
+        let msisdn = this.state.msisdn;
+        let password = this.state.password;        
         const isValid = this.validate(msisdn, password);
         if (isValid) {
             this.setState(initialState);
@@ -133,6 +136,16 @@ class Login extends Component {
                 });
         }
     }
+    handleChange(event) {
+        if(event.target.name == 'phone')
+        {
+            this.setState({msisdn: event.target.value});
+        }
+        else
+        {
+            this.setState({password: event.target.value});
+        }
+      }
     render() {
         return (
             <div className="SLogin">
@@ -155,30 +168,30 @@ class Login extends Component {
                                                         name='phone'
                                                         placeholder="30000004"
                                                         id="phone"
-                                                        ref="phone"
-                                                        value = '88224466'
+                                                        value = {this.state.msisdn}
+                                                        onChange={this.handleChange}
 
                                                     />
                                                     <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
                                                     <i id="numberLoading" className={this.state.loading ? "loading":""}></i>
                                                 </div>
-                                                {this.state.phone ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phone}</div> : null}
+                                                {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
 
                                                 <div className="form-group">
 
                                                     <input
                                                         autoComplete="off"
                                                         className="form-control1"
-                                                        ref="password"
                                                         placeholder="Password"
                                                         type="password"
-                                                        value = "Abcd@12345"
+                                                        value = {this.state.password}
+                                                        onChange={this.handleChange}
 
                                                     />
                                                     <i className="password"></i>
 
                                                 </div>
-                                                {this.state.password ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.password}</div> : null}
+                                                {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
 
                                                 <button className="green-btn btn-block btn-lg" type="button" onClick={this.login}>LOGIN</button>
                                                 <div className="form-group clearfix">
