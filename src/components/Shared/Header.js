@@ -5,14 +5,30 @@ import { withRouter } from 'react-router-dom';
 import * as actions from '../../store/actions/actions'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { LogoutRequestInfo } from '../../api/ApiCalls';
 
 class Header extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);    
+        
     }
 
     logout = () => {
+       let sessionId = localStorage.getItem('sessionId');
+        let LogoutRequestObject = {
+            "session-id": sessionId
+        }
+        LogoutRequestInfo(LogoutRequestObject)
+        .then((result) => {
+           
+              console.log(result)
+        })
+        .catch((err) => {
+
+            console.log("error login failed !!!");
+        });
+
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
@@ -20,7 +36,7 @@ class Header extends Component {
     }
 
     NavigateToLogin = () => {
-        this.props.history.push('/login');
+       this.props.history.push('/login');
     }
 
     NavigateToCart = () => {

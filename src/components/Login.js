@@ -5,20 +5,24 @@ import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 
+
 const initialState = {
     error: '',
     phoneError: '',
     passwordError: '',
-    msisdn:'',
-    password: '',    
-    loading:''
+    loading: ''
 
 }
 class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = initialState
+        this.state = initialState;
+        this.state = {
+            msisdn: '',
+            password: '',
+        }
+
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
@@ -48,9 +52,9 @@ class Login extends Component {
     }
 
     login() {
-     
+
         let msisdn = this.state.msisdn;
-        let password = this.state.password;        
+        let password = this.state.password;
         const isValid = this.validate(msisdn, password);
         if (isValid) {
             this.setState(initialState);
@@ -59,11 +63,11 @@ class Login extends Component {
                 "password": password,
                 "locale": "en-US"
             }
-            this.setState({loading:true})
+            this.setState({ loading: true })
 
             LoginRequestInfo(LoginRequestObject)
                 .then((result) => {
-                    this.setState({loading : false})
+                    this.setState({ loading: false })
                     if (result !== undefined) {
                         let message = "";
                         let resultData = _.get(result.data, 'error-code');
@@ -118,7 +122,7 @@ class Login extends Component {
                                         break;
                                     case 106:
                                         this.setState({
-                                            error: resultDataMessage
+                                            error: "Invalid phone"
                                         })
                                         break;
                                     default:
@@ -137,15 +141,13 @@ class Login extends Component {
         }
     }
     handleChange(event) {
-        if(event.target.name == 'phone')
-        {
-            this.setState({msisdn: event.target.value});
+        if (event.target.name == 'phone') {
+            this.setState({ msisdn: event.target.value });
         }
-        else
-        {
-            this.setState({password: event.target.value});
+        else {
+            this.setState({ password: event.target.value });
         }
-      }
+    }
     render() {
         return (
             <div className="SLogin">
@@ -168,12 +170,12 @@ class Login extends Component {
                                                         name='phone'
                                                         placeholder="30000004"
                                                         id="phone"
-                                                        value = {this.state.msisdn}
+                                                        value={this.state.msisdn}
                                                         onChange={this.handleChange}
 
                                                     />
                                                     <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
-                                                    <i id="numberLoading" className={this.state.loading ? "loading":""}></i>
+                                                    <i id="numberLoading" className={this.state.loading ? "loading" : ""}></i>
                                                 </div>
                                                 {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
 
@@ -184,7 +186,7 @@ class Login extends Component {
                                                         className="form-control1"
                                                         placeholder="Password"
                                                         type="password"
-                                                        value = {this.state.password}
+                                                        value={this.state.password}
                                                         onChange={this.handleChange}
 
                                                     />
@@ -197,10 +199,10 @@ class Login extends Component {
                                                 <div className="form-group clearfix">
 
                                                     <div className="pull col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <a href="/forgetPassword"  style={{ fontSize: '15px' }}>Forgot your password</a>
+                                                        <a href="/forgetPassword" style={{ fontSize: '15px' }}>Forgot your password</a>
                                                     </div>
                                                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <a href="/activateAccount"  style={{ fontSize: '15px' }}>Activate Account</a>
+                                                        <a href="/activateAccount" style={{ fontSize: '15px' }}>Activate Account</a>
                                                     </div>
 
                                                 </div>
