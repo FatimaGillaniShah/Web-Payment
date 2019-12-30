@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {AccountRequestInfo} from '../api/ApiCalls';
-import {SubmitRequestInfo} from '../api/ApiCalls';
+import {AccountRequestInfo,SubmitRequestInfo} from '../api/ApiCalls';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
 
