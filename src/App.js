@@ -1,31 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import '../src/content/css/sadad.css';
-import '../src/content/css/placeholder-loading.css';
-import '../src/content/css/online-pay.css';
-import Header from './components/Shared/Header';
-import Footer from './components/Shared/Footer';
-import Home from './components/Home';
-import Login from './components/Login'
 import { Switch, Route } from 'react-router-dom';
-import SignUp from './components/SignUp';
-import ForgetPassword from './components/ForgetPassword';
-import ActivateAccount from './components/ActivateAccount';
-import ServiceProvider from './components/ServiceProvider';
-import SubGroups from './components/SubGroups';
-import AddToCart from './components/AddToCart';
-import ShoppingCart from './components/ShoppingCart';
-import PayUnsuccessful from './components/pay/PayUnsuccessful';
-import PaySuccessful from './components/pay/PaySuccessful';
-import History from './components/History';
-import PageNotFound from './components/PageNotFound';
-import Account from './components/Account';
 import { connect } from 'react-redux';
-import '../src/content/bootstrap.min.css';
-import '../src/content/bootstrap-spinner.css';
-import './content/css/overlay.css';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';
+import * as css from './content/css';
+import * as comp from './components';
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -43,39 +24,39 @@ class App extends Component {
     
     return (
       <div>
-        <Header />
+        <comp.Header />
 
         <div className="App">
 
           <Switch>
 
-            <Route path="/" exact component={Home}/>
+            <Route path="/" exact component={comp.Home}/>
 
-            <Route path="/login" component={Login} />
+            <Route path="/login" component={comp.Login} />
 
-            <Route path="/signup" component={SignUp} />
+            <Route path="/signup" component={comp.SignUp} />
 
-            <Route path="/forgetPassword" component={ForgetPassword} />
+            <Route path="/forgetPassword" component={comp.ForgetPassword} />
 
-            <Route path="/activateAccount" component={ActivateAccount} />
+            <Route path="/activateAccount" component={comp.ActivateAccount} />
 
-            <Route path="/ServiceProvider/:id" component={ServiceProvider} />
+            <Route path="/ServiceProvider/:id" component={comp.ServiceProvider} />
 
-            <Route path="/SubGroups/:id" component={SubGroups} />
+            <Route path="/SubGroups/:id" component={comp.SubGroups} />
 
-            <Route path="/AddToCart/:id" component={AddToCart} />
+            <Route path="/AddToCart/:id" component={comp.AddToCart} />
 
-            <Route path="/ShoppingCart" component={ShoppingCart} />
+            <Route path="/ShoppingCart" component={comp.ShoppingCart} />
             
-            <Route path="/Pay/PaySuccessful" component={PaySuccessful} />
+            <Route path="/Pay/PaySuccessful" component={comp.PaySuccessful} />
 
-            <Route path="/Pay/PayUnsuccessful" component={PayUnsuccessful} />
+            <Route path="/Pay/PayUnsuccessful" component={comp.PayUnsuccessful} />
 
-            <Route path="/History" component={History} />
+            <Route path="/History" component={comp.History} />
             
-            <Route path="/Account" component={Account} />
+            <Route path="/Account" component={comp.Account} />
   
-            <Route path="*" component={PageNotFound} />
+            <Route path="*" component={comp.PageNotFound} />
 
 
           </Switch>
