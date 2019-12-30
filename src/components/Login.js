@@ -4,7 +4,7 @@ import { LoginRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
-
+import { validateLogin } from '../components/common/common';
 
 const initialState = {
     error: '',
@@ -22,7 +22,10 @@ class Login extends Component {
             msisdn: '',
             password: '',
         }
-
+        let isValid = validateLogin();
+        if (isValid) {    
+          this.props.history.push("/");
+        }
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
