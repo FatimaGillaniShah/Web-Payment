@@ -119,8 +119,8 @@ class SignUp extends Component {
                 .then((result) => {
                     this.setState({ loading: false })
 
-                    if (result != undefined) {
-                        let message = "";
+                    if (result !== undefined) {
+                       
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         if (resultData === 0) {
@@ -176,16 +176,16 @@ class SignUp extends Component {
         }
     }
     handleChange(event) {
-        if (event.target.name == 'phone') {
+        if (event.target.name === 'phone') {
             this.setState({ msisdn: event.target.value });
         }
-        else if (event.target.name == 'password') {
+        else if (event.target.name === 'password') {
             this.setState({ password: event.target.value });
         }
-        else if (event.target.name == 'email') {
+        else if (event.target.name === 'email') {
             this.setState({ email: event.target.value });
         }
-        else if (event.target.name == 'Repeat') {
+        else if (event.target.name === 'Repeat') {
             this.setState({ RepeatPassword: event.target.value });
         }
     }

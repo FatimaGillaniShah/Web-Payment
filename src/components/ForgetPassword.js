@@ -37,8 +37,8 @@ class ForgetPassword extends Component {
         }
         ForgetRequestInfo(forgetRequestObject)
         .then((result) => {
-            if (result  != undefined) {
-                let message = "";
+            if (result  !== undefined) {
+              
                 let resultData = _.get(result.data, 'error-code');
                 let resultDataMessage = _.get(result.data, 'error-message');
                 if(resultData === 0){

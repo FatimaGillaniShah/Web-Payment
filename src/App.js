@@ -81,7 +81,7 @@ class App extends Component {
           </Switch>
 
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

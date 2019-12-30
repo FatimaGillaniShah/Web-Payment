@@ -9,10 +9,10 @@ class AddToCart extends Component {
         super(props)
         this.state = {
             services: [],
-            amount: null,
+            amount: 0,
             Amount: null,
             serviceObject: [],
-            quantity: null,
+            quantity: 0,
             error: "Input fields cannot be empty",
             PriceError:false
         }
@@ -134,17 +134,19 @@ class AddToCart extends Component {
     {
         let amountInput = this.refs.amount;
         let num = 0;
-        if(amountInput != undefined)
+        if(amountInput !== undefined)
         {
             num = parseInt(this.refs.amount.value);
             num = num + 1;
             this.refs.amount.value = num;
+            this.setState({ amount: num });
         }
         else
         {
             num = parseInt(this.refs.quantity.value);
             num = num + 1;
             this.refs.quantity.value = num;
+            this.setState({ quantity: num });
         }
         
     }
@@ -153,7 +155,7 @@ class AddToCart extends Component {
     {
         let amountInput = this.refs.amount;
         let num = 0;
-        if(amountInput != undefined)
+        if(amountInput !== undefined)
         {
             num = parseInt(this.refs.amount.value);
             num = num - 1;
@@ -216,7 +218,7 @@ class AddToCart extends Component {
         let fixedAmounts = [];
         let serviceImage = "";
         let servicePaymentTargets = _.get(serviceObject, 'payment-targets.required');
-        let servicePaymentTargetsArray = _.map(servicePaymentTargets, (value, key) => ({ key, value }));
+        let servicePaymentTargetsArray = _.map(servicePaymentTargets, (value, key) => ({ key, value}));
 
         let serviceRequestRequiredTargets = _.get(serviceObject, 'request-targets.required');
         this.serviceRequestRequiredTargetsArray = _.map(serviceRequestRequiredTargets, (value, key) => ({ key, value }));
@@ -272,7 +274,7 @@ class AddToCart extends Component {
                                             {
                                                 fixedAmounts.map(e =>
                                                     // style={{focus:'link',focus:'visited',color:'blue',borderColor:'blue'}}
-                                                    <a id="focusmeplease" onClick={(data) => this.amount(e,data)} className="waves-effect waves-block fixedAmountChoice" key={e} value={e}>BHD {e}</a>
+                                                    <a  id="focusmeplease" onClick={(data) => this.amount(e,data)} className="waves-effect waves-block fixedAmountChoice" key={e} value={e}>BHD {e}</a>
                                                 )
                                             }
                                         </div>
@@ -287,10 +289,10 @@ class AddToCart extends Component {
                                         <label>Quantity*</label>
                                         <div className="input-group spinner">
                                             <input type="text" className="form-controll form-control text-center quantity" 
-                                            ref="quantity" value="0" placeholder="Enter Quantity" name="quantity" required="required" onChange={this.updateInput} />
+                                            ref="quantity" value={this.state.quantity} placeholder="Enter Quantity" name="quantity" required="required" onChange={this.updateInput} />
                                             <div className="input-group-addon">
-                                                <a className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </a>
-                                                <a className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </a>
+                                                <div className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </div>
+                                                <div className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </div>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -302,11 +304,11 @@ class AddToCart extends Component {
                                         <label>Amount*</label>
                                         <div className="input-group spinner">
                                             <input type="text" className="form-controll form-control text-center quantity"
-                                            ref="amount" value="0" placeholder="Enter Amount" name="amount" id="amount" required="required" onChange={this.updateAmount}
+                                            ref="amount" value={this.state.amount} placeholder="Enter Amount" name="amount" id="amount" required="required" onChange={this.updateAmount}
                                                 data-val-length-min={serviceObject.minAmount} data-val-length-max={serviceObject.maxAmount} />
                                             <div className="input-group-addon">
-                                                <a className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </a>
-                                                <a className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </a>
+                                                <div className="spin-up quantitySpinnerUp" onClick={() => this.AddOne()}><i className="glyphicon glyphicon-chevron-up"></i> </div>
+                                                <div className="spin-down quantitySpinnerDown" onClick={() => this.SubOne()}><i className="glyphicon glyphicon-chevron-down"></i> </div>
                                             </div>
                                         </div>
                                         <p style={{ color: "red" }} id="error"></p>

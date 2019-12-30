@@ -51,7 +51,7 @@ class ShoppingCart extends Component {
  }
     RemoveItem(id) {
 
-        let count = this.state.Items.length;
+        
         let services = this.state.Items;
         
         let index = services.findIndex(x => x.MyId === id);
@@ -219,22 +219,22 @@ class ShoppingCart extends Component {
                         </div>
 
                         {this.state.Items.map((e, i) =>
-                            <div className="col-md-12" id="cartItem_" i>
+                            <div className="col-lg-12" key={i}>
                                 <div className="cart-wrap clearfix">
 
                                     <div className="col-md-12 no-padding cart-content clearfix">
 
-                                        <a style={{ marginTop: "11px" }} >
+                                        <div style={{ marginTop: "11px" }} >
 
                                             <img alt="img" className="img-responsive" src={e.iconUrl} />
                                             <div className="left">
                                                 <h4>{e.amount}</h4>
                                                 <p>{e.name}</p>
                                             </div>
-                                        </a>
+                                        </div>
                                         <div className="cart-top-wrap">
                                             <div className="right">
-                                                <a onClick={() => this.RemoveItem(e.MyId)}><img src={require('../content/img/close_small.png')} id="cartItemImage_" i  alt="cartImg" /> </a>
+                                                <div onClick={() => this.RemoveItem(e.MyId)}><img src={require('../content/img/close_small.png')}  alt="cartImg" /> </div>
                                                 <span>BHD {e.amount}</span>
                                             </div>
                                         </div>

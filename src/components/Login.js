@@ -72,11 +72,11 @@ class Login extends Component {
                 .then((result) => {
                     this.setState({ loading: false })
                     if (result !== undefined) {
-                        let message = "";
+                       
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         if (resultData === 0) {
-                            message = "Success";
+                         
                             let sessionId = _.get(result.data, 'session-id');
                             localStorage.setItem('sessionId', sessionId);
                             localStorage.setItem('sessionTime', Date());
@@ -144,7 +144,7 @@ class Login extends Component {
         }
     }
     handleChange(event) {
-        if (event.target.name == 'phone') {
+        if (event.target.name === 'phone') {
             this.setState({ msisdn: event.target.value });
         }
         else {
@@ -226,7 +226,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        getHeaderInfo: (itemCartCount, isLoggedIn, msisdn, password) => {
+        getHeaderInfo: (itemCartCount, isLoggedIn) => {
             dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
         }
     };

@@ -20,13 +20,11 @@ class History extends Component {
 
       this.props.history.push("/login");
     }
-    const HistoryDateFlag = "";
   }
+  
 
   componentDidMount() {
-
     this.props.Data();
-
   }
   DateHeader(ServiceObject) {
 
@@ -43,28 +41,30 @@ class History extends Component {
       return true;
     }
   }
+
   handlePageChange = page => {
     this.setState({
       currentPage: page
     })
   }
-
+  
   render() {
 
     let data = this.props.historyData;
+    let localServices = [];
     if (data != null) {
-      this.state.services = [];
+      localServices = [];     
       let details = [];
       data.forEach(element => {
         details = _.get(element, 'information');
-        details["iconUrl"] = _.get(element, 'service-icon')
-        this.state.services.push(details);
+        details["iconUrl"] = _.get(element, 'service-icon');
+        localServices.push(details);
 
       });
     }
-    const count = this.state.services.length;
-    const { pageSize, currentPage, services: allServices } = this.state;
-    const services = paginate(allServices, currentPage, pageSize);
+    const count = localServices.length;
+    const { pageSize, currentPage} = this.state;
+    const services = paginate(localServices, currentPage, pageSize);
 
 
     return (
@@ -72,7 +72,7 @@ class History extends Component {
       <div className="row">
 
         <div
-          className={this.state.services.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{ width: '100%' }}
+          className={localServices.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{ width: '100%' }}
         >
           <div className="col-md-12">
             <div className="ph-item">
@@ -101,7 +101,7 @@ class History extends Component {
         </div>
 
         {services.map((e, i) =>
-          <div className="col-md-12">
+          <div className="col-md-12" key={i}>
 
             <div className={this.DateHeader(e) ? "history-title show" : "history-title hide"} style={{ marginTop: '30px' }}>
 

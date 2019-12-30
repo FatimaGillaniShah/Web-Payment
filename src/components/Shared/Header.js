@@ -9,11 +9,7 @@ import { LogoutRequestInfo } from '../../api/ApiCalls';
 
 class Header extends Component {
 
-    constructor(props) {
-        super(props);    
-        
-    }
-
+   
     logout = () => {
        let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
@@ -32,7 +28,9 @@ class Header extends Component {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
+        this.props.history.push('/login');
         this.props.getHeaderInfo(0, false);
+
     }
 
     NavigateToLogin = () => {
@@ -58,7 +56,7 @@ class Header extends Component {
     NavigateToHistory = () => {
         this.props.history.push('/History');
     }
-
+   
     componentDidMount() {
         let isLogin = validateLogin();
 
@@ -113,25 +111,25 @@ class Header extends Component {
                                     <li><a className="main-home" href="https://sadadbahrain.com"> </a></li>
                                 </ul>
                             </div>
-                            <a className="navbar-brand float-left" onClick={this.NavigateToHome} >
+                            <div className="navbar-brand float-left" onClick={this.NavigateToHome} >
                                 <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
-                            </a>
+                            </div>
                         </div>
 
                         <div className="navbar-collapse collapse">
                             <div className={this.props.isLoggedIn ? 'customNav show' : 'customNav hide'}>
 
                                 <ul className="nav navbar-nav leftMenuItems">
-                                    <li style={{ padding: '13px 0px 12px 22px', borderRight: 'solid 1px #ddd' }}><a href="/" className="qp-home hidden-xs"></a></li>
+                                    <li ><div onClick={this.NavigateToHome} className="qp-home hidden-xs"></div></li>
                                     <li className="pl-18"><h3 className="p-unset fs-18 font-weight-bold text-uppercase" style={{ color: '#0061ae' }}>OnlineExpressPayment</h3></li>
                                 </ul>
 
                                 <ul className="nav navbar-nav rightMenuItems">
-                                    
-                                    <li style={{ borderRight: 'solid 1px #ddd !important' }}><a href="/Account"><i><span className="glyphicon glyphicon-user"></span></i><span>Account</span></a></li>
-                                    <li><a href="/History" style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
-                                    <li><a href="https://sadadbahrain.com/app/help.html" target="_blank"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
-                                    <li><a href="/User/ShoppingCart" className="main-cart-icon"><i className="fs-30"><span className="glyphicon glyphicon-shopping-cart" style={{ Color: 'white !important' }}></span></i></a></li>
+                                
+                                    <li><a href='/Account' style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>Account</span></a></li>
+                                    <li><a href='/History' style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
+                                    <li><a href="https://sadadbahrain.com/app/help.html" ><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
+                                    <li><a href='/ShoppingCart'  className="main-cart-icon"><i className="fs-30"><span className="glyphicon glyphicon-shopping-cart" style={{ Color: 'white !important' }}></span></i></a></li>
                                     <li className="btn-group clearfix hidden-md hidden-lg hidden-sm">
                                         {this.props.isLoggedIn ? '<button className="btn btn-green btnTopNavMerchantLogout" type="button">Logout</button>' : '<button className="btn btn-green btnTopNavMerchantLogin" type="button">Login</button>'}
                                     </li>
@@ -176,7 +174,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 const mapStateToProps = state => {
-    console.log(state.headerContent);
+
     return {
         cartItemCount: state.headerContent.cartItemCount,
         isLoggedIn: state.headerContent.isLoggin
