@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { AccountRequestInfo } from '../api/ApiCalls';
 import { SubmitRequestInfo } from '../api/ApiCalls';
+=======
+import {AccountRequestInfo,SubmitRequestInfo} from '../api/ApiCalls';
+>>>>>>> 6747ca00b78a282e8b6775a032a73fccc2c62d62
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
 
