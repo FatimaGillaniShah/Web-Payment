@@ -13,11 +13,10 @@ import Account from './Account';
 import Login from './Login';
 import Home from './Home';
 import Header from './Shared/Header';
-import Footer from './Shared/Footer';
 
 export {
     SignUp,ForgetPassword,ActivateAccount,
     ServiceProvider,SubGroups,AddToCart,ShoppingCart,
     PayUnsuccessful,PaySuccessful,History,PageNotFound,
-    Account,Login,Home,Header,Footer
+    Account,Login,Home,Header
 }
