@@ -3,32 +3,28 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import {Paper, Grid, Container, Typography} from '@material-ui/core';
+import { Paper, Grid, Container, Typography, CardHeader, Avatar, CardMedia } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
 
 const styles = {
-  paper1: {
-    display: 'block',
-    position: 'relative',
-    marginTop: '15px',
-    marginBottom: '15px',
-    background: '#1cc1f7',
-    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
-    border: 'solid 10px #fff',
-    color: 'white'
+  card: {
+    maxWidth: '345',
   },
-  paper2: {
-    display: 'block',
-    position: 'relative',
-    marginTop: '15px',
-    marginBottom: '15px',
-    background: '#0061ae',
-    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
-    border: 'solid 10px #fff',
-    color: 'white'
+  media: {
+    height: 0,
+    paddingTop: '56.25%'
   },
-  LinkText:
-  {
-    color: 'white'
+  avatarEven: {
+    backgroundColor: '#1cc1f7'
+  },
+  avatarOdd: {
+    backgroundColor: '#1961d7'
+  },
+  avatarImage: {
+    maxWidth: '85%'
+  },
+  LinkText: {
+    color: 'black'
   }
 
 }
@@ -70,19 +66,29 @@ class Home extends Component {
 
     return (
       <Container maxWidth="false">
-        <Grid container spacing={1}>
+        <Grid container spacing={3}>
           {groups.map((e, i) =>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Paper style={this.ChangeColor(i) ?  styles.paper1 : styles.paper2}>
+              <Card elevation={16} style={styles.card}>
                 <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkText}>
-                <img alt="img" src={e.iconUrlSmall} />
-                <img alt="img" style={{ display: "none" }} src={e.iconUrlLarge} />
-                <Typography variant="h3">{e.name}</Typography>
+                  <CardHeader
+                    avatar={<Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
+                      <img alt="img" src={e.iconUrlSmall} style={styles.avatarImage} />
+                    </Avatar>}
+                    titleTypographyProps={{ variant: 'h4', }}
+                    style={{ textAlign: 'left' }}
+                    title={e.name}
+                  />
+                  <CardMedia
+                    style={styles.media}
+                    image={e.iconUrlLarge}
+                    title={e.name}
+                  />
                 </Link>
-              </Paper>
+              </Card>
             </Grid>
           )}
-        </Grid>        
+        </Grid>
       </Container>
     );
   }
