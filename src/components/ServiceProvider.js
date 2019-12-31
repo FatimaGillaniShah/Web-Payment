@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
-import {Paper, Grid, Container, Typography} from '@material-ui/core';
+import {Paper, Grid, Container, Typography, Card} from '@material-ui/core';
 
 const styles = {
   paper1: {
@@ -10,7 +10,6 @@ const styles = {
     position: 'relative',
     marginTop: '15px',
     marginBottom: '15px',
-    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
     border: 'solid 10px #fff',
     color: 'white'
   },
@@ -20,7 +19,6 @@ const styles = {
     marginTop: '15px',
     marginBottom: '15px',
     background: '#0061ae',
-    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
     border: 'solid 10px #fff',
     color: 'white'
   },
@@ -104,13 +102,13 @@ class ServiceProvider extends Component {
 
     return (
       <Container maxWidth="false">
-        <Grid container spacing={1}>
+        <Grid container spacing={3}>
           {this.state.servicesOrGroups.map((e, i) =>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Paper style={styles.paper1} onClick={() => this.validateGroupsForServices(e)}>
+              <Card elevation={16} style={styles.paper1} onClick={() => this.validateGroupsForServices(e)}>
                 <img alt="img" src={e.iconUrl} style={styles.paperImg} />
                 <Typography variant="h4" style={styles.paperHeading}>{e.name}</Typography>
-              </Paper>
+              </Card>
             </Grid>
           )}
         </Grid>
