@@ -2,6 +2,38 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
+import {Paper, Grid, Container, Typography} from '@material-ui/core';
+
+const styles = {
+  paper1: {
+    display: 'block',
+    position: 'relative',
+    marginTop: '15px',
+    marginBottom: '15px',
+    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
+    border: 'solid 10px #fff',
+    color: 'white'
+  },
+  paper2: {
+    display: 'block',
+    position: 'relative',
+    marginTop: '15px',
+    marginBottom: '15px',
+    background: '#0061ae',
+    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
+    border: 'solid 10px #fff',
+    color: 'white'
+  },
+  paperImg: {
+    color: 'black',
+    maxWidth: '100%',
+    borderBottom: 'solid 1px #ddd'
+  },
+  paperHeading: {    
+    color: 'black',
+    marginTop: '10px'
+  }
+}
 
 class ServiceProvider extends Component {
   constructor(props) {
@@ -11,20 +43,19 @@ class ServiceProvider extends Component {
       FoundGroups: false
     }
   }
-  
+
   validateGroupsForServices(groupObject) {
     let serviceProviderId = _.get(groupObject, 'group-id');
     let isValid = validateLogin();
     if (!isValid) {
-      localStorage.setItem('redirectTo' , 'ServiceProvider/'+serviceProviderId);
+      localStorage.setItem('redirectTo', 'ServiceProvider/' + serviceProviderId);
       this.props.history.push("/login");
     }
-    else
-    {
+    else {
       let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
       let GroupId = _.get(groupObject, 'id');
       if (serviceCheckHasSteps === undefined) {
-        this.props.history.push("/SubGroups/" + GroupId);  
+        this.props.history.push("/SubGroups/" + GroupId);
       }
       else {
         this.props.history.push("/AddToCart/" + GroupId);
@@ -38,74 +69,57 @@ class ServiceProvider extends Component {
 
       let AllGroups = _.get(this.props.StoreData, 'groups');
       let AllServices = _.get(this.props.StoreData, 'services');
-      if(AllGroups !== undefined && AllServices !== undefined){
-      AllGroups.forEach(groupElement => {
-       
-        let parent_group_id = _.get(groupElement, 'parent-group-id');
-        if (parent_group_id === Id) {
-         
-          _.assign(groupElement, { iconUrl: _.get(groupElement, 'icons.650x420') })
-          this.state.servicesOrGroups.push(groupElement);
+      if (AllGroups !== undefined && AllServices !== undefined) {
+        AllGroups.forEach(groupElement => {
 
-        }
-      });
-    
-      AllServices.forEach(element => {
+          let parent_group_id = _.get(groupElement, 'parent-group-id');
+          if (parent_group_id === Id) {
 
-        let group_id = _.get(element, 'group-id');
-        if (group_id === Id) {
-        
-          _.assign(element, { iconUrl: _.get(element, 'icons.650x420') })
-          this.state.servicesOrGroups.push(element);
+            _.assign(groupElement, { iconUrl: _.get(groupElement, 'icons.650x420') })
+            this.state.servicesOrGroups.push(groupElement);
 
-        }
-      });
+          }
+        });
 
+        AllServices.forEach(element => {
+
+          let group_id = _.get(element, 'group-id');
+          if (group_id === Id) {
+
+            _.assign(element, { iconUrl: _.get(element, 'icons.650x420') })
+            this.state.servicesOrGroups.push(element);
+
+          }
+        });
+
+      }
     }
-}}
-  
+  }
+
   render() {
-  
+
     var Id = this.props.match.params.id;
-   
-     this.prepareDataToRender(Id);
-    
+
+    this.prepareDataToRender(Id);
+
     return (
-
-      <div className="Main">
-        <div className="col-md-12">
-
+      <Container maxWidth="false">
+        <Grid container spacing={1}>
           {this.state.servicesOrGroups.map((e, i) =>
-
-            <div className="col-lg-3 col-md-3 col-sm-1 col-xs-1" key={i}>
-        
-              <div className="portfolio-box " onClick={() => this.validateGroupsForServices(e)}>
-              
-                <div >
-                
-                  <div className="price"></div>
-                  <img alt="" className="img-responsive" src={e.iconUrl} />
-                  <div className="portfolio-box-caption portfolio-box-block">
-                    <div className="portfolio-box-caption-content">
-                      <div className="project-name">{e.name}</div>
-                    </div>
-                  </div>
-                  <div className="info-wrap">
-                    <h4>{e.name}</h4>
-                  </div>
-                </div>
-        
-    </div>
-    
-            </div>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Paper style={styles.paper1} onClick={() => this.validateGroupsForServices(e)}>
+                <img alt="img" src={e.iconUrl} style={styles.paperImg} />
+                <Typography variant="h4" style={styles.paperHeading}>{e.name}</Typography>
+              </Paper>
+            </Grid>
           )}
-        </div>
-      </div>
+        </Grid>
+      </Container>
     );
   }
 }
-const mapStateToProps = state => {  
-  
+const mapStateToProps = state => {
+
   return {
     StoreData: state.groups
   };

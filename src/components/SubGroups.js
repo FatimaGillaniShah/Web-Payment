@@ -1,6 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import {Paper, Grid, Container, Typography} from '@material-ui/core';
+
+const styles = {
+  paper1: {
+    display: 'block',
+    position: 'relative',
+    marginTop: '15px',
+    marginBottom: '15px',
+    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
+    border: 'solid 10px #fff',
+    color: 'white'
+  },
+  paper2: {
+    display: 'block',
+    position: 'relative',
+    marginTop: '15px',
+    marginBottom: '15px',
+    background: '#0061ae',
+    boxShadow: '0px 0px 2px 0px rgba(0,0,0,0.15)',
+    border: 'solid 10px #fff',
+    color: 'white'
+  },
+  paperImg: {
+    color: 'black',
+    maxWidth: '100%',
+    borderBottom: 'solid 1px #ddd'
+  },
+  paperHeading: {    
+    color: 'black',
+    marginTop: '10px'
+  }
+}
 
 class ServiceProvider extends Component {
   constructor(props) {
@@ -51,35 +83,18 @@ class ServiceProvider extends Component {
     var Id = this.props.match.params.id;
     this.prepareDataToRender(Id);
     return (
-
-      <div className="Main">
-        <div className="row">
-
+      <Container maxWidth="false">
+        <Grid container spacing={1}>
           {this.state.servicesOrGroups.map((e, i) =>
-
-            <div className="col-md-3 col-sm-1" key={i}>
-
-              <div className="portfolio-box" onClick={() => this.validateGroupsForServices(e)}>
-
-              <div className="price"></div>
-                <img alt="" className="img-responsive" src={e.iconUrl} />
-                <div className="portfolio-box-caption portfolio-box-block">
-                  <div className="portfolio-box-caption-content">
-                    <div className="project-name">{e.identifier}</div>
-                  </div>
-                </div>
-                <div className="info-wrap">
-                  <h4>{e.identifier}</h4>
-                </div>
-              </div>
-              
-            </div>
-
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Paper style={styles.paper1} onClick={() => this.validateGroupsForServices(e)}>
+                <img alt="img" src={e.iconUrl} style={styles.paperImg} />
+                <Typography variant="h4" style={styles.paperHeading}>{e.identifier}</Typography>
+              </Paper>
+            </Grid>
           )}
-
-        </div>
-      </div>
-
+        </Grid>
+      </Container>
     );
   }
 }
