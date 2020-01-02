@@ -9,6 +9,7 @@ import Card from '@material-ui/core/Card';
 const styles = {
   card: {
     maxWidth: '345',
+    marginTop:'30px'
   },
   media: {
     height: 0,
