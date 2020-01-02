@@ -1,172 +1,334 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import PublicIcon from '@material-ui/icons/Public';
+import { ListItemIcon, Badge, Card, MenuItem, MenuList, Button, AppBar, Divider, Drawer, Hidden, IconButton, Toolbar, ListItemText, ListItem, List, Typography } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { validateLogin } from '../common/common';
+import { LogoutRequestInfo } from '../../api/ApiCalls';
 import { withRouter } from 'react-router-dom';
 import * as actions from '../../store/actions/actions'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { LogoutRequestInfo } from '../../api/ApiCalls';
+import HomeIcon from '@material-ui/icons/Home';
+import HelpIcon from '@material-ui/icons/Help';
+import LockCloseIcon from '@material-ui/icons/LockOpen';
 
-class Header extends Component {
+const drawerWidth = 240;
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    drawer: {
+        [theme.breakpoints.up('sm')]: {
+          width: drawerWidth,
+          flexShrink: 0,
+        },
+      },
+    margin: {
+        margin: theme.spacing(1),
 
-   
-    logout = () => {
-       let sessionId = localStorage.getItem('sessionId');
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
+    title: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        },
+    },
+    NavMenuButtons:
+    {
+        float: 'right',
+
+    },
+    text: {
+        color: '#0061ae',
+        fontSize: '18px',
+        fontWeight: 'bold',
+    },
+    AppDrawerHeading: {
+        color: 'white',
+        fontWeight: 'bold',
+        backgroundColor: '#0061ae',
+        padding: '20px'
+    },
+    ListMenu: {
+
+        float: 'right',
+        color: 'black',
+        flex: 'row',
+        display: 'flex',
+    },
+    ListName: {
+        fontSize: '15px',
+        margin: '13px'
+
+    },
+    IconStyling: {
+        color: '#0061ae',
+        margin: '5px',
+        fontSize: "large"
+    }
+
+}));
+
+function Header(props) {
+
+    const { container } = props;
+    const classes = useStyles();
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+      };
+
+    const handleDrawerClose = () => {
+        setMobileOpen(false);
+
+    };
+    const logout = () => {
+        let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
             "session-id": sessionId
         }
         LogoutRequestInfo(LogoutRequestObject)
-        .then((result) => {
-           
-              console.log(result)
-        })
-        .catch((err) => {
+            .then((result) => {
 
-            console.log("error login failed !!!");
-        });
+                console.log(result)
+            })
+            .catch((err) => {
+
+                console.log("error login failed !!!");
+            });
 
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
-        this.props.history.push('/login');
-        this.props.getHeaderInfo(0, false);
+        props.history.push('/login');
+        props.getHeaderInfo(0, false);
 
     }
 
-    NavigateToLogin = () => {
-       this.props.history.push('/login');
+    const drawer = (
+        <Hidden only="sm">
+           
+           {props.isLoggedIn ? (
+               <MenuList>
+               <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
+                <MenuItem component={Link} to="/">
+                    <IconButton color="black"><HomeIcon /></IconButton>
+                    <p style={{ color: "black" }}>Home</p>
+                </MenuItem>
+               <MenuItem component={Link} to="/Account">
+                    <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
+                   <p style={{ color: "black" }}>ACCOUNT</p>
+               </MenuItem>
+               <MenuItem component={Link} to="/History">
+                   <IconButton color="black">
+
+                       <PublicIcon />
+
+                   </IconButton>
+                   <p style={{ color: "black" }}>HISTORY</p>
+               </MenuItem>
+
+               <MenuItem href="/https://sadadbahrain.com/app/help.html">
+                   <IconButton color="black"><HelpIcon /></IconButton>
+                   <p  style={{ color: "black" }}>HELP</p>
+               </MenuItem>
+
+               <MenuItem onClick={logout}>
+               <IconButton color="black"><LockCloseIcon /></IconButton>
+                   <p style={{ color: "black" }}>Logout</p>
+               </MenuItem>
+
+           </MenuList>
+           ) : (
+
+                <MenuList>
+                <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>                    
+                    <MenuItem component={Link} to="/login">
+                   <p style={{ color: "black" }}>Login</p>
+               </MenuItem>                                              
+                    <MenuItem component={Link} to="/signup">
+                   <p style={{ color: "black" }}>Sign Up</p>
+               </MenuItem>
+            </MenuList>
+
+           )}
+            
+        </Hidden>
+    );
+
+
+    const NavigateToLogin = () => {
+        props.history.push('/login');
     }
 
-    NavigateToCart = () => {
-        this.props.history.push('/ShoppingCart');
+    const NavigateToCart = () => {
+        props.history.push('/ShoppingCart');
     }
 
-    NavigateToHome = () => {
-        this.props.history.push('/');
+    const NavigateToHome = () => {
+        props.history.push('/');
     }
 
-    NavigateToAccount = () => {
-        this.props.history.push('/activateAccount');
+    const NavigateToAccount = () => {
+        props.history.push('/activateAccount');
     }
 
-    NavigateToSignUp = () => {
-        this.props.history.push('/signup');
+    const NavigateToSignUp = () => {
+        props.history.push('/signup');
     }
 
-    NavigateToHistory = () => {
-        this.props.history.push('/History');
+    const NavigateToHistory = () => {
+        props.history.push('/History');
     }
-   
-    componentDidMount() {
+    React.useEffect(() => {
+
         let isLogin = validateLogin();
+        console.log(isLogin)
 
         if (!isLogin) {
-            this.logout();
+            logout();
         }
         else {
             let cartItemCount = localStorage.getItem('cartItemCount');
             if (cartItemCount === null) {
-                this.props.getHeaderInfo(0, true);
+                props.getHeaderInfo(0, true);
             }
             else {
-                this.props.getHeaderInfo(cartItemCount, true);
+                props.getHeaderInfo(cartItemCount, true);
             }
         }
+    }, []);
 
-    }
-    render() {
-        return (
-                <div className="navbar navbar-default" role="navigation">
-                    <div className="container-fluid">
+    return (
+        <div >
+            <AppBar style={{ position: 'unset', background: '#0d61af' }}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
 
-                        <div className="navbar-header basecolor pt-10 " style={{ height: '75px' }}>
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <div className="hidden-xs float-right navbar-brand  ">
-                                <ul className="languageBox">
-                                    <li >
-                                        <div className='row'>
-                                            <div>
-                                                {this.props.isLoggedIn ? (
-                                                    <div className="col-lg-4">
-                                                        <button className="btnn btn-green btnTopNavLogout" type="button" onClick={() => this.logout()}><Link to="/login" style={{ color: 'white' }}> Logout</Link></button>
-                                                    </div>
+                    <Link to={{ pathname: "/" }}>
+                        <img src={require('../../content/img/logo.png')} alt="sadad" />
+                    </Link>
 
-                                                ) : (
-                                                        <div className="col-lg-4">
-                                                            <button className="btnn btn-green btnTopNavLogin " type="button" onClick={this.NavigateToLogin} style={{ marginRight: '13px' }}>Login</button>
-                                                            <button className="btnn btn-green btnTopNavSignup" type="button" onClick={this.NavigateToSignUp}>Sign Up</button>
-                                                        </div>
+                    < Hidden only="xs" >
+                        <div style={{ flexGrow: 1 }}>
+                            {props.isLoggedIn ? (
+                                <div className={classes.NavMenuButtons}>
+                                    <Button variant="contained" size="large" onClick={logout} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Button>
+                                </div>
 
-                                                    )}
-                                            </div>
+                            ) : (
+                                    <div className={classes.NavMenuButtons}>
+                                        <Button variant="contained" size="large" onClick={NavigateToLogin} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >Login</Button>
+                                        <Button variant="contained" size="large" onClick={NavigateToSignUp} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >SignUp</Button>
+                                    </div>
 
-                                        </div>
-                                    </li>
-                                    <li><a href="/Home/ChangeCulture?lang=ar-BH&amp;returnUrl=%2F" id="change-lang" style={{ fontSize: '21px' }}>عربي</a></li>
-                                    <li><a className="main-home" href="https://sadadbahrain.com"> </a></li>
-                                </ul>
-                            </div>
-                            <div className="navbar-brand float-left" onClick={this.NavigateToHome} >
-                                <img src={require('../../content/img/logo.png')} alt="sadad" className="pt-unset" />
-                            </div>
+                                )}
                         </div>
 
-                        <div className="navbar-collapse collapse">
-                            <div className={this.props.isLoggedIn ? 'customNav show' : 'customNav hide'}>
+                    </Hidden>
 
-                                <ul className="nav navbar-nav leftMenuItems">
-                                    <li ><div onClick={this.NavigateToHome} className="qp-home hidden-xs"></div></li>
-                                    <li className="pl-18"><h3 className="p-unset fs-18 font-weight-bold text-uppercase" style={{ color: '#0061ae' }}>OnlineExpressPayment</h3></li>
-                                </ul>
+                </Toolbar>
+            </AppBar>
+            < Hidden only="xs" >
+                <div className={props.isLoggedIn ? 'show' : 'hide'}>
 
-                                <ul className="nav navbar-nav rightMenuItems">
-                                
-                                    <li><a href='/Account' style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>Account</span></a></li>
-                                    <li><a href='/History' style={{ borderRight: 'solid 1px #ddd !important' }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
-                                    <li><a href="https://sadadbahrain.com/app/help.html" ><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
-                                    <li><a href='/ShoppingCart'  className="main-cart-icon"><i className="fs-30"><span className="glyphicon glyphicon-shopping-cart" style={{ Color: 'white !important' }}></span></i></a></li>
-                                    <li className="btn-group clearfix hidden-md hidden-lg hidden-sm">
-                                        {this.props.isLoggedIn ? '<button className="btn btn-green btnTopNavMerchantLogout" type="button">Logout</button>' : '<button className="btn btn-green btnTopNavMerchantLogin" type="button">Login</button>'}
-                                    </li>
-                                </ul>
+                    <AppBar style={{ position: 'unset', background: 'white' }}>
+
+
+                        <Toolbar>
+                            <Typography className={classes.text}>
+                                ONLINE EXPRESS PAYMENT
+                    </Typography>
+
+                            <div style={{ flexGrow: 1 }}>
+                                <div className={classes.ListMenu}>
+
+                                    <Typography className={classes.ListName} >
+                                        <AccountCircle className={classes.IconStyling} />
+                                        ACCOUNT
+                    </Typography >
+
+
+                                    <Typography className={classes.ListName}>
+                                        <PublicIcon className={classes.IconStyling} />
+                                        HISTORY
+                    </Typography>
+
+
+                                    <Typography className={classes.ListName} >
+                                        <NotificationsIcon className={classes.IconStyling} />
+                                        HELP
+                    </Typography>
+
+                                </div>
+
                             </div>
-                        </div>
 
+                        </Toolbar>
 
-                        {/* <div className={this.props.isLoggedIn ? "navbar-collapse show" : "navbar-collapse hide"} style={{ backgroundColor: 'white' }}>
-                            <div className="customNav">
-                                <ul className="nav navbar-nav leftMenuItems">
-                                    <li style={{ padding: '19px 17px 11px 51px', borderRight: 'solid 1px #ddd' }}><a onClick={this.NavigateToHome} className="qp-home hidden-xs"> </a></li>
-                                    <li className="pl-18"><h3 className="font-weight-bold text-uppercase" style={{ color: "#0061ae", marginTop: '9px' }}>Online Express Payment</h3></li>
-                                </ul>
-                                <ul className="nav navbar-nav rightMenuItems">
-                                    <li style={{ borderRight: "solid 1px #ddd" }}><a onClick={this.NavigateToAccount}><i><span className="glyphicon glyphicon-user"></span></i><span>Account</span></a></li>
-                                    <li><a onClick={this.NavigateToHistory} style={{ borderRight: "solid 1px #ddd" }}><i><span className="glyphicon glyphicon-globe"></span></i><span>History</span></a></li>
-                                    <li><a href="https://sadadbahrain.com/app/help.html" target="_blank" rel="noopener noreferrer"><i><span className="glyphicon glyphicon-headphones"></span></i><span>Help</span></a></li>
-                                    <li>
-                                        <a onClick={this.NavigateToCart} className="main-cart-icon" style={{ padding: "10px 25px 13px 20px", backgroundColor: "#0061AE", borderTop: "solid 1px #ac63c0" }}>
-                                            <i className="fs-30 cartIcon cartIconCount" data-count={this.props.cartItemCount}>
-                                                <span className="glyphicon glyphicon-shopping-cart cartIcon"></span>
-                                            </i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> */}
-
-
-                    </div>
+                    </AppBar>
                 </div>
-        );
-    }
-}
+            </Hidden>
 
+            <nav className={classes.drawer} aria-label="mailbox folders">
+                <Hidden smUp implementation="css">
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                    >
+                        
+                        {drawer}
+                      
+                    </Drawer>
+
+                </Hidden>
+
+            </nav>
+
+        </div>
+    );
+}
 const mapDispatchToProps = (dispatch) => {
+
     return {
         getHeaderInfo: (itemCartCount, isLoggedIn) => {
             dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
