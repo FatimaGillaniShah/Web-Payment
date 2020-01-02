@@ -174,7 +174,8 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 const mapStateToProps = state => {
-
+console.log(state);
+debugger;
     return {
         cartItemCount: state.headerContent.cartItemCount,
         isLoggedIn: state.headerContent.isLoggin

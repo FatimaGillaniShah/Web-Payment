@@ -16,6 +16,8 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
+import AddIcon from '@material-ui/icons/Add';
+
 const styles = {
     card: {
         width: '67%',
@@ -252,7 +254,6 @@ class Login extends Component {
 
                                 <FormControl style={{width:'100%', margin:'auto'}}>
                                 <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn}  onClick={this.login}>
-                                    <NavigationIcon style={styles.extendedIcon} />
                                     Login
                                 </Fab>
                                 </FormControl>
