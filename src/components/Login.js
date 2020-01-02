@@ -5,18 +5,13 @@ import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
-import { CardContent, FormControl, CardHeader } from '@material-ui/core';
-import { Theme, createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { CardContent, FormControl } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import { Grid, Container, CardActionArea, CardActions, Typography } from '@material-ui/core';
+import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
-import AddIcon from '@material-ui/icons/Add';
 
 const styles = {
     card: {
@@ -219,7 +214,7 @@ class Login extends Component {
     render() {
         return (
 
-            <Container maxWidth="false">
+            <Container xl={12}>
                 <Grid container spacing={10}>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>                    
                         <Card elevation={16} style={styles.card}>                           

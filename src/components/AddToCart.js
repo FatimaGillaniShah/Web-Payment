@@ -2,11 +2,9 @@ import React, { Component, Fragment } from 'react';
 import '..//content/css/addCart.css';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Theme, createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import { Grid, Container, CardActionArea, CardActions } from '@material-ui/core';
+import { Grid, Container, CardActions } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -42,9 +40,6 @@ const styles = {
     extendedIcon: {
         marginRight: 'theme.spacing(1)',
     },
-    margin: {
-        
-      },
       withoutLabel: {
         
       },
@@ -221,7 +216,7 @@ class AddToCart extends Component {
             let targetName = targets.key;
             let targetType = "";
             let targetAttributes = targets.value;
-            let _classValues = "form-controll target input-text";
+            //let _classValues = "form-controll target input-text";
 
             if (targetName === "email") {
                 targetType = "email";
@@ -240,7 +235,8 @@ class AddToCart extends Component {
         <TextField
           label="Phone Number"
           id={targetName}
-          style={styles.margin,styles.textField}
+          type={targetType}
+          style={styles.textField}
           InputProps={{
             startAdornment: <InputAdornment position="start">+973</InputAdornment>,
             minLength: {min},
@@ -258,7 +254,8 @@ class AddToCart extends Component {
                     <TextField
                       label="Phone Number"
                       id={targetName}
-                      style={styles.margin,styles.textField}
+                      type={targetType}
+                      style={styles.textField}
                       InputProps={{
                         startAdornment: <InputAdornment position="start">+973</InputAdornment>
                       }}
@@ -310,7 +307,7 @@ class AddToCart extends Component {
 
                         <Card elevation={16} style={styles.card}>
 
-                            <img src={serviceImage} />
+                            <img src={serviceImage} alt="Img" />
                             <CardContent style={styles.content}>
 
                                 {servicePaymentTargets !== null && servicePaymentTargets !== undefined ? (
