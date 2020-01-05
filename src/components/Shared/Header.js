@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PublicIcon from '@material-ui/icons/Public';
-import { ListItemIcon, Badge, Card, MenuItem, MenuList, Button, AppBar, Divider, Drawer, Hidden, IconButton, Toolbar, ListItemText, ListItem, List, Typography } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { MenuItem, MenuList, Button, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { validateLogin } from '../common/common';
 import { LogoutRequestInfo } from '../../api/ApiCalls';
 import { withRouter } from 'react-router-dom';
@@ -19,6 +15,7 @@ import { compose } from 'redux';
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
 import LockCloseIcon from '@material-ui/icons/LockOpen';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -101,10 +98,9 @@ function Header(props) {
         setMobileOpen(!mobileOpen);
       };
 
-    const handleDrawerClose = () => {
-        setMobileOpen(false);
-
-    };
+    // const handleDrawerClose = () => {
+    //     setMobileOpen(false);
+    // };
     const logout = () => {
         let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
@@ -135,15 +131,15 @@ function Header(props) {
                <MenuList>
                <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
                 <MenuItem component={Link} to="/">
-                    <IconButton color="black"><HomeIcon /></IconButton>
+                    <IconButton><HomeIcon /></IconButton>
                     <p style={{ color: "black" }}>Home</p>
                 </MenuItem>
                <MenuItem component={Link} to="/Account">
-                    <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
+                    <IconButton aria-label="show 4 new mails"><AccountCircle /></IconButton>
                    <p style={{ color: "black" }}>ACCOUNT</p>
                </MenuItem>
                <MenuItem component={Link} to="/History">
-                   <IconButton color="black">
+                   <IconButton>
 
                        <PublicIcon />
 
@@ -152,12 +148,12 @@ function Header(props) {
                </MenuItem>
 
                <MenuItem href="/https://sadadbahrain.com/app/help.html">
-                   <IconButton color="black"><HelpIcon /></IconButton>
+                   <IconButton><HelpIcon /></IconButton>
                    <p  style={{ color: "black" }}>HELP</p>
                </MenuItem>
 
                <MenuItem onClick={logout}>
-               <IconButton color="black"><LockCloseIcon /></IconButton>
+               <IconButton><LockCloseIcon /></IconButton>
                    <p style={{ color: "black" }}>Logout</p>
                </MenuItem>
 
@@ -188,21 +184,21 @@ function Header(props) {
         props.history.push('/ShoppingCart');
     }
 
-    const NavigateToHome = () => {
-        props.history.push('/');
-    }
+    // const NavigateToHome = () => {
+    //     props.history.push('/');
+    // }
 
-    const NavigateToAccount = () => {
-        props.history.push('/activateAccount');
-    }
+    // const NavigateToAccount = () => {
+    //     props.history.push('/activateAccount');
+    // }
 
     const NavigateToSignUp = () => {
         props.history.push('/signup');
     }
 
-    const NavigateToHistory = () => {
-        props.history.push('/History');
-    }
+    // const NavigateToHistory = () => {
+    //     props.history.push('/History');
+    // }
     React.useEffect(() => {
 
         let isLogin = validateLogin();
@@ -290,6 +286,9 @@ function Header(props) {
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
                     </Typography>
+                    <Typography className={classes.ListName} onClick={NavigateToCart} style={{cursor:'pointer'}}>
+                                        <ShoppingCartIcon className={classes.IconStyling} />
+                    </Typography>
 
                                 </div>
 
@@ -336,7 +335,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 const mapStateToProps = state => {
-
     return {
         cartItemCount: state.headerContent.cartItemCount,
         isLoggedIn: state.headerContent.isLoggin

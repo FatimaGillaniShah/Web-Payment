@@ -2,34 +2,37 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
-import {Paper, Grid, Container, Typography, Card} from '@material-ui/core';
+import {Grid, Container, CardMedia,CardHeader,Avatar, Card} from '@material-ui/core';
 
 const styles = {
-  paper1: {
-    display: 'block',
-    position: 'relative',
-    marginTop: '15px',
-    marginBottom: '15px',
-    border: 'solid 10px #fff',
-    color: 'white'
+  card: {
+    maxWidth: '345',
+    marginTop:'30px'
   },
-  paper2: {
-    display: 'block',
-    position: 'relative',
-    marginTop: '15px',
-    marginBottom: '15px',
-    background: '#0061ae',
-    border: 'solid 10px #fff',
-    color: 'white'
+  media: {
+    height: 0,
+    paddingTop: '56.25%'
   },
-  paperImg: {
-    color: 'black',
-    maxWidth: '100%',
-    borderBottom: 'solid 1px #ddd'
+  avatarEven: {
+    backgroundColor: '#1cc1f7',
+    textAlign:'left',
+    color:'white',
+    fontFamily: 'inherit',
+    fontSize: '18px'
   },
-  paperHeading: {    
-    color: 'black',
-    marginTop: '10px'
+  avatarOdd: {
+    backgroundColor: '#1961d7',
+    textAlign:'left',
+    color:'white',
+    fontFamily: 'inherit',
+    fontSize: '18px'
+  },
+  avatarImage: {
+    maxWidth: '85%'
+  },
+  LinkText: {
+    color: 'white',
+    cursor: 'pointer'
   }
 }
 
@@ -94,6 +97,15 @@ class ServiceProvider extends Component {
     }
   }
 
+  ChangeColor(i) {
+    if (i % 2 === 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   render() {
 
     var Id = this.props.match.params.id;
@@ -101,13 +113,27 @@ class ServiceProvider extends Component {
     this.prepareDataToRender(Id);
 
     return (
-      <Container maxWidth="false">
+
+<Container maxWidth="xl">
         <Grid container spacing={3}>
           {this.state.servicesOrGroups.map((e, i) =>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <Card elevation={16} style={styles.paper1} onClick={() => this.validateGroupsForServices(e)}>
-                <img alt="img" src={e.iconUrl} style={styles.paperImg} />
-                <Typography variant="h4" style={styles.paperHeading}>{e.name}</Typography>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+              <Card elevation={16} style={styles.card} onClick={() => this.validateGroupsForServices(e)}>                      
+                  <CardMedia
+                    style={styles.media}
+                    image={e.iconUrl}
+                    title={e.name}
+                  />
+                  <CardHeader 
+                  avatar={
+                    <Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
+                      <img alt="img" src={e.iconUrl} style={styles.avatarImage} />
+                    </Avatar>}
+                    titleTypographyProps={{ variant: 'h4', }}
+                    disableTypography={true}
+                    style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
+                    title={e.name}
+                  />                
               </Card>
             </Grid>
           )}
