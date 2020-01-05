@@ -1,12 +1,95 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
-import { Pay,RequestInfo } from '../api/ApiCalls';
+import { Pay, RequestInfo } from '../api/ApiCalls';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
+import { Fab, Button, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
+const styles = {
+    root: {
+        flexGrow: 1,
+
+    },
+    Header: {
+
+        padding: '13px 19px',
+        height: '50px',
+        backgroundColor: 'gainsboro',
+        fontSize: '15px',
+        display: 'flex',
+        justifyContent: 'start'
+
+
+    },
+
+    Image: {
+        height: '90px',
+        width: '165px',
+        alignItems: 'flex-start',
+        display: 'flex',
+
+    },
+
+    CardSegments: {
+        paddingTop: '45px',
+        color: "#ff6060"
+
+    },
+    CardSegmentsRightAlign: {
+        paddingTop: '45px',
+        textAlign: 'right',
+
+    },
+    Heading: {
+        color: '#0888e9',
+        fontSize: '18px',
+        fontWeight: "900",
+
+
+    },
+    Total: {
+        color: '#0888e9',
+        fontSize: '18px',
+        fontWeight: "900",
+        textAlign: 'right',
+        padding: '30px 0px'
+
+
+    },
+
+    footer: {
+        backgroundColor: '#e7efde',
+        height: '90px',
+
+
+    },
+    ImageIcon: {
+        padding: '32px'
+    },
+
+    CardSegmentsLeftAlign: {
+        paddingTop: '37px',
+        textAlign: 'left'
+    },
+    Button: {
+        backgroundColor: '#6a9b34',
+        border: 'solid 2px #6a9b34',
+        color: '#fff',
+        fontSize: '15px',
+        padding: '3px 32px',
+        fontWeight: 'bold',
+        textAlign: 'right'
+    },
+    buttonFooter: {
+        height: '90px',
+        marginTop: '25px'
+
+    }
+}
 class ShoppingCart extends Component {
-    
+
     constructor(props) {
 
         super(props);
@@ -27,40 +110,38 @@ class ShoppingCart extends Component {
             this.props.history.push("/login");
         }
     }
- componentWillMount(){
-    var cartItems = JSON.parse(localStorage.getItem('Services'));
-    var cartItemsLength = cartItems.length;
-    if(cartItems !== null && cartItemsLength !== null && cartItemsLength > 0)
-    {
-        localStorage.setItem('cartItemCount',cartItemsLength);
-        this.setState({
-            Items:cartItems,
-            cartItemCount:cartItemsLength,
-            hidediv:false
-        });
+    componentWillMount() {
+        var cartItems = JSON.parse(localStorage.getItem('Services'));
+        var cartItemsLength = cartItems.length;
+        if (cartItems !== null && cartItemsLength !== null && cartItemsLength > 0) {
+            localStorage.setItem('cartItemCount', cartItemsLength);
+            this.setState({
+                Items: cartItems,
+                cartItemCount: cartItemsLength,
+                hidediv: false
+            });
 
-        this.props.getHeaderInfo(cartItemsLength,true);
+            this.props.getHeaderInfo(cartItemsLength, true);
+        }
+        else {
+            this.setState({
+                hidediv: true
+            });
+        }
+
     }
-    else
-    {
-        this.setState({
-            hidediv:true
-        });
-    }
-    
- }
     RemoveItem(id) {
 
-        
+
         let services = this.state.Items;
-        
+
         let index = services.findIndex(x => x.MyId === id);
-        services.splice(index,1);
+        services.splice(index, 1);
         this.setState({
             Items: services
         });
-        
-        
+
+
 
         let newItemCount = this.state.cartItemCount - 1;
 
@@ -78,221 +159,214 @@ class ShoppingCart extends Component {
                 hidediv: false
             });
 
-         }
-         else
-         {
+        }
+        else {
             this.setState({
                 hidediv: true
             });
-         }
+        }
 
-         this.props.getHeaderInfo(newItemCount,true);
+        this.props.getHeaderInfo(newItemCount, true);
     }
     async pay() {
 
-        
-            let cartServices = [];
-            let sessionId = localStorage.getItem('sessionId');
-            cartServices = JSON.parse(localStorage.getItem('Services'));
-            let payObj = Object.assign({ "session-id": sessionId, services: [] }, this.state.paymentsInfoRequestObj);
 
-            // this.setState({
-            //     paymentsInfoRequestObj : payObj
-            // });
-            
-            // we tried to set state using this.setState() but it don't effect in the below loop.
-            this.state.paymentsInfoRequestObj = payObj;
+        let cartServices = [];
+        let sessionId = localStorage.getItem('sessionId');
+        cartServices = JSON.parse(localStorage.getItem('Services'));
+        let payObj = Object.assign({ "session-id": sessionId, services: [] }, this.state.paymentsInfoRequestObj);
 
-            cartServices.forEach((s)=> {
-                var ServiceObject;
-                ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
-                this.state.paymentsInfoRequestObj.services.push(ServiceObject);
-            });
+        // this.setState({
+        //     paymentsInfoRequestObj : payObj
+        // });
 
-            // cartServices.map((s) => {
-            //     var ServiceObject;
-            //     ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
-            //     this.state.paymentsInfoRequestObj.services.push(ServiceObject);
-            // });
+        // we tried to set state using this.setState() but it don't effect in the below loop.
+        this.state.paymentsInfoRequestObj = payObj;
 
-            let PaymentsInfoResponse = await RequestInfo(this.state.paymentsInfoRequestObj);
-            PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
-            if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
-                let errorCode =  _.get(PaymentsInfoResponse, 'error-code');
-                if (errorCode !== 0) {
-                    let errorMessage =  _.get(PaymentsInfoResponse, 'error-message');                    
-                    alert(errorMessage);
-                }
-                else {
-                    let errorOuccured = false; 
-                    
-                    //Validation should be done here
-                    let serviceResults = [];
-                    serviceResults =  _.get(PaymentsInfoResponse, 'info');
-                    
-                    for(let i = 0; i < serviceResults.length; i++)
-                    {
-                        let serviceError = _.get(serviceResults[i], 'error');
+        cartServices.forEach((s) => {
+            var ServiceObject;
+            ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
+            this.state.paymentsInfoRequestObj.services.push(ServiceObject);
+        });
 
-                        if(serviceError !== null && serviceError !== undefined && serviceError !== 0)
-                        {
-                            errorOuccured = true;
-                            alert("Error In Cart");
-                            break;
-                        }
+        // cartServices.map((s) => {
+        //     var ServiceObject;
+        //     ServiceObject = Object.assign({ "service-id": s.id, target: s.target, CustomerId: 0 }, ServiceObject);
+        //     this.state.paymentsInfoRequestObj.services.push(ServiceObject);
+        // });
+
+        let PaymentsInfoResponse = await RequestInfo(this.state.paymentsInfoRequestObj);
+        PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
+        if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
+            let errorCode = _.get(PaymentsInfoResponse, 'error-code');
+            if (errorCode !== 0) {
+                let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
+                alert(errorMessage);
+            }
+            else {
+                let errorOuccured = false;
+
+                //Validation should be done here
+                let serviceResults = [];
+                serviceResults = _.get(PaymentsInfoResponse, 'info');
+
+                for (let i = 0; i < serviceResults.length; i++) {
+                    let serviceError = _.get(serviceResults[i], 'error');
+
+                    if (serviceError !== null && serviceError !== undefined && serviceError !== 0) {
+                        errorOuccured = true;
+                        alert("Error In Cart");
+                        break;
                     }
-                    payObj = Object.assign({ "session-id": sessionId, services: [], gateway:"benefit" }, this.state.paymentsPayRequestObj);
-                    if (!errorOuccured) {
-                        this.setState({
-                            paymentsPayRequestObj : payObj            
-                        });
+                }
+                payObj = Object.assign({ "session-id": sessionId, services: [], gateway: "benefit" }, this.state.paymentsPayRequestObj);
+                if (!errorOuccured) {
+                    this.setState({
+                        paymentsPayRequestObj: payObj
+                    });
 
-                        cartServices.forEach((s)=> {
-                            var ServiceObject;
-                            ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
-                            this.state.paymentsPayRequestObj.services.push(ServiceObject);
-                        });
+                    cartServices.forEach((s) => {
+                        var ServiceObject;
+                        ServiceObject = Object.assign({ "service-id": s.id, amount: s.amount, currency: "BHD", target: s.target }, ServiceObject);
+                        this.state.paymentsPayRequestObj.services.push(ServiceObject);
+                    });
 
-                        // cartServices.map((s) => {
-                        //     var ServiceObject;
-                        //     ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
-                        //     this.state.paymentsPayRequestObj.services.push(ServiceObject);
-                        // });
+                    // cartServices.map((s) => {
+                    //     var ServiceObject;
+                    //     ServiceObject = Object.assign({ "service-id": s.id, amount:s.amount, currency:"BHD", target: s.target}, ServiceObject);
+                    //     this.state.paymentsPayRequestObj.services.push(ServiceObject);
+                    // });
 
-                        //HACK: Change the gateway to proper user selection
-                        let payResponse = await Pay(this.state.paymentsPayRequestObj);
-                        payResponse = _.get(payResponse, 'data');
-                        let payResponseErrorCode =  _.get(payResponse, 'error-code');
-                        
-                        if (payResponseErrorCode !== null && payResponseErrorCode !== 0) {
-                            let payResponseErrorMessage =  _.get(payResponse, 'error-message');
-                            alert(payResponseErrorMessage);
-                        }
-                        else
-                        {
-                            let payResponseUrl =  _.get(payResponse, 'payment-url');
-                            if (!errorOuccured && payResponse !== null && payResponseUrl !== null && payResponseUrl !== "") {
-                                let payResponseUrl =  _.get(payResponse, 'payment-url');
-                                let paymentUrl = payResponseUrl;
-                                let splitURL = payResponseUrl.split('/');
-                                let paymentId = splitURL[splitURL.length-1];
-                                
+                    //HACK: Change the gateway to proper user selection
+                    let payResponse = await Pay(this.state.paymentsPayRequestObj);
+                    payResponse = _.get(payResponse, 'data');
+                    let payResponseErrorCode = _.get(payResponse, 'error-code');
+
+                    if (payResponseErrorCode !== null && payResponseErrorCode !== 0) {
+                        let payResponseErrorMessage = _.get(payResponse, 'error-message');
+                        alert(payResponseErrorMessage);
+                    }
+                    else {
+                        let payResponseUrl = _.get(payResponse, 'payment-url');
+                        if (!errorOuccured && payResponse !== null && payResponseUrl !== null && payResponseUrl !== "") {
+                            let payResponseUrl = _.get(payResponse, 'payment-url');
+                            let paymentUrl = payResponseUrl;
+                            let splitURL = payResponseUrl.split('/');
+                            let paymentId = splitURL[splitURL.length - 1];
+
                             //     handle through state
                             //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
                             //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
                             //   check how to submit form in react : document.getElementById('benefitForm').submit();
-    
-                            this.setState({actionUrl:paymentUrl, paymentId:paymentId});
+
+                            this.setState({ actionUrl: paymentUrl, paymentId: paymentId });
                             document.getElementById('benefitForm').submit();
-                            }
-                            else
-                            {
-                                alert("Pay Response Url is null or empty");
-                            }
                         }
-                        
-                        console.log(payResponse);
+                        else {
+                            alert("Pay Response Url is null or empty");
+                        }
                     }
 
+                    console.log(payResponse);
                 }
+
             }
+        }
+    }
+    NavigateToHome = () => {
+        this.props.history.push('/');
     }
 
     render() {
 
         var sum = 0;
-       
-        if(this.state.Items !== null && this.state.Items !== undefined && this.state.Items !== 0)
-        {
+
+        if (this.state.Items !== null && this.state.Items !== undefined && this.state.Items !== 0) {
             this.state.Items.forEach((e) => {
                 sum = sum + parseFloat(e.amount);
             });
         }
         return (
-            <div>
-                <div id="quick-pay" hidden={this.state.hidediv}>
-                    <div className="container-fluid online-pay-content">
-                        <div className="col-md-12">
-                            <div className="history-title margintop-0">
-                                <p>Shopping Cart</p>
-                            </div>
-                        </div>
 
+            <Container maxWidth="false" style={{ marginTop: '60px' }}>
+
+                <Grid container spacing={3}>
+
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <Paper style={styles.Header}>
+                                Shopping Cart
+                                </Paper>
+                        </Grid>
                         {this.state.Items.map((e, i) =>
-                            <div className="col-lg-12" key={i}>
-                                <div className="cart-wrap clearfix">
-
-                                    <div className="col-md-12 no-padding cart-content clearfix">
-
-                                        <div style={{ marginTop: "11px" }} >
-
-                                            <img alt="img" className="img-responsive" src={e.iconUrl} />
-                                            <div className="left">
-                                                <h4>{e.amount}</h4>
-                                                <p>{e.name}</p>
-                                            </div>
-                                        </div>
-                                        <div className="cart-top-wrap">
-                                            <div className="right">
-                                                <div onClick={() => this.RemoveItem(e.MyId)}><img src={require('../content/img/close_small.png')}  alt="cartImg" /> </div>
-                                                <span>BHD {e.amount}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <Card style={{ borderBottom: '2px solid #dddddd' }}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={2} sm={2} md={2} lg={2}>
+                                        <img alt="img" src={e.iconUrl} style={styles.Image} />
+                                    </Grid>
+                                    <Grid item xs={7} sm={7} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
+                                        <Typography variant='h4'>{e.amount}</Typography>
+                                        <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{e.name}</Typography>
+                                    </Grid>
+                                    <Grid item xs={2} sm={2} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
+                                        <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
+                                    </Grid>
+                                    <Grid item xs={1} sm={1} md={1} lg={1} style={styles.CardSegments}>
+                                        <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
+                                    </Grid>
+                                </Grid>
+                            </Card>
                         )}
+                        <Grid style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
 
-                        <div className="col-md-12">
-                            <div className="cart-wrap total-wrap clearfix">
-                                <div className="col-md-12 cart-content no-padding clearfix">
-                                    <div className="col-md-4">&nbsp;</div>
-                                    <div className=" cart-top-wrap">
-                                        <div className="right">
-                                            <img id="cartItemImage_1" src={require('../content/img/tag.png')} className="hidden-xs" alt="cartImg" />
-                                            <span id="cartTotalAmount"><font className="dark">Total </font>BHD {sum}.000</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <Grid container >
+                                <Grid item xs={6} sm={6} md={6} lg={6} >
+                                </Grid>
 
-                            </div>
-                        </div>
-                        <div className="col-md-12">
-                            <div className="history-content clearfix">
-                                <div className="left">
+                                <Grid item xs={5} sm={5} md={5} lg={5} >
 
-                                </div>
-                                <div className="right">
-                                    <div style={{ margin: "2px", borderRadius: "300px", padding: "12px 28px" }} className="btn btn-success btn-lg margintop-20">ADD NEW</div>
-                                    <div style={{ float: "right", margin: "2px", borderRadius: "300px", padding: "12px 28px" }} className="btn btn-success btn-lg margintop-20" onClick={() => this.pay()}>PAY NOW</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="clearfix"></div>
-                    </div>
-                </div>
-                <div hidden={!this.state.hidediv}>
-                    <section id="quick-pay">
-                        <div className="container-fluid">
-                            <div className="col-md-12">
-                                <div className="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 text-center">
-                                    <div className="thankyou-wrap">
-                                        <h3>Oops! Nothing found in the cart!</h3>
-                                        <img src={require('../content/img/empty-cart.png')} alt="empty cart"  />
-                                        <p>Your cart is empty. Please add few items to pay.</p>
-                                        <a href="/" className="btn btn-success btn-lg margintop-20" type="button">Take me home</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    <Typography style={styles.Total}>
+                                        BHD Total {sum}
 
-                    </section>
+                                    </Typography>
+                                </Grid >
+                                <Grid item xs={1} sm={1} md={1} lg={1} >
+                                    <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
+                                </Grid>
 
-                </div>
+                            </Grid>
+
+
+                        </Grid>
+
+                        <Grid style={styles.buttonFooter} item xs={12} sm={12} md={12} lg={12} >
+
+                            <Grid container >
+                                <Grid item xs={8} sm={8} md={8} lg={8} />
+
+
+                                <Grid style={{ textAlign: 'right' }} item xs={2} sm={2} md={2} lg={2} >
+
+                                    <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                </Grid >
+                                <Grid item xs={2} sm={2} md={2} lg={2} >
+                                    <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
+
+                                </Grid>
+
+                            </Grid>
+
+
+                        </Grid>
+
+
+                    </Grid>
+                </Grid>
                 <form action={this.state.actionUrl} method="post" id="benefitForm">
                     <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
                 </form>
-            </div>
+            </Container>
+
         )
 
     }
@@ -304,7 +378,7 @@ const mapDispatchToProps = (dispatch) => {
         getHeaderInfo: (itemCartCount, isLoggedIn) => {
             dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
         }
-           };
-  };
-  export default connect(null, mapDispatchToProps)(ShoppingCart);
+    };
+};
+export default connect(null, mapDispatchToProps)(ShoppingCart);
 

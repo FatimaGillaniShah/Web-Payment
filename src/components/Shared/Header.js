@@ -5,7 +5,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PublicIcon from '@material-ui/icons/Public';
 import { MenuItem, MenuList, Button, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import { validateLogin } from '../common/common';
 import { LogoutRequestInfo } from '../../api/ApiCalls';
 import { withRouter } from 'react-router-dom';
@@ -15,7 +15,8 @@ import { compose } from 'redux';
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
 import LockCloseIcon from '@material-ui/icons/LockOpen';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import WidgetsIcon from '@material-ui/icons/Widgets';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -55,12 +56,15 @@ const useStyles = makeStyles(theme => ({
     NavMenuButtons:
     {
         float: 'right',
+        marginTop:'12px'
 
     },
     text: {
         color: '#0061ae',
         fontSize: '18px',
         fontWeight: 'bold',
+      
+       
     },
     AppDrawerHeading: {
         color: 'white',
@@ -71,9 +75,11 @@ const useStyles = makeStyles(theme => ({
     ListMenu: {
 
         float: 'right',
-        color: 'black',
+        color: '#7b7a7b',
         flex: 'row',
         display: 'flex',
+
+
     },
     ListName: {
         fontSize: '15px',
@@ -84,6 +90,12 @@ const useStyles = makeStyles(theme => ({
         color: '#0061ae',
         margin: '5px',
         fontSize: "large"
+    },
+    Cart:{
+        fontSize: '30px',
+        backgroundColor: '#0061ae',
+        color: 'white',
+        marginTop: '12px'
     }
 
 }));
@@ -98,9 +110,10 @@ function Header(props) {
         setMobileOpen(!mobileOpen);
       };
 
-    // const handleDrawerClose = () => {
-    //     setMobileOpen(false);
-    // };
+    const handleDrawerClose = () => {
+        setMobileOpen(false);
+
+    };
     const logout = () => {
         let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
@@ -125,21 +138,23 @@ function Header(props) {
     }
 
     const drawer = (
-        <Hidden only="sm">
+        <Hidden only="sm" >
+            
            
            {props.isLoggedIn ? (
                <MenuList>
                <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
-                <MenuItem component={Link} to="/">
-                    <IconButton><HomeIcon /></IconButton>
+                <MenuItem onClick={handleDrawerClose} component={Link} to="/">
+
+                    <IconButton color="black"><HomeIcon /></IconButton>
                     <p style={{ color: "black" }}>Home</p>
                 </MenuItem>
-               <MenuItem component={Link} to="/Account">
-                    <IconButton aria-label="show 4 new mails"><AccountCircle /></IconButton>
+               <MenuItem onClick={handleDrawerClose} component={Link} to="/Account">
+                    <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
                    <p style={{ color: "black" }}>ACCOUNT</p>
                </MenuItem>
-               <MenuItem component={Link} to="/History">
-                   <IconButton>
+               <MenuItem onClick={handleDrawerClose} component={Link} to="/History">
+                   <IconButton color="black">
 
                        <PublicIcon />
 
@@ -147,13 +162,13 @@ function Header(props) {
                    <p style={{ color: "black" }}>HISTORY</p>
                </MenuItem>
 
-               <MenuItem href="/https://sadadbahrain.com/app/help.html">
-                   <IconButton><HelpIcon /></IconButton>
+               <MenuItem onClick={handleDrawerClose} href="/https://sadadbahrain.com/app/help.html">
+                   <IconButton color="black"><HelpIcon /></IconButton>
                    <p  style={{ color: "black" }}>HELP</p>
                </MenuItem>
 
-               <MenuItem onClick={logout}>
-               <IconButton><LockCloseIcon /></IconButton>
+               <MenuItem onClick={handleDrawerClose} component={Link} to="/">
+               <IconButton color="black"><LockCloseIcon /></IconButton>
                    <p style={{ color: "black" }}>Logout</p>
                </MenuItem>
 
@@ -184,21 +199,21 @@ function Header(props) {
         props.history.push('/ShoppingCart');
     }
 
-    // const NavigateToHome = () => {
-    //     props.history.push('/');
-    // }
+    const NavigateToHome = () => {
+        props.history.push('/');
+    }
 
-    // const NavigateToAccount = () => {
-    //     props.history.push('/activateAccount');
-    // }
+    const NavigateToAccount = () => {
+        props.history.push('/activateAccount');
+    }
 
     const NavigateToSignUp = () => {
         props.history.push('/signup');
     }
 
-    // const NavigateToHistory = () => {
-    //     props.history.push('/History');
-    // }
+    const NavigateToHistory = () => {
+        props.history.push('/History');
+    }
     React.useEffect(() => {
 
         let isLogin = validateLogin();
@@ -220,7 +235,7 @@ function Header(props) {
 
     return (
         <div >
-            <AppBar style={{ position: 'unset', background: '#0d61af' }}>
+            <AppBar style={{ position: 'unset', background: '#0d61af', height:'80px'}}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -233,7 +248,7 @@ function Header(props) {
                     </IconButton>
 
                     <Link to={{ pathname: "/" }}>
-                        <img src={require('../../content/img/logo.png')} alt="sadad" />
+                        <img style={{marginTop: '12px'}}src={require('../../content/img/logo.png')} alt="sadad" />
                     </Link>
 
                     < Hidden only="xs" >
@@ -259,39 +274,39 @@ function Header(props) {
             < Hidden only="xs" >
                 <div className={props.isLoggedIn ? 'show' : 'hide'}>
 
-                    <AppBar style={{ position: 'unset', background: 'white' }}>
+                    <AppBar style={{ position: 'unset', background: 'white',height:'70px' }}>
 
 
                         <Toolbar>
+                            <div style={{padding: '0px 43px'}}>
+                            <WidgetsIcon onClick={NavigateToHome} style={{color:'#1cc1f7',fontSize:'30px'}}></WidgetsIcon>
+                            </div>
                             <Typography className={classes.text}>
                                 ONLINE EXPRESS PAYMENT
-                    </Typography>
+                             </Typography>
 
                             <div style={{ flexGrow: 1 }}>
                                 <div className={classes.ListMenu}>
 
-                                    <Typography className={classes.ListName} >
+                                    <Typography   onClick={NavigateToAccount} className={classes.ListName} >
                                         <AccountCircle className={classes.IconStyling} />
                                         ACCOUNT
-                    </Typography >
+                                     </Typography >
 
 
-                                    <Typography className={classes.ListName}>
+                                    <Typography  onClick={NavigateToHistory} className={classes.ListName}>
                                         <PublicIcon className={classes.IconStyling} />
                                         HISTORY
-                    </Typography>
+                                     </Typography>
 
 
                                     <Typography className={classes.ListName} >
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
-                    </Typography>
-                    <Typography className={classes.ListName} onClick={NavigateToCart} style={{cursor:'pointer'}}>
-                                        <ShoppingCartIcon className={classes.IconStyling} />
-                    </Typography>
+                                  </Typography>
+                                  <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
 
                                 </div>
-
                             </div>
 
                         </Toolbar>
@@ -335,6 +350,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 const mapStateToProps = state => {
+
     return {
         cartItemCount: state.headerContent.cartItemCount,
         isLoggedIn: state.headerContent.isLoggin
