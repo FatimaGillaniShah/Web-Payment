@@ -68,7 +68,8 @@ class Login extends Component {
 
     }
     validate(msisdn, password) {
-
+      
+        this.setState(initialState);
         if (msisdn === "" || msisdn === null || msisdn === undefined) {
             this.setState({
                 phoneError: "Phone is required"
@@ -92,10 +93,11 @@ class Login extends Component {
     }
 
     login() {
-
+        
         let msisdn = this.state.msisdn;
-        let password = this.state.password;
+        let password = this.state.password;   
         const isValid = this.validate(msisdn, password);
+
         if (isValid) {
             this.setState(initialState);
             let LoginRequestObject = {
@@ -112,6 +114,7 @@ class Login extends Component {
 
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
+                        console.log(resultDataMessage)
                         if (resultData === 0) {
 
                             let sessionId = _.get(result.data, 'session-id');
@@ -200,8 +203,10 @@ class Login extends Component {
                                     <Grid item style={styles.CardSegments}>
                                         <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>LOGIN</Typography>
                                     </Grid>
+
                                     
                                     <Grid item style={styles.CardSegments}>
+                                    {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
                                         <TextField
                                             label="Phone Number"
                                             variant="outlined"
