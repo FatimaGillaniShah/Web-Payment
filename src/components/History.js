@@ -6,7 +6,8 @@ import { validateLogin } from '../components/common/common';
 import { getHistory } from "../store/actions/actions";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { Container, Grid, Card, CardContent, Typography, CardHeader } from '@material-ui/core';
+import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
+import { Container, Grid, Card, CardContent, Typography } from '@material-ui/core';
 
 const styles = {
   containerStart:{
@@ -104,7 +105,7 @@ class History extends Component {
       <Container  style={styles.containerStart}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-          {/* {localServices.length === 0 ? <LoadingHtml /> : "" } */}
+          {services.length === 0 ? <LoadingHtmlHistory /> : "" }
 
 
           {services.map((e, i) =>

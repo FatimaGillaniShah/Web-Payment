@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
- import LoadingHtml from '../components/Shared/LoadingHtml';
+import LoadingHtml from '../components/Shared/LoadingHtml';
 import {Grid, Container, CardHeader, Avatar, CardMedia } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 
