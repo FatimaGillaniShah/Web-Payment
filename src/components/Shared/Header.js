@@ -302,7 +302,7 @@ function Header(props) {
             </Hidden>
 
             <nav className={classes.drawer} aria-label="mailbox folders">
-                <Hidden smUp implementation="css">
+                <Hidden only="lg" smUp implementation="css">
                     <Drawer
                         container={container}
                         variant="temporary"
