@@ -8,7 +8,7 @@ const styles = {
   paper1: {
     display: 'block',
     position: 'relative',
-    marginTop: '15px',
+    marginTop: '30px',
     marginBottom: '15px',
     border: 'solid 10px #fff',
     color: 'white'

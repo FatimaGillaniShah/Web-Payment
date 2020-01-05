@@ -13,7 +13,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 const styles = {
     card: {
         maxWidth: '345',
-    },
+        marginTop:'30px'
+      },
     media: {
         height: 0,
         paddingTop: '56.25%'
@@ -301,7 +302,7 @@ class AddToCart extends Component {
         }
         return (
 
-            <Container>
+            <Container maxWidth="xl">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
 
