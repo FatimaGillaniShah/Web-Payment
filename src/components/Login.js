@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import '../content/css/login.css';
 import { LoginRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
@@ -14,56 +14,33 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 
 const styles = {
-    card: {
-        width: '67%',
-        margin: 'auto'
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%'
-    },
-    avatarEven: {
-        backgroundColor: '#1cc1f7'
-    },
-    avatarOdd: {
-        backgroundColor: '#1961d7'
-    },
-    avatarImage: {
-        maxWidth: '85%'
-    },
-    LinkText: {
-        color: 'black'
-    },
-    cardGrid: {
-        margin: 'auto',
-        paddingTop: '7%'
-    },
-    AddToCartBtn: {
-        margin: 'auto',
-        backgroundColor: '#5E8C2A',
-        width:'25%'
-    },
-    extendedIcon: {
-        marginRight: 'theme.spacing(1)',
-    },
-    margin: {
-
-    },
-    withoutLabel: {
-
-    },
-    textField: {
-        width: 200,
-    },
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    FormControl: {
-        width: '100%',
-        padding: '10px'
-    }
-
+    mainGrid: {
+        margin:'auto',
+        marginTop:'30px',
+      },
+      Card:{
+          width:'85%',
+          margin:'auto'
+      },
+      CardSegments: {
+        padding:'10px'
+      },
+      CardSegmentSeparator: {
+        borderBottom:'1px solid #ddd'
+      },
+      CardFields:{
+          width:'90%'
+      },
+      LoginBtn: {
+          margin: 'auto',
+          backgroundColor: '#5E8C2A',
+          width:'90%',
+          fontSize:'medium'        
+      },
+      LinkText:{
+        color:'#1961d7',
+        fontSize: 'medium'
+      }
 }
 
 const initialState = {
@@ -216,52 +193,67 @@ class Login extends Component {
 
             <Container xl={12}>
                 <Grid container spacing={10}>
-                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>                    
-                        <Card elevation={16} style={styles.card}>                           
+                    <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
+                        <Card elevation={16} style={styles.Card}>                           
                             <CardContent>
-                            <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>LOGIN</Typography>
+                                <Grid>
+                                    <Grid item style={styles.CardSegments}>
+                                        <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>LOGIN</Typography>
+                                    </Grid>
+                                    
+                                    <Grid item style={styles.CardSegments}>
+                                        <TextField
+                                            label="Phone Number"
+                                            variant="outlined"
+                                            type="text"
+                                            InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
+                                            name='phone'
+                                            value={this.state.msisdn}
+                                            onChange={this.handleChange}
+                                            style={styles.CardFields}
+                                        />
+                                        {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                    </Grid>
 
-                                <FormControl style={styles.FormControl}>
-                                    <TextField
-                                        label="Phone Number"
-                                        variant="outlined"
-                                        InputProps={{
-                                            startAdornment: <InputAdornment position="start">+973</InputAdornment>,
-                                        }}
-                                        name='phone'
-                                        value={this.state.msisdn}
-                                        onChange={this.handleChange}
-                                    />
-                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
-
-                                </FormControl>
-
-                                <FormControl style={styles.FormControl}>
-                                    <TextField
-                                        label="Password"
-                                        variant="outlined"
-                                        type="password"
-                                        value={this.state.password}
-                                        onChange={this.handleChange} 
-                                    />
+                                    <Grid item style={styles.CardSegments}>
+                                        <TextField
+                                            label="Password"
+                                            variant="outlined"
+                                            type="password"
+                                            name='password'
+                                            value={this.state.password}
+                                            onChange={this.handleChange} 
+                                            style={styles.CardFields}
+                                        />
                                     {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
-                                </FormControl>
+                                    </Grid>
 
-                                <FormControl style={{width:'100%', margin:'auto'}}>
-                                <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn}  onClick={this.login}>
-                                    Login
-                                </Fab>
-                                </FormControl>
+                                    <Grid item style={styles.CardSegments}>
+                                        <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.login}>Login</Fab>
+                                    </Grid>
 
-                                <FormControl style={{width:'50%', margin:'auto'}}>
-                                    <Link href="/forgetPassword/"><Typography>Forget Password</Typography></Link>
-                                </FormControl>
-                                <FormControl style={{width:'50%', margin:'auto'}}>
-                                    <Link href="/activateAccount/"><Typography>Activate Account</Typography></Link>
-                                </FormControl>
-                                <FormControl>
-                                <div className="footer" >Don’t have an account? <a href="/signup">Sign Up For Free</a></div>
-                                </FormControl>
+                                    <Grid item style={styles.CardSegments}>
+
+                                        <Grid container>
+                                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                                                <Link href="/forgetPassword/"><Typography style={styles.LinkText}>Forget Password</Typography></Link>
+                                            </Grid>
+                                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                                                <Link href="/activateAccount/"><Typography style={styles.LinkText}>Activate Account</Typography></Link>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid item style={styles.CardSegments}>
+                                        <Typography style={styles.CardSegmentSeparator}></Typography>
+                                    </Grid>
+
+                                    <Grid item style={styles.CardSegments}>
+                                        <Typography variant='h4'>Don’t have an account?<Link href="/signup/"><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                    </Grid>
+                                </Grid>
+
+
                             </CardContent>
                         </Card>
                     </Grid>

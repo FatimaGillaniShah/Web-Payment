@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { Grid, Container, CardActions } from '@material-ui/core';
+import { Grid, Container, CardActions, FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
-import NavigationIcon from '@material-ui/icons/Navigation';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = {
@@ -34,9 +33,16 @@ const styles = {
     cardGrid: {
         margin: 'auto'
     },
+    SelectCardText:{
+        color:'#1961d7',
+        fontSize:'medium'
+    },
     AddToCartBtn: {
         margin: 'auto',
-        backgroundColor: '#5E8C2A'
+        backgroundColor: '#5E8C2A',
+        marginBottom:'10%',
+        width:'60%',
+        fontSize:'medium'        
     },
     extendedIcon: {
         marginRight: 'theme.spacing(1)',
@@ -45,8 +51,13 @@ const styles = {
         
       },
       textField: {
-        width: 200,
+        width: '90%'
       }
+      ,
+      CardContentSegments: {
+        padding: '20px'
+      },
+
 
 }
 
@@ -302,27 +313,31 @@ class AddToCart extends Component {
         }
         return (
 
-            <Container maxWidth="xl">
-                <Grid container>
+            <Container xl={12}>
+                <Grid container spacing={10}>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
-
-                        <Card elevation={16} style={styles.card}>
-
-                            <img src={serviceImage} alt="Img" />
-                            <CardContent style={styles.content}>
-
+                        <Card elevation={16} style={styles.card}>                            
+                            <CardContent>
+                                <Fragment>
+                                    <Grid>
+                                        <Grid item style={styles.CardContentSegments}>
+                                        <img src={serviceImage} alt="Img" />
+                                        </Grid>
+                                    </Grid>
+                                </Fragment>                            
                                 {servicePaymentTargets !== null && servicePaymentTargets !== undefined ? (
 
                                     servicePaymentTargetsArray.map(e =>
 
-                                        <div className="form-group" key={e}>
-                                            <label>Phone Number*</label>
-                                            <fieldset>
-                                                {this.inputForTarget(e)}
-                                            </fieldset>
-                                            <span className="field-validation-valid" data-valmsg-for="@target.Key" data-valmsg-replace="true"></span>
-                                        </div>
-
+                                        <Fragment>
+                                           
+                                            <Grid>
+                                                <Grid item key={e} style={styles.CardContentSegments}>
+                                                    {this.inputForTarget(e)}
+                                                </Grid>
+                                            </Grid>
+                                        <span className="field-validation-valid" data-valmsg-for="@target.Key" data-valmsg-replace="true"></span>
+                                        </Fragment>
                                     )
 
                                 ) : (
@@ -332,33 +347,59 @@ class AddToCart extends Component {
 
                                 {fixedAmounts.length > 0 ? (
                                     <Fragment>
+                                        <Grid>
+                                            <Grid item style={styles.CardContentSegments}>
                                         <input id="amount" name="amount" type="hidden" value="1.000" />
                                         <fieldset>
-                                            <label>Select Cards*</label>
+                                            <label style={styles.SelectCardText}>Select Card*</label>
                                             <div className="add-demo">
                                                 {
                                                     fixedAmounts.map(e =>
-                                                        <a id="focusmeplease" onClick={(data) => this.amount(e, data)} className="waves-effect waves-block fixedAmountChoice" key={e} value={e}>BHD {e}</a>
+                                                        <a onClick={(data) => this.amount(e, data)} key={e} value={e}>BHD {e}</a>
                                                     )
                                                 }
                                             </div>
                                         </fieldset>
+                                        </Grid>
+                                        <Grid item style={styles.CardContentSegments}>
 
-                                        <TextField id="quantity" label="Quantity" type="number" value={this.state.quantity} onChange={this.updateInput} />
-
+                                        <TextField 
+                                        id="quantity" 
+                                        label="Quantity" 
+                                        type="number" 
+                                        style={styles.textField}
+                                        value={this.state.quantity} 
+                                        onChange={this.updateInput} 
+                                        variant="outlined"
+                                        />
+                                        </Grid>
+                                        </Grid>
                                     </Fragment>
                                     
                                 ) : (
 
                                         <Fragment>
-                                            <TextField id="amount" ref="amount" label="Amount" type="number" value={this.state.amount} onChange={this.updateAmount} />
+                                            <Grid>
+                                                <Grid item style={styles.CardContentSegments}>
+                                            <TextField
+                                                label="Amount"
+                                                id="amount"
+                                                type="number"
+                                                ref="amount"
+                                                value={this.state.amount}
+                                                style={styles.textField}
+                                                onChange={this.updateAmount}                      
+                                                variant="outlined"
+                                            />
+                                            </Grid>
+                                            </Grid>
+                                            
                                         </Fragment>
 
                                     )}
                             </CardContent>
                             <CardActions>
-                                <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn} onClick={() => this.saveIntoCart(serviceObject)}>
-                                    <NavigationIcon style={styles.extendedIcon} />
+                                <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn} onClick={() => this.saveIntoCart(serviceObject)}>                                    
                                     Add To Cart
                                 </Fab>                                
                             </CardActions>
@@ -366,10 +407,10 @@ class AddToCart extends Component {
                     </Grid>
                 </Grid>
 
+                </Container>
 
 
-
-                {/* <div className="AddToCart">
+                /* <div className="AddToCart">
                 <div className="header-logo">
                     <img src={serviceImage} className="img-responsive" alt="ServiceImg" />
                 </div>
@@ -458,8 +499,8 @@ class AddToCart extends Component {
                     </div>
                     <div className="AddToCartFormFooter"></div>
                 </form>
-            </div> */}
-            </Container>
+            </div> */
+            
         );
 
     }

@@ -35,9 +35,7 @@ const styles = {
   LinkText: {
     color: 'white',
     cursor: 'pointer'
-  },
-  
-
+  }
 }
 
 
