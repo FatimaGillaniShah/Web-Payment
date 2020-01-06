@@ -7,7 +7,7 @@ import { getHistory } from "../store/actions/actions";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
-import { Container, Grid, Card, CardContent, Typography } from '@material-ui/core';
+import { Container, Grid, Card, CardContent, Typography, Hidden } from '@material-ui/core';
 
 const styles = {
   containerStart:{
@@ -130,11 +130,15 @@ class History extends Component {
                   <Grid Item item xs={1} sm={1} md={1} lg={1}>
                     <img alt="" src={e.iconUrl} style={styles.CardIcon} />
                   </Grid>
-                  <Grid Item item xs={8} sm={8} md={8} lg={8}>
+                  
+                  <Grid Item item xs={8} sm={8} md={8} lg={8} >
+                  <Hidden smDown='true'>
                     <Typography variant='h5' style={styles.CardName}>
                       {_.get(e, 'Service Name')}
                     </Typography>
+                    </Hidden>
                   </Grid>
+                  
                   <Grid Item item xs={2} sm={2} md={2} lg={2}>
                   <Typography style={styles.CardAmount}>BHD {e.Amount}</Typography>
                     <p>{(_.get(e, 'Date Time')).split(' ')[1]}</p>
