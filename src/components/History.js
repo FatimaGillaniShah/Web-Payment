@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import _ from 'lodash';
 import Pagination from './Pagination';
 import { paginate } from '../utils/Paginate';
@@ -6,6 +6,38 @@ import { validateLogin } from '../components/common/common';
 import { getHistory } from "../store/actions/actions";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
+import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
+import { Container, Grid, Card, CardContent, Typography } from '@material-ui/core';
+
+const styles = {
+  containerStart:{
+    marginTop:'30px'
+  },
+  cardArea:{
+    paddingBottom: 'unset'
+  },
+  cardHeader: {
+    backgroundColor:'#DDDDDD',
+    width:'100%',
+    textAlign:'Center',
+    padding:'10px 15px',
+    marginTop: '10px',
+    marginBottom: '10px'
+  },
+  CardName:{
+    textAlign: 'left',
+    paddingTop: '20px',
+    paddingLeft: '20px'
+  },
+  CardIcon:{
+    height:'50px'
+  },
+  CardAmount:{
+    color:'#0888e9',
+    fontSize: '18px',
+    fontWeight:'800'
+  }
+}
 
 class History extends Component {
   constructor(props) {
@@ -69,80 +101,62 @@ class History extends Component {
 
     return (
 
-      <div className="row">
 
-        <div
-          className={localServices.length === 0 ? "row loaderDiv show" : "row loaderDiv hide"} style={{ width: '100%' }}
-        >
-          <div className="col-md-12">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-12">
-            <div className="ph-item">
-              <div className="ph-col-12">
-                <div className="ph-picture"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-12">
+      <Container  style={styles.containerStart}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
+          {services.length === 0 ? <LoadingHtmlHistory /> : "" }
 
-        </div>
 
-        {services.map((e, i) =>
-          <div className="col-md-12" key={i}>
+          {services.map((e, i) =>
 
-            <div className={this.DateHeader(e) ? "history-title show" : "history-title hide"} style={{ marginTop: '30px' }}>
+            <Card>
+              <CardContent style={styles.cardArea}>
 
-              <p>{(_.get(e, 'Date Time')).split(' ')[0]}</p>
-
-            </div>
-
-            <div className="col-md-12">
-              <div className="history-wrap clearfix">
-                <div className="col-md-12 history-content clearfix">
-
-                  <img alt="" className="img-responsive" src={e.iconUrl} />
-
-                  <div className="left">
-                    <h4> </h4>
-                    <p>{_.get(e, 'Service Name')}</p>
-                  </div>
-
-                  <div className="right">
-
-                    <span>
-                      BHD {e.Amount}
-                    </span>
-
+              {this.DateHeader(e) ? (
+                <Grid style={styles.cardHeader}>
+                <Grid item>
+                  <Typography variant='h4'>
+                  {(_.get(e, 'Date Time')).split(' ')[0]}
+                  </Typography>
+                </Grid>
+              </Grid>
+              ) : (
+                <Fragment></Fragment>
+              )
+              }
+                
+                <Grid container spacing={3}>
+                  <Grid Item item xs={1} sm={1} md={1} lg={1}>
+                    <img alt="" src={e.iconUrl} style={styles.CardIcon} />
+                  </Grid>
+                  <Grid Item item xs={8} sm={8} md={8} lg={8}>
+                    <Typography variant='h5' style={styles.CardName}>
+                      {_.get(e, 'Service Name')}
+                    </Typography>
+                  </Grid>
+                  <Grid Item item xs={2} sm={2} md={2} lg={2}>
+                  <Typography style={styles.CardAmount}>BHD {e.Amount}</Typography>
                     <p>{(_.get(e, 'Date Time')).split(' ')[1]}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
 
-          </div>
-        )}
-        <div style={{ marginLeft: "50px" }} >
+          )}
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+        
           <Pagination
             itemsCount={count}
             pageSize={this.state.pageSize}
             onPageChange={this.handlePageChange}
             currentPage={this.state.currentPage}
           />
-        </div>
-      </div>
+        
+        </Grid>
+      </Container>
 
     );
   }

@@ -9,28 +9,28 @@ const styles = {
   }
 }
 
-class LoadingHTML extends Component {
+class LoadingHTMLHistory extends Component {
 
     render() {
         return (
 
           <Fragment>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={0}>
+            <Grid item xs={12} sm={12} md={12} lg={12} key={0}>
               <Card elevation={16} style={styles.card}>                           
                 <Skeleton variant="rect" height={210} />                
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={1}>
+            <Grid item xs={12} sm={12} md={12} lg={12} key={0}>
               <Card elevation={16} style={styles.card}>                           
                 <Skeleton variant="rect" height={210} />                
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12} key={0}>
               <Card elevation={16} style={styles.card}>                           
                 <Skeleton variant="rect" height={210} />                
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12} key={0}>
               <Card elevation={16} style={styles.card}>                           
                 <Skeleton variant="rect" height={210} />                
               </Card>
@@ -41,4 +41,4 @@ class LoadingHTML extends Component {
     }
 }
 
-export default LoadingHTML;
+export default LoadingHTMLHistory;

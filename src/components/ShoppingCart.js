@@ -288,7 +288,7 @@ class ShoppingCart extends Component {
         }
         return (
 
-            <Container maxWidth="false" style={{ marginTop: '60px' }}>
+            <Container style={{ marginTop: '30px' }}>
 
                 <Grid container spacing={3}>
 

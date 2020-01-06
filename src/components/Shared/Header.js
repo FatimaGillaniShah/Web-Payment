@@ -93,8 +93,7 @@ const useStyles = makeStyles(theme => ({
     },
     Cart: {
         fontSize: '30px',
-        backgroundColor: '#0061ae',
-        color: 'white',
+        color: '#0061ae',
         marginTop: '12px'
     }
 
