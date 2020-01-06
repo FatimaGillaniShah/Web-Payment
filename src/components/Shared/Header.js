@@ -5,7 +5,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PublicIcon from '@material-ui/icons/Public';
 import { MenuItem, MenuList, Button, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { validateLogin } from '../common/common';
 import { LogoutRequestInfo } from '../../api/ApiCalls';
 import { withRouter } from 'react-router-dom';
@@ -25,10 +25,10 @@ const useStyles = makeStyles(theme => ({
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
-          width: drawerWidth,
-          flexShrink: 0,
+            width: drawerWidth,
+            flexShrink: 0,
         },
-      },
+    },
     margin: {
         margin: theme.spacing(1),
 
@@ -56,15 +56,15 @@ const useStyles = makeStyles(theme => ({
     NavMenuButtons:
     {
         float: 'right',
-        marginTop:'12px'
+        marginTop: '12px'
 
     },
     text: {
         color: '#0061ae',
         fontSize: '18px',
         fontWeight: 'bold',
-      
-       
+
+
     },
     AppDrawerHeading: {
         color: 'white',
@@ -91,7 +91,7 @@ const useStyles = makeStyles(theme => ({
         margin: '5px',
         fontSize: "large"
     },
-    Cart:{
+    Cart: {
         fontSize: '30px',
         backgroundColor: '#0061ae',
         color: 'white',
@@ -108,7 +108,7 @@ function Header(props) {
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
-      };
+    };
 
     const handleDrawerClose = () => {
         setMobileOpen(false);
@@ -139,54 +139,54 @@ function Header(props) {
 
     const drawer = (
         <Hidden only="sm" >
-            
-           
-           {props.isLoggedIn ? (
-               <MenuList>
-               <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
-                <MenuItem onClick={handleDrawerClose} component={Link} to="/">
 
-                    <IconButton color="black"><HomeIcon /></IconButton>
-                    <p style={{ color: "black" }}>Home</p>
-                </MenuItem>
-               <MenuItem onClick={handleDrawerClose} component={Link} to="/Account">
-                    <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
-                   <p style={{ color: "black" }}>ACCOUNT</p>
-               </MenuItem>
-               <MenuItem onClick={handleDrawerClose} component={Link} to="/History">
-                   <IconButton color="black">
 
-                       <PublicIcon />
-
-                   </IconButton>
-                   <p style={{ color: "black" }}>HISTORY</p>
-               </MenuItem>
-
-               <MenuItem onClick={handleDrawerClose} href="/https://sadadbahrain.com/app/help.html">
-                   <IconButton color="black"><HelpIcon /></IconButton>
-                   <p  style={{ color: "black" }}>HELP</p>
-               </MenuItem>
-
-               <MenuItem onClick={handleDrawerClose} component={Link} to="/">
-               <IconButton color="black"><LockCloseIcon /></IconButton>
-                   <p style={{ color: "black" }}>Logout</p>
-               </MenuItem>
-
-           </MenuList>
-           ) : (
-
+            {props.isLoggedIn ? (
                 <MenuList>
-                <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>                    
-                    <MenuItem component={Link} to="/login">
-                   <p style={{ color: "black" }}>Login</p>
-               </MenuItem>                                              
-                    <MenuItem component={Link} to="/signup">
-                   <p style={{ color: "black" }}>Sign Up</p>
-               </MenuItem>
-            </MenuList>
+                    <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
+                    <MenuItem onClick={handleDrawerClose} component={Link} to="/">
 
-           )}
-            
+                        <IconButton color="black"><HomeIcon /></IconButton>
+                        <p style={{ color: "black" }}>Home</p>
+                    </MenuItem>
+                    <MenuItem onClick={handleDrawerClose} component={Link} to="/Account">
+                        <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
+                        <p style={{ color: "black" }}>ACCOUNT</p>
+                    </MenuItem>
+                    <MenuItem onClick={handleDrawerClose} component={Link} to="/History">
+                        <IconButton color="black">
+
+                            <PublicIcon />
+
+                        </IconButton>
+                        <p style={{ color: "black" }}>HISTORY</p>
+                    </MenuItem>
+
+                    <MenuItem onClick={handleDrawerClose} href="/https://sadadbahrain.com/app/help.html">
+                        <IconButton color="black"><HelpIcon /></IconButton>
+                        <p style={{ color: "black" }}>HELP</p>
+                    </MenuItem>
+
+                    <MenuItem onClick={handleDrawerClose} component={Link} to="/">
+                        <IconButton color="black"><LockCloseIcon /></IconButton>
+                        <p style={{ color: "black" }}>Logout</p>
+                    </MenuItem>
+
+                </MenuList>
+            ) : (
+
+                    <MenuList>
+                        <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
+                        <MenuItem onClick={handleDrawerClose} component={Link} to="/login">
+                            <p style={{ color: "black" }}>Login</p>
+                        </MenuItem>
+                        <MenuItem onClick={handleDrawerClose} component={Link} to="/signup">
+                            <p style={{ color: "black" }}>Sign Up</p>
+                        </MenuItem>
+                    </MenuList>
+
+                )}
+
         </Hidden>
     );
 
@@ -235,7 +235,7 @@ function Header(props) {
 
     return (
         <div >
-            <AppBar style={{ position: 'unset', background: '#0d61af', height:'80px'}}>
+            <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -248,7 +248,7 @@ function Header(props) {
                     </IconButton>
 
                     <Link to={{ pathname: "/" }}>
-                        <img style={{marginTop: '12px'}}src={require('../../content/img/logo.png')} alt="sadad" />
+                        <img style={{ marginTop: '12px' }} src={require('../../content/img/logo.png')} alt="sadad" />
                     </Link>
 
                     < Hidden only="xs" >
@@ -274,12 +274,12 @@ function Header(props) {
             < Hidden only="xs" >
                 <div className={props.isLoggedIn ? 'show' : 'hide'}>
 
-                    <AppBar style={{ position: 'unset', background: 'white',height:'70px' }}>
+                    <AppBar style={{ position: 'unset', background: 'white', height: '70px' }}>
 
 
                         <Toolbar>
-                            <div style={{padding: '0px 43px'}}>
-                            <WidgetsIcon onClick={NavigateToHome} style={{color:'#1cc1f7',fontSize:'30px'}}></WidgetsIcon>
+                            <div style={{ padding: '0px 43px' }}>
+                                <WidgetsIcon onClick={NavigateToHome} style={{ color: '#1cc1f7', fontSize: '30px' }}></WidgetsIcon>
                             </div>
                             <Typography className={classes.text}>
                                 ONLINE EXPRESS PAYMENT
@@ -288,13 +288,13 @@ function Header(props) {
                             <div style={{ flexGrow: 1 }}>
                                 <div className={classes.ListMenu}>
 
-                                    <Typography   onClick={NavigateToAccount} className={classes.ListName} >
+                                    <Typography onClick={NavigateToAccount} className={classes.ListName} >
                                         <AccountCircle className={classes.IconStyling} />
                                         ACCOUNT
                                      </Typography >
 
 
-                                    <Typography  onClick={NavigateToHistory} className={classes.ListName}>
+                                    <Typography onClick={NavigateToHistory} className={classes.ListName}>
                                         <PublicIcon className={classes.IconStyling} />
                                         HISTORY
                                      </Typography>
@@ -304,7 +304,7 @@ function Header(props) {
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
                                   </Typography>
-                                  <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
+                                    <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
 
                                 </div>
                             </div>
@@ -329,9 +329,9 @@ function Header(props) {
                             keepMounted: true,
                         }}
                     >
-                        
+
                         {drawer}
-                      
+
                     </Drawer>
 
                 </Hidden>

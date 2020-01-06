@@ -203,8 +203,7 @@ class Login extends Component {
                                     <Grid item style={styles.CardSegments}>
                                         <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>LOGIN</Typography>
                                     </Grid>
-
-                                    
+    
                                     <Grid item style={styles.CardSegments}>
                                     {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
                                         <TextField
