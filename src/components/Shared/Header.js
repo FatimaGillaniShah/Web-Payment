@@ -203,7 +203,7 @@ function Header(props) {
     }
 
     const NavigateToAccount = () => {
-        props.history.push('/activateAccount');
+        props.history.push('/Account');
     }
 
     const NavigateToSignUp = () => {
