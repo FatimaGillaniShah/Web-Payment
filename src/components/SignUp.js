@@ -3,7 +3,56 @@ import '../content/css/signup.css';
 import { RegisterRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import Recaptcha from 'react-recaptcha';
+import { CardContent, FormControl } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import { Grid, Container, Typography,FormControlLabel } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Link from '@material-ui/core/Link';
+import Checkbox from '@material-ui/core/Checkbox';
 
+const styles = {
+    mainGrid: {
+        margin:'auto',
+        marginTop:'30px',
+      },
+      Card:{
+          width:'85%',
+          margin:'auto'
+      },
+      CardSegments: {
+        padding:'10px'
+      },
+      CardSegmentSeparator: {
+        borderBottom:'1px solid #ddd'
+      },
+      CardFields:{
+          width:'90%'
+      },
+      LoginBtn: {
+          margin: 'auto',
+          backgroundColor: '#5E8C2A',
+          width:'90%',
+          fontSize:'medium'        
+      },
+      AgreeTerms:{
+        textAlign: 'left',
+        padding: '0px 34px',
+        /* color: blue; */
+        color: '#1961d7'
+      },
+      LinkText:{
+        color:'#1961d7',
+        fontSize: 'medium'
+      },
+      Recapcha:{
+        padding: '8px 23px',
+        backgroundColor:"red"
+      }
+
+      
+}
 const initialState = {
     error: '',
     phoneError: '',
@@ -46,6 +95,8 @@ class SignUp extends Component {
         }
     }
     validate(msisdn, email, password, RepeatPassword) {
+        this.setState(initialState);
+
 
         if (msisdn === "" || msisdn === null || msisdn === undefined) {
             this.setState({
@@ -100,7 +151,6 @@ class SignUp extends Component {
     }
 
     signUp() {
-
         let msisdn = this.state.msisdn;
         let password = this.state.password;
         let email = this.state.email;
@@ -176,6 +226,7 @@ class SignUp extends Component {
         }
     }
     handleChange(event) {
+      
         if (event.target.name === 'phone') {
             this.setState({ msisdn: event.target.value });
         }
@@ -191,104 +242,108 @@ class SignUp extends Component {
     }
     render() {
         return (
-            <div className="SLogin">
-                <div className="header-content1">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 text-center">
-                                <div className="login-wrap">
-                                    <div className="header">
-                                        <h3>SIGN UP</h3>
-                                    </div>
-                                    <div className="content-area">
-                                        <form >
-                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                            <div className="login-form">
-                                                <div className="form-group">
-                                                    <input className="form-control1 input-text"
-                                                        name='phone'
-                                                        placeholder="30000004"
-                                                        id="phone"
-                                                        value={this.state.msisdn}
-                                                        onChange={this.handleChange}
-                                                    />
-                                                    <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
-                                                    <i id="numberLoading" className={this.state.loading ? "loading" : ""}></i>
-                                                </div>
-                                                {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+            <Container xl={12}>
+            <Grid container spacing={10}>
+                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
+                    <Card elevation={16} style={styles.Card}>                           
+                        <CardContent>
+                            <Grid>
+                                <Grid item style={styles.CardSegments}>
+                                    <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>SIGN UP</Typography>
+                                </Grid>
+                                <Grid item style={styles.CardSegments}>
+                                {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                 
+                                        <TextField
+                                            label="Phone Number"
+                                            variant="outlined"
+                                            type="text"
+                                            InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
+                                            name='phone'
+                                            value={this.state.msisdn}
+                                            onChange={this.handleChange}
+                                            style={styles.CardFields}
+                                        />
+                                        {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                    </Grid>
 
-                                                <div className="form-group">
+                                <Grid item style={styles.CardSegments}>
+                               
+                                    <TextField
+                                        label="Email"
+                                        variant="outlined"
+                                        type="text"
+                                        name='email'
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                        style={styles.CardFields}
+                                    />
+                                    {this.state.emailError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.emailError}</div> : null}
+                                </Grid>
+                                <Grid item style={styles.CardSegments}>
+                                        <TextField
+                                            label="Password"
+                                            variant="outlined"
+                                            type="password"
+                                            name='password'
+                                            value={this.state.password}
+                                            onChange={this.handleChange} 
+                                            style={styles.CardFields}
+                                        />
+                                    {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
+                                    </Grid>
+                                    <Grid item style={styles.CardSegments}>
+                               
+                                    <TextField
+                                        variant="outlined"
+                                        label="Repeat Password"
+                                        name='Repeat'
+                                        type="password"
+                                         value={this.state.RepeatPassword}
+                                        onChange={this.handleChange} 
+                                        style={styles.CardFields}
+                                       
+                                       
+                                        />
+                               {this.state.RepeatPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.RepeatPasswordError}</div> : null}
+                           </Grid>
+                                   
+                                  
+                                    <Grid item style={styles.AgreeTerms}>
+                                    <FormControlLabel style={{fontSize:'15px'}}
+                                            control={
+                                            <Checkbox
+                                                value="checkedB"
+                                                color="primary"
+                                            />
+                                            }
+                                            label="I agree to the terms of use"
+                                        />
+                                    </Grid>
+                                    
+                                    <Grid item style={styles.AgreeTerms}>
 
-                                                </div>
-                                                <div className="form-group">
-                                                    <input className="form-control1"
-                                                        name="email"
-                                                        type="email"
-                                                        required="required"
-                                                        placeholder="Email"
-                                                        value={this.state.email}
-                                                        onChange={this.handleChange}
-                                                    /><i className="email"></i>
-
-                                                </div>
-                                                {this.state.emailError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.emailError}</div> : null}
-
-                                                <div className="form-group">
-                                                    <fieldset>
-                                                        <input className="form-control1"
-
-                                                            name="password"
-                                                            placeholder="Password"
-                                                            type="password"
-                                                            value={this.state.password}
-                                                            onChange={this.handleChange}
-                                                        /><i className="password"></i>
-                                                    </fieldset>
-                                                </div>
-                                                {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
-
-                                                <div className="form-group">
-                                                    <fieldset>
-                                                        <input className="form-control1"
-                                                            name='Repeat'
-                                                            placeholder="Repeat Password"
-                                                            type="password"
-                                                            value={this.state.RepeatPassword}
-                                                            onChange={this.handleChange}
-                                                        /><i className="password"></i>
-                                                    </fieldset>
-                                                    {this.state.RepeatPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.RepeatPasswordError}</div> : null}
-
-                                                </div>
-                                                <div className="form-group clearfix">
-                                                    <span className="pull-left">
-                                                        <input className="checkbox" id="termsAcceptance" type="checkbox" value="true" />
-                                                        <input type="hidden" value="false" /> <a href="https://sadadbahrain.com/app/tos.html" >I agree to the terms of use</a>
-                                                    </span>
-                                                </div>
-
-                                                <Recaptcha
+                                          <Recaptcha
                                                     sitekey="6LeSJ8gUAAAAAOxhKgqZWPbksYIlYCXzi2Nbqn1Q"
                                                     render="explicit"
                                                     onloadCallback={this.captchaLoaded}
                                                     verifyCallback={this.verifyCallback}
-                                                />
+                                          /> 
+                                    </Grid>
 
-                                                <button className="green-btn btn-block btn-lg" type="button" onClick={this.signUp}>SIGN UP</button>
-
-                                            </div>
-                                        </form>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                <Grid item style={styles.CardSegments}>
+                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.signUp}>SIGN UP</Fab>
+                                </Grid>
+                        </Grid>
 
 
-            </div>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
+
+           
         );
     }
 }

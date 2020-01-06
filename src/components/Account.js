@@ -1,9 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component , Fragment} from 'react';
 import {AccountRequestInfo,SubmitRequestInfo} from '../api/ApiCalls';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
+import { CardContent, FormControl } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import { Grid, Container, Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Link from '@material-ui/core/Link';
 
-
+const styles = {
+    mainGrid: {
+        margin:'auto',
+        marginTop:'30px',
+      },
+      Card:{
+          width:'85%',
+          margin:'auto'
+      },
+      CardSegments: {
+        padding:'10px'
+      },
+      CardSegmentSeparator: {
+        borderBottom:'1px solid #ddd'
+      },
+      CardFields:{
+          width:'90%'
+      },
+      LoginBtn: {
+          margin: 'auto',
+          backgroundColor: '#5E8C2A',
+          width:'90%',
+          fontSize:'medium'        
+      },
+      LinkText:{
+        color:'#1961d7',
+        fontSize: 'medium'
+      }
+}
 const initialState = {
     message: '',
     emailError: '',
@@ -55,6 +90,7 @@ class Account extends Component {
     }
 
     validate(email, CPR) {
+        this.setState(initialState);
 
         if (email === "" || email === null || email === undefined) {
             this.setState({
@@ -120,6 +156,7 @@ class Account extends Component {
         }
     }
     handleChange(event) {
+       
 
         if (event.target.name === 'email') {
             this.setState({ email: event.target.value });
@@ -129,65 +166,57 @@ class Account extends Component {
         }
     }
     render() {
+  
         return (
+            <Container xl={12}>
+            <Grid container spacing={10}>
+                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
+                    <Card elevation={16} style={styles.Card}>                           
+                        <CardContent>
+                            <Grid>
+                                <Grid item style={styles.CardSegments}>
+                                    <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>ACCOUNT</Typography>
+                                </Grid>
 
-            <div className="SLogin">
-               <div className="header-content1">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 text-center">
-                                <div className="login-wrap">
-                                    <div className="header">
-                                        <h3>ACCOUNT</h3>
-                                    </div>
+                                <Grid item style={styles.CardSegments}>
+                                {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                    <TextField
+                                        label="Email"
+                                        variant="outlined"
+                                        type="text"
+                                        name='email'
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                        style={styles.CardFields}
+                                    />
+                                    {this.state.emailError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.emailError}</div> : null}
+                                </Grid>
 
-                                    <div className="content-area">
+                                <Grid item style={styles.CardSegments}>
+                                    <TextField
+                                        label="CPR"
+                                        variant="outlined"
+                                       
+                                        name='cpr'
+                                        value={this.state.CPR}
+                                        onChange={this.handleChange} 
+                                        style={styles.CardFields}
+                                    />
+                                {this.state.CPRError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.CPRError}</div> : null}
+                                </Grid>
 
-                                        <form >
+                                <Grid item style={styles.CardSegments}>
+                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.saveAccount}>SAVE</Fab>
+                                </Grid>
+                        </Grid>
 
-                                            {this.state.message ? <div className='alert alert-success' style={{ fontSize: '15px' }}>{this.state.message}</div> : null}
-                                            <div className="login-form">
-                                                <div className="form-group">
-                                                    <input
-                                                        className="form-control1"
-                                                        name='email'
-                                                        placeholder="Email"
-                                                        value={this.state.email}
-                                                        onChange={this.handleChange}
 
-                                                    />
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
 
-                                                    <i id="numberLoading" className={this.state.loading ? "loading" : ""}></i>
-                                                </div>
-                                                {this.state.emailError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.emailError}</div> : null}
-
-                                                <div className="form-group">
-
-                                                    <input
-
-                                                        className="form-control1"
-                                                        name='cpr'
-                                                        placeholder="CPR"
-                                                        value={this.state.CPR}
-                                                        onChange={this.handleChange}
-
-                                                    />
-                                                </div>
-                                                {this.state.CPRError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.CPRError}</div> : null}
-
-                                                <button className="green-btn btn-block btn-lg" type="button" onClick={this.saveAccount}>SAVE</button>
-
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         );
     }
 }

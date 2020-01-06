@@ -67,12 +67,13 @@ class AddToCart extends Component {
         super(props)
         this.state = {
             services: [],
-            amount: 0,
+            amount: 1,
             Amount: null,
             serviceObject: [],
             quantity: 1,
             error: "",
-            PriceError: false
+            PriceError: false,
+           
         }
         this.updateInput = this.updateInput.bind(this);
         this.updateAmount = this.updateAmount.bind(this);
@@ -98,8 +99,9 @@ class AddToCart extends Component {
     }
 
     saveIntoCart(serviceObject) {
+
      
-        if(this.state.amount === 0){
+        if(this.state.amount === 1){
             this.setState({
                 error: "Please select above amount"
             })
@@ -263,9 +265,7 @@ class AddToCart extends Component {
           }}
           variant="outlined"
         />)
-
-
-                // inputField.push(<input key={targetName} className={_classValues} data-val-length-min={min} data-val-length-max={max} data-val="true" type={targetType} id={targetName} name={targetName} placeholder="text" />);
+  // inputField.push(<input key={targetName} className={_classValues} data-val-length-min={min} data-val-length-max={max} data-val="true" type={targetType} id={targetName} name={targetName} placeholder="text" />);
             }
             else {
                 //inputField.push(<input key={targetName} className={_classValues} data-val="true" type={targetType} id={targetName} name={targetName} placeholder="text" />);
