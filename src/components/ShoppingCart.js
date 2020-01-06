@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import { validateLogin } from '../components/common/common';
 import { Pay, RequestInfo } from '../api/ApiCalls';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
-import { Fab, Button, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
+import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 
 const styles = {
@@ -20,8 +20,6 @@ const styles = {
         fontSize: '15px',
         display: 'flex',
         justifyContent: 'start'
-
-
     },
 
     Image: {
@@ -34,7 +32,8 @@ const styles = {
 
     CardSegments: {
         paddingTop: '45px',
-        color: "#ff6060"
+        color: "#ff6060",
+        cursor: 'pointer'
 
     },
     CardSegmentsRightAlign: {
@@ -45,8 +44,7 @@ const styles = {
     Heading: {
         color: '#0888e9',
         fontSize: '18px',
-        fontWeight: "900",
-
+        fontWeight: "900"
 
     },
     Total: {
@@ -55,8 +53,6 @@ const styles = {
         fontWeight: "900",
         textAlign: 'right',
         padding: '30px 0px'
-
-
     },
 
     footer: {
@@ -86,7 +82,40 @@ const styles = {
         height: '90px',
         marginTop: '25px'
 
-    }
+    },
+
+    card: {
+        marginTop: '30px'
+    },
+
+    cardGrid: {
+        margin: 'auto'
+    },
+    EmptyCartHeading: {
+        color: '#6a4098',
+        fontSize: '21px',
+        fontWeight: '600',
+        marginBottom: '20px'
+    },
+    CartSubHeading: {
+        fontSize: '18px',
+        marginBottom: '6%'
+    },
+    TakeMeHomeBtn: {
+        margin: 'auto',
+        backgroundColor: '#5E8C2A',
+        marginBottom: '5%',
+        width: '60%',
+        fontSize: 'medium',
+        fontWeight: 'bold'
+    },
+
+    CardContentSegments: {
+        padding: '20px',
+
+
+    },
+
 }
 class ShoppingCart extends Component {
 
@@ -289,82 +318,116 @@ class ShoppingCart extends Component {
         return (
 
             <Container style={{ marginTop: '30px' }}>
+                {this.state.cartItemCount ? (
 
-                <Grid container spacing={3}>
+                    <Grid container spacing={3}>
 
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Paper style={styles.Header}>
-                                Shopping Cart
+                            <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <Paper style={styles.Header}>
+                                    Shopping Cart
                                 </Paper>
-                        </Grid>
-                        {this.state.Items.map((e, i) =>
-                            <Card style={{ borderBottom: '2px solid #dddddd' }}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={2} sm={2} md={2} lg={2}>
-                                        <img alt="img" src={e.iconUrl} style={styles.Image} />
+                            </Grid>
+                            {this.state.Items.map((e, i) =>
+                                <Card style={{ borderBottom: '2px solid #dddddd' }}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={2} sm={2} md={2} lg={2}>
+                                            <img alt="img" src={e.iconUrl} style={styles.Image} />
+                                        </Grid>
+                                        <Grid item xs={7} sm={7} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
+                                            <Typography variant='h4'>{e.amount}</Typography>
+                                            <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{e.name}</Typography>
+                                        </Grid>
+                                        <Grid item xs={2} sm={2} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
+                                            <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
+                                        </Grid>
+                                        <Grid item xs={1} sm={1} md={1} lg={1} style={styles.CardSegments}>
+                                            <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={7} sm={7} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
-                                        <Typography variant='h4'>{e.amount}</Typography>
-                                        <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{e.name}</Typography>
+                                </Card>
+                            )}
+                            <Grid style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
+
+                                <Grid container >
+                                    <Grid item xs={6} sm={6} md={6} lg={6} >
                                     </Grid>
-                                    <Grid item xs={2} sm={2} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
-                                        <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
+
+                                    <Grid item xs={5} sm={5} md={5} lg={5} >
+
+                                        <Typography style={styles.Total}>
+                                            BHD Total {sum}
+
+                                        </Typography>
+                                    </Grid >
+                                    <Grid item xs={1} sm={1} md={1} lg={1} >
+                                        <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
                                     </Grid>
-                                    <Grid item xs={1} sm={1} md={1} lg={1} style={styles.CardSegments}>
-                                        <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
-                                    </Grid>
+
                                 </Grid>
-                            </Card>
-                        )}
-                        <Grid style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
 
-                            <Grid container >
-                                <Grid item xs={6} sm={6} md={6} lg={6} >
+
+                            </Grid>
+
+                            <Grid style={styles.buttonFooter} item xs={12} sm={12} md={12} lg={12} >
+
+                                <Grid container >
+                                    <Grid item xs={8} sm={8} md={8} lg={8} />
+
+
+                                    <Grid style={{ textAlign: 'right' }} item xs={2} sm={2} md={2} lg={2} >
+
+                                        <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                    </Grid >
+                                    <Grid item xs={2} sm={2} md={2} lg={2} >
+                                        <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
+
+                                    </Grid>
+
                                 </Grid>
 
-                                <Grid item xs={5} sm={5} md={5} lg={5} >
-
-                                    <Typography style={styles.Total}>
-                                        BHD Total {sum}
-
-                                    </Typography>
-                                </Grid >
-                                <Grid item xs={1} sm={1} md={1} lg={1} >
-                                    <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
-                                </Grid>
 
                             </Grid>
 
 
                         </Grid>
-
-                        <Grid style={styles.buttonFooter} item xs={12} sm={12} md={12} lg={12} >
-
-                            <Grid container >
-                                <Grid item xs={8} sm={8} md={8} lg={8} />
-
-
-                                <Grid style={{ textAlign: 'right' }} item xs={2} sm={2} md={2} lg={2} >
-
-                                    <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
-                                </Grid >
-                                <Grid item xs={2} sm={2} md={2} lg={2} >
-                                    <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
-
-                                </Grid>
-
-                            </Grid>
-
-
-                        </Grid>
-
-
+                        <form action={this.state.actionUrl} method="post" id="benefitForm">
+                            <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
+                        </form>
                     </Grid>
-                </Grid>
-                <form action={this.state.actionUrl} method="post" id="benefitForm">
-                    <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
-                </form>
+
+                ) : (
+
+                        <Grid container spacing={10}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
+                                <Card elevation={16} style={styles.card}>
+                                    <CardContent>
+                                        <Fragment>
+                                            <Grid>
+                                                <Grid item style={styles.CardContentSegments}>
+                                                    <Typography style={styles.EmptyCartHeading}>OOPS! NOTHING FOUND IN THE CART!</Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Fragment>
+                                        <Fragment>
+
+                                            <Grid>
+                                                <Grid item style={styles.CardContentSegments}>
+                                                    <img style={{ marginBottom: '3%' }} src={require('../content/img/empty-cart.png')} alt="sadad" />
+                                                </Grid>
+                                            </Grid>
+                                            <Typography style={styles.CartSubHeading}>Your cart is empty. Please add few items to pay.</Typography>
+                                            <Fab variant="extended" color="primary" aria-label="add" onClick={() => this.NavigateToHome()} style={styles.TakeMeHomeBtn} >
+                                                TAKE ME HOME
+                                            </Fab>
+
+                                        </Fragment>
+
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    )}
             </Container>
 
         )

@@ -70,8 +70,8 @@ class AddToCart extends Component {
             amount: 0,
             Amount: null,
             serviceObject: [],
-            quantity: 0,
-            error: "Input fields cannot be empty",
+            quantity: 1,
+            error: "",
             PriceError: false
         }
         this.updateInput = this.updateInput.bind(this);
@@ -98,6 +98,13 @@ class AddToCart extends Component {
     }
 
     saveIntoCart(serviceObject) {
+     
+        if(this.state.amount === 0){
+            this.setState({
+                error: "Please select above amount"
+            })
+            return false;
+        }
 
         let OldServices = localStorage.getItem('Services');
         this.setState({ serviceObject: serviceObject });
@@ -361,7 +368,9 @@ class AddToCart extends Component {
                                             </div>
                                         </fieldset>
                                         </Grid>
+                                        {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
                                         <Grid item style={styles.CardContentSegments}>
+
 
                                         <TextField 
                                         id="quantity" 

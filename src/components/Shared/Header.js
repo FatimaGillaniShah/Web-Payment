@@ -83,7 +83,8 @@ const useStyles = makeStyles(theme => ({
     },
     ListName: {
         fontSize: '15px',
-        margin: '13px'
+        margin: '13px',
+        cursor:'pointer'
 
     },
     IconStyling: {
@@ -93,8 +94,7 @@ const useStyles = makeStyles(theme => ({
     },
     Cart: {
         fontSize: '30px',
-        color: '#0061ae',
-        marginTop: '12px'
+        color: '#0061ae'
     }
 
 }));
@@ -131,7 +131,7 @@ function Header(props) {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
-        props.history.push('/login');
+        props.history.push('/');
         props.getHeaderInfo(0, false);
 
     }
@@ -278,7 +278,7 @@ function Header(props) {
 
                         <Toolbar>
                             <div style={{ padding: '0px 43px' }}>
-                                <WidgetsIcon onClick={NavigateToHome} style={{ color: '#1cc1f7', fontSize: '30px' }}></WidgetsIcon>
+                                <WidgetsIcon onClick={NavigateToHome} style={{ color: '#1cc1f7', fontSize: '30px', cursor:'pointer' }}></WidgetsIcon>
                             </div>
                             <Typography className={classes.text}>
                                 ONLINE EXPRESS PAYMENT
@@ -303,7 +303,9 @@ function Header(props) {
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
                                   </Typography>
-                                    <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
+                                  <Typography className={classes.ListName} >
+                                      <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
+                                  </Typography>
 
                                 </div>
                             </div>
