@@ -156,8 +156,6 @@ class ShoppingCart extends Component {
 
     }
     RemoveItem(id) {
-
-
         let services = this.state.Items;
 
         let index = services.findIndex(x => x.MyId === id);
@@ -165,8 +163,6 @@ class ShoppingCart extends Component {
         this.setState({
             Items: services
         });
-
-
 
         let newItemCount = this.state.cartItemCount - 1;
 
@@ -305,8 +301,7 @@ class ShoppingCart extends Component {
     render() {
 
         var sum = 0;
-
-        if (this.state.Items !== null && this.state.Items !== undefined && this.state.Items !== 0) {
+        if (this.state.Items !== [] && this.state.Items !== undefined && this.state.Items !== 0) {
             this.state.Items.forEach((e) => {
                 sum = sum + parseFloat(e.amount);
             });

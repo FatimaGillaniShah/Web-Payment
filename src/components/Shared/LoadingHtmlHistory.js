@@ -9,10 +9,8 @@ const styles = {
   }
 }
 
-class LoadingHTMLHistory extends Component {
-
-    render() {
-        return (
+function LoadingHTMLHistory() {
+  return (
 
           <Fragment>
             <Grid item xs={12} sm={12} md={12} lg={12} key={0}>
@@ -39,6 +37,6 @@ class LoadingHTMLHistory extends Component {
 
         );
     }
-}
+
 
 export default LoadingHTMLHistory;

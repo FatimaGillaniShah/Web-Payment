@@ -29,7 +29,8 @@ const styles = {
         borderBottom:'1px solid #ddd'
       },
       CardFields:{
-          width:'90%'
+          width:'90%',
+          fontSize:'30px'
       },
       LoginBtn: {
           margin: 'auto',
@@ -41,7 +42,8 @@ const styles = {
         color:'#1961d7',
         fontSize: 'medium',
         cursor:'pointer'
-      }
+      },
+      
 }
 
 const initialState = {
@@ -67,7 +69,7 @@ class Login extends Component {
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
-    }
+    } 
     validate(msisdn, password) {
       
         this.setState(initialState);
@@ -217,7 +219,7 @@ class Login extends Component {
     
                                     <Grid item style={styles.CardSegments}>
                                     {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                        <TextField
+                                        <TextField 
                                             label="Phone Number"
                                             variant="outlined"
                                             type="text"
@@ -267,8 +269,6 @@ class Login extends Component {
                                         <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
                                     </Grid>
                                 </Grid>
-
-
                             </CardContent>
                         </Card>
                     </Grid>
