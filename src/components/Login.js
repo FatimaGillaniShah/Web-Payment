@@ -39,7 +39,8 @@ const styles = {
       },
       LinkText:{
         color:'#1961d7',
-        fontSize: 'medium'
+        fontSize: 'medium',
+        cursor:'pointer'
       }
 }
 
@@ -90,6 +91,16 @@ class Login extends Component {
             return false;
         }
         return true;
+    }
+    NavigateToForget = () => {
+        this.props.history.push('/forgetPassword');
+    }
+    NavigateToActivate = () => {
+        this.props.history.push('/activateAccount');
+    }
+    NavigateToSignup = () => {
+        this.props.history.push('/signup');
+
     }
 
     login() {
@@ -240,10 +251,10 @@ class Login extends Component {
 
                                         <Grid container>
                                             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
-                                                <Link href="/forgetPassword/"><Typography style={styles.LinkText}>Forget Password</Typography></Link>
+                                                <Link onClick={this.NavigateToForget}><Typography style={styles.LinkText}>Forget Password</Typography></Link>
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
-                                                <Link href="/activateAccount/"><Typography style={styles.LinkText}>Activate Account</Typography></Link>
+                                                <Link onClick={this.NavigateToActivate}><Typography style={styles.LinkText}>Activate Account</Typography></Link>
                                             </Grid>
                                         </Grid>
 
@@ -253,7 +264,7 @@ class Login extends Component {
                                     </Grid>
 
                                     <Grid item style={styles.CardSegments}>
-                                        <Typography variant='h4'>Don’t have an account?<Link href="/signup/"><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                        <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
                                     </Grid>
                                 </Grid>
 
