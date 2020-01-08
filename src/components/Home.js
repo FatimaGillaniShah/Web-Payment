@@ -99,18 +99,14 @@ class Home extends Component {
        
           {groups.map((e, i) =>
             <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+               
               <Card elevation={16} style={styles.card}>
-                <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkText}> 
-                {/* <Image
-                     src={e.iconUrlLarge}
-                  />  */}
-                      
-                  <CardMedia   
+                <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkText}>
+                <Image 
+                  src={e.iconUrlLarge}
                   style={styles.media} 
-                  image={e.iconUrlLarge}
-                  title={e.name} >
-                  </CardMedia>
-                 
+                  title={e.name}
+                 />
                   <CardHeader 
                     avatar={
                     <Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
@@ -123,6 +119,7 @@ class Home extends Component {
                   />
                 </Link>
               </Card>
+              
             </Grid>
           )}
         </Grid>

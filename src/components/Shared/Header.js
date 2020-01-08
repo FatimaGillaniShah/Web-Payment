@@ -97,13 +97,30 @@ const useStyles = makeStyles(theme => ({
         color: '#0061ae'
     },
     logoutbtn:{
-        backgroundColor: '#5E8C2A',
-        fontSize: '13px',
+        backgroundColor: '#78a446',
+        fontSize: '14px',
         fontWeight: 'bold',
-        padding: '0px 23px',
-        margin: '0px 84px',
+       // margin: '0px 70px',
         color:'white'
 
+    },
+    loginbtn:{
+        margin: '0px 2px',    
+        fontSize: '14px',
+        fontWeight: 'bold'
+    },
+    language:{
+        color:'white',
+        fontSize:'14px',
+        fontFamily: "Droid Arabic Kufi",
+        fontSize: '22px',
+        margin: '1px 35px',
+       // borderRight: '5px solid grey'
+
+    },
+    homeIcon:{
+        fontSize: '30px',
+        margin: '0px 5px'
     }
 
 }));
@@ -152,30 +169,30 @@ function Header(props) {
                     <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/">
 
-                        <IconButton color="black"><HomeIcon /></IconButton>
-                        <p style={{ color: "black" }}>Home</p>
+                        <IconButton><HomeIcon /></IconButton>
+                        <p >Home</p>
                     </MenuItem>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/Account">
-                        <IconButton aria-label="show 4 new mails" color="black"><AccountCircle /></IconButton>
-                        <p style={{ color: "black" }}>ACCOUNT</p>
+                        <IconButton aria-label="show 4 new mails" ><AccountCircle /></IconButton>
+                        <p >ACCOUNT</p>
                     </MenuItem>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/History">
-                        <IconButton color="black">
+                        <IconButton >
 
                             <PublicIcon />
 
                         </IconButton>
-                        <p style={{ color: "black" }}>HISTORY</p>
+                        <p >HISTORY</p>
                     </MenuItem>
 
                     <MenuItem onClick={handleDrawerClose} href="/https://sadadbahrain.com/app/help.html">
-                        <IconButton color="black"><HelpIcon /></IconButton>
-                        <p style={{ color: "black" }}>HELP</p>
+                        <IconButton ><HelpIcon /></IconButton>
+                        <p >HELP</p>
                     </MenuItem>
 
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/">
-                        <IconButton color="black"><LockCloseIcon /></IconButton>
-                        <p style={{ color: "black" }}>Logout</p>
+                        <IconButton ><LockCloseIcon /></IconButton>
+                        <p >Logout</p>
                     </MenuItem>
 
                 </MenuList>
@@ -185,10 +202,10 @@ function Header(props) {
                     <MenuList>
                         <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
                         <MenuItem onClick={handleDrawerClose} component={Link} to="/login">
-                            <p style={{ color: "black" }}>Login</p>
+                            <p style={{  }}>Login</p>
                         </MenuItem>
                         <MenuItem onClick={handleDrawerClose} component={Link} to="/signup">
-                            <p style={{ color: "black" }}>Sign Up</p>
+                            <p >Sign Up</p>
                         </MenuItem>
                     </MenuList>
 
@@ -244,15 +261,17 @@ function Header(props) {
         <div >
             <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
                 <Toolbar>
+                  
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
-                        edge="start"
+                        edge="end"
                         onClick={handleDrawerToggle}
                         className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
+                   
 
                     <Link to={{ pathname: "/" }}>
                         <img style={{ marginTop: '12px' }} src={require('../../content/img/logo.png')} alt="sadad" />
@@ -262,13 +281,20 @@ function Header(props) {
                         <div style={{ flexGrow: 1 }}>
                             {props.isLoggedIn ? (
                                 <div className={classes.NavMenuButtons}>
-                                    <Fab variant="extended" size="large" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
+                                    <Fab variant="extended" size="medium" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
+                                    {/* <Link href="#" className={classes.language}>
+                                    عربي
+
+                                     </Link> */}
+                                     {/* <HomeIcon  className={classes.homeIcon}/> */}
                                 </div>
+                               
+                               
 
                             ) : (
                                     <div className={classes.NavMenuButtons}>
-                                        <Button variant="contained" size="large" onClick={NavigateToLogin} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >Login</Button>
-                                        <Button variant="contained" size="large" onClick={NavigateToSignUp} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >SignUp</Button>
+                                        <Fab variant="extended" size="medium" onClick={NavigateToLogin}  className={classes.loginbtn} style={{ padding: '0px 22px',backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
+                                        <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px',backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
                                     </div>
 
                                 )}
@@ -281,10 +307,10 @@ function Header(props) {
             < Hidden only="xs" >
                 <div className={props.isLoggedIn ? 'show' : 'hide'}>
 
-                    <AppBar style={{ position: 'unset', background: 'white', height: '70px' }}>
+                    <AppBar style={{ position: 'unset', background: 'white', height: '65px' }}>
 
                         <Toolbar>
-                            <div style={{ padding: '0px 43px' }}>
+                            <div style={{ padding: '0px 33px' }}>
                                 <WidgetsIcon onClick={NavigateToHome} style={{ color: '#1cc1f7', fontSize: '30px', cursor:'pointer' }}></WidgetsIcon>
                             </div>
                             <Typography className={classes.text}>
