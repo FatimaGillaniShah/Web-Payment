@@ -9,50 +9,9 @@ import { Grid, Container, Typography,FormControlLabel } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Link from '@material-ui/core/Link';
 import Checkbox from '@material-ui/core/Checkbox';
+import styles from '../content/css/styles';
 
-const styles = {
-    mainGrid: {
-        margin:'auto',
-        marginTop:'30px',
-      },
-      Card:{
-          width:'85%',
-          margin:'auto'
-      },
-      CardSegments: {
-        padding:'10px'
-      },
-      CardSegmentSeparator: {
-        borderBottom:'1px solid #ddd'
-      },
-      CardFields:{
-          width:'90%'
-      },
-      LoginBtn: {
-          margin: 'auto',
-          backgroundColor: '#5E8C2A',
-          width:'90%',
-          fontSize:'medium'        
-      },
-      AgreeTerms:{
-        textAlign: 'left',
-        padding: '0px 34px',
-        /* color: blue; */
-        color: '#1961d7'
-      },
-      LinkText:{
-        color:'#1961d7',
-        fontSize: 'medium'
-      },
-      Recapcha:{
-        padding: '8px 23px',
-        backgroundColor:"red"
-      }
-
-      
-}
 const initialState = {
     error: '',
     phoneError: '',

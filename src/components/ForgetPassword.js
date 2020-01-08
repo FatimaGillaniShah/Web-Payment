@@ -9,39 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
-
-const styles = {
-    mainGrid: {
-        margin:'auto',
-        marginTop:'30px',
-      },
-      Card:{
-          width:'85%',
-          margin:'auto'
-      },
-      CardSegments: {
-        padding:'10px'
-      },
-      CardSegmentSeparator: {
-        borderBottom:'1px solid #ddd'
-      },
-      CardFields:{
-          width:'90%',
-          fontSize:'30px'
-      },
-      LoginBtn: {
-          margin: 'auto',
-          backgroundColor: '#5E8C2A',
-          width:'90%',
-          fontSize:'medium'        
-      },
-      LinkText:{
-        color:'#1961d7',
-        fontSize: 'medium',
-        cursor:'pointer'
-      },
-      
-}
+import styles from '../content/css/styles';
 
 const initialState = {
     error: '',
