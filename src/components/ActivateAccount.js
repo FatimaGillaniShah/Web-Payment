@@ -2,6 +2,47 @@ import React, { Component } from 'react';
 import '../content/css/activateAccount.css';
 import { ActivateRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
+import { CardContent, FormControl } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import { Grid, Container, Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Link from '@material-ui/core/Link';
+
+const styles = {
+    mainGrid: {
+        margin:'auto',
+        marginTop:'30px',
+      },
+      Card:{
+          width:'85%',
+          margin:'auto'
+      },
+      CardSegments: {
+        padding:'10px'
+      },
+      CardSegmentSeparator: {
+        borderBottom:'1px solid #ddd'
+      },
+      CardFields:{
+          width:'90%'
+      },
+      LoginBtn: {
+          margin: 'auto',
+          backgroundColor: '#5E8C2A',
+          width:'90%',
+          fontSize:'medium'        
+      },
+      LinkText:{
+        color:'#1961d7',
+        fontSize: 'medium',
+        cursor:'pointer'
+      },
+      ActivateText:{
+        fontSize: '15px'
+      }
+}
 
 const initialState = {
     phoneError: '',
@@ -69,7 +110,6 @@ class ActivateAccount extends Component {
                 .then((result) => {
                     this.setState({ loading: false })
                     if (result !== undefined) {
-                     
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         if (resultData === 0) {
@@ -126,62 +166,75 @@ class ActivateAccount extends Component {
             this.setState({ code: event.target.value });
         }
     }
+    NavigateToSignup = () => {
+        this.props.history.push('/signup');
+
+    }
     render() {
         return (
-            <div className="SLogin">
-                <div className="header-content1">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 text-center">
-                                <div className="login-wrap">
-                                    <div className="header">
-                                        <h3>ACTIVATE</h3>
-                                    </div>
-                                    <div className="content-area">
-                                        <form>
-                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                            <div className="login-form">
-                                                <div className="form-group">
-                                                    <input className="form-control1 input-text"
-                                                        name='phone'
-                                                        placeholder="30000004"
-                                                        value={this.state.msisdn}
-                                                        onChange={this.handleChange}
-                                                    />
-                                                    <span className="input-disabled-text-without-modal">+973</span><i className="phone"></i>
-                                                    <i id="numberLoading" className={this.state.loading ? "loading" : ""}></i>
-                                                </div>
-                                                {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+            <Container xl={12}>
+            <Grid container spacing={10}>
+                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
+                    <Card elevation={16} style={styles.Card}>                           
+                        <CardContent>
+                            <Grid>
+                                <Grid item style={styles.CardSegments}>
+                                    <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>ACTIVATE</Typography>
+                                </Grid>
 
-                                                <div className="form-group">
-                                                    <fieldset>
-                                                        <input className="form-control1"
-                                                            name='code'
-                                                            placeholder="Activation Code"
-                                                            type="text"
-                                                            value={this.state.code}
-                                                            onChange={this.handleChange}
-                                                        /><i className="password"></i>
-                                                    </fieldset>
-                                                </div>
-                                                {this.state.codeError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.codeError}</div> : null}
+                                <Grid item style={styles.CardSegments}>
+                                {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                    <TextField
+                                        label="Phone Number"
+                                        variant="outlined"
+                                        type="text"
+                                        InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
+                                        name='phone'
+                                        value={this.state.msisdn}
+                                        onChange={this.handleChange}
+                                        style={styles.CardFields}
+                                    />
+                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                </Grid>
 
-                                                <button className="green-btn btn-block btn-lg" type="button" onClick={this.activate}>ACTIVATE</button>
-                                                <div className="form-group clearfix">
+                                <Grid item style={styles.CardSegments}>
+                                    <TextField
+                                        label="Activation Code"
+                                        variant="outlined"
+                                        type="text"
+                                        name='code'
+                                        value={this.state.code}
+                                        onChange={this.handleChange} 
+                                        style={styles.CardFields}
+                                    />
+                                {this.state.codeError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.codeError}</div> : null}
+                                </Grid>
 
+                                <Grid item style={styles.CardSegments}>
+                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.activate}>ACTIVATE</Fab>
+                                </Grid>
 
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                <Grid item style={styles.CardSegments}>
+                                <Typography style={styles.ActivateText}>
+                                   To resend activation code, please login.
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </Typography>
+                                </Grid>
 
-            </div>
+                                <Grid item style={styles.CardSegments}>
+                                    <Typography style={styles.CardSegmentSeparator}></Typography>
+                                </Grid>
+
+                                <Grid item style={styles.CardSegments}>
+                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
+           
         );
     }
 }

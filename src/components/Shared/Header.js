@@ -4,7 +4,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PublicIcon from '@material-ui/icons/Public';
-import { MenuItem, MenuList, Button, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
+import withWidth from '@material-ui/core/withWidth';
+import { MenuItem, MenuList, Fab,Button, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { validateLogin } from '../common/common';
 import { LogoutRequestInfo } from '../../api/ApiCalls';
@@ -79,7 +80,6 @@ const useStyles = makeStyles(theme => ({
         flex: 'row',
         display: 'flex',
 
-
     },
     ListName: {
         fontSize: '15px',
@@ -95,6 +95,15 @@ const useStyles = makeStyles(theme => ({
     Cart: {
         fontSize: '30px',
         color: '#0061ae'
+    },
+    logoutbtn:{
+        backgroundColor: '#5E8C2A',
+        fontSize: '13px',
+        fontWeight: 'bold',
+        padding: '0px 23px',
+        margin: '0px 84px',
+        color:'white'
+
     }
 
 }));
@@ -131,15 +140,13 @@ function Header(props) {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
-        props.history.push('/');
+     //   props.history.push('/');
         props.getHeaderInfo(0, false);
 
     }
 
     const drawer = (
         <Hidden only="sm" >
-
-
             {props.isLoggedIn ? (
                 <MenuList>
                     <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
@@ -172,6 +179,7 @@ function Header(props) {
                     </MenuItem>
 
                 </MenuList>
+                
             ) : (
 
                     <MenuList>
@@ -254,7 +262,7 @@ function Header(props) {
                         <div style={{ flexGrow: 1 }}>
                             {props.isLoggedIn ? (
                                 <div className={classes.NavMenuButtons}>
-                                    <Button variant="contained" size="large" onClick={logout} className={classes.margin} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Button>
+                                    <Fab variant="extended" size="large" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
                                 </div>
 
                             ) : (
@@ -274,7 +282,6 @@ function Header(props) {
                 <div className={props.isLoggedIn ? 'show' : 'hide'}>
 
                     <AppBar style={{ position: 'unset', background: 'white', height: '70px' }}>
-
 
                         <Toolbar>
                             <div style={{ padding: '0px 43px' }}>

@@ -54,7 +54,6 @@ class History extends Component {
     }
   }
   
-
   componentDidMount() {
     this.props.Data();
   }
@@ -101,15 +100,12 @@ class History extends Component {
 
     return (
 
-
       <Container  style={styles.containerStart}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
           {services.length === 0 ? <LoadingHtmlHistory /> : "" }
 
-
           {services.map((e, i) =>
-
             <Card>
               <CardContent style={styles.cardArea}>
 
