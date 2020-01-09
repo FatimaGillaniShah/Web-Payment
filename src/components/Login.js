@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component} from 'react';
 import '../content/css/login.css';
 import { LoginRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
-import { CardContent, FormControl } from '@material-ui/core';
+import { CardContent} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -13,14 +13,12 @@ import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
-
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 const initialState = {
     error: '',
     phoneError: '',
     passwordError: '',
-    loading: ''
-
+    loading: false
 }
 class Login extends Component {
 
@@ -30,6 +28,7 @@ class Login extends Component {
         this.state = {
             msisdn: '',
             password: '',
+          
         }
         let isValid = validateLogin();
         if (isValid) {
@@ -91,13 +90,15 @@ class Login extends Component {
 
             LoginRequestInfo(LoginRequestObject)
                 .then((result) => {
-                    this.setState({ loading: false })
+                  
                     if (result !== undefined) {
+                        this.setState({ loading: false })
 
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         console.log(resultDataMessage)
                         if (resultData === 0) {
+                            
 
                             let sessionId = _.get(result.data, 'session-id');
                             localStorage.setItem('sessionId', sessionId);
@@ -178,8 +179,10 @@ class Login extends Component {
 
             <Container xl={12}>
                 <Grid container spacing={10}>
-                    <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
-                        <Card elevation={16} style={styles.Card}>                           
+                    <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
+                                      
+                        <Card elevation={16} style={styles.Card}>  
+                              {this.state.loading? <LinearProgress  /> : ""}                       
                             <CardContent>
                                 <Grid>
                                     <Grid item style={styles.CardSegments}>
@@ -197,7 +200,11 @@ class Login extends Component {
                                             value={this.state.msisdn}
                                             onChange={this.handleChange}
                                             style={styles.CardFields}
-                                        />
+                                            
+                                        >
+                                        
+                                        </TextField >
+                            
                                         {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
                                     </Grid>
 

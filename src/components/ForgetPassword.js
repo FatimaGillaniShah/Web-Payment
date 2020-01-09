@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../content/css/forgetPassword.css';
 import {ForgetRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
-import { CardContent, FormControl } from '@material-ui/core';
+import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -98,8 +98,8 @@ class ForgetPassword extends Component {
         .then((result) => {
             if (result  !== undefined) {
               
-                let resultData = _.get(result.data, 'error-code');
-                let resultDataMessage = _.get(result.data, 'error-message');
+                // let resultData = _.get(result.data, 'error-code');
+                // let resultDataMessage = _.get(result.data, 'error-message');
                 // if(resultData === 0){
                    
                 //     this.props.history.push('/login');

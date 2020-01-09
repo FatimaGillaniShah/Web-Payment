@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../content/css/activateAccount.css';
 import { ActivateRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
-import { CardContent, FormControl } from '@material-ui/core';
+import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
-import {Grid, Container, CardMedia,CardHeader,Avatar, Card} from '@material-ui/core';
+import {Grid, Container,CardHeader, Card} from '@material-ui/core';
 import Image from 'material-ui-image';
 import styles from '../content/css/styles';
 

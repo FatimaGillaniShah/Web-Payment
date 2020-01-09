@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { Grid, Card } from '@material-ui/core';
 import { Fragment } from 'react';

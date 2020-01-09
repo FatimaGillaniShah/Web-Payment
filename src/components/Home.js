@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import {Grid, Container, CardHeader, Avatar, CardMedia } from '@material-ui/core';
+import {Grid, Container, CardHeader, Avatar} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
 import Image from 'material-ui-image';

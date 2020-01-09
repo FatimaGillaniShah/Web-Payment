@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import {Grid, Container, CardHeader, Card, Avatar, CardMedia} from '@material-ui/core';
+import {Grid, Container, CardHeader, Card} from '@material-ui/core';
 import styles from '../content/css/styles';
 import Image from 'material-ui-image';
 

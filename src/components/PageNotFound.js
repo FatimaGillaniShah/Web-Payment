@@ -1,6 +1,5 @@
 import React , {Component,Fragment } from 'react';
-import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import { Fab, CardContent, Grid, Typography, Card } from '@material-ui/core';
 import styles from '../content/css/styles';
 
 class PageNotFound extends Component {

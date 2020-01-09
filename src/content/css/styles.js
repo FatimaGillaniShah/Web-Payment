@@ -218,8 +218,6 @@ const styles = {
   },
 
   //SubGroups
-
-
-
+ 
 }
 export default styles
