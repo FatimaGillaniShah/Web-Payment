@@ -7,7 +7,7 @@ import {Grid, Container, CardHeader, Avatar, CardMedia } from '@material-ui/core
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Image from 'material-ui-image'
+//import Image from 'material-ui-image'
 
 const styles = {
   card: {

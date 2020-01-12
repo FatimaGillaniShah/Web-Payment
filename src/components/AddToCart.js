@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import '..//content/css/addCart.css';
 import { connect } from 'react-redux';
+import { RequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Grid, Container, CardActions, Typography, Paper, Tabs, Tab, Switch, InputAdornment, Fab, TextField, Box } from '@material-ui/core';
-
+import styled from "styled-components";
 
 const styles = {
     card: {
@@ -49,9 +50,8 @@ const styles = {
 
     },
     textField: {
-        width: '90%'
-    }
-    ,
+        width: '100%'
+    },
     CardContentSegments: {
         padding: '20px'
     },
@@ -59,9 +59,34 @@ const styles = {
         flexGrow: 1,
         width: '100%',
         backgroundColor: 'white',
+    },
+    BillInquiryBtn: {
+        margin: 'auto',
+        backgroundColor: '#5E8C2A',
+        fontSize: 'larger'
+    },
+    BalanceInquiryGrid: {
+        margin: 'auto',
+        backgroundColor: '#EEEEEE'
+    },
+    BalanceInquiryTabs: {
+        border: '1px solid #0D61AF',
+        marginTop: '2%'
     }
 
 }
+const StyledTab = styled(({ ...props }) => (
+    <Tab {...props} classes={{ selected: "selected" }} />
+))`
+    &.selected {
+      background-color: #0d61af;
+      color:white;
+      font-size: large;
+    },
+    &.MuiTab-root{
+        font-size: large;
+    }
+  `;
 
 
 class AddToCart extends Component {
@@ -79,7 +104,7 @@ class AddToCart extends Component {
             PriceError: false,
             BalanceInquiry: false,
             value: "a",
-            setValue: ""
+            setValue: 0
 
         }
         this.updateInput = this.updateInput.bind(this);
@@ -107,80 +132,117 @@ class AddToCart extends Component {
         });
     }
 
-    saveIntoCart(serviceObject) {
+    async billInquiry(serviceObject) {
 
+        var BillInquiry;
+        var ServiceObjectForBillInquiry;
+        let sessionId = localStorage.getItem('sessionId');
+        this.finalizedTargetsArray = {};
 
-        if (this.state.amount === 1) {
-            this.setState({
-                error: "Please select above amount"
-            })
-            return false;
-        }
+        this.serviceRequestRequiredTargetsArray.forEach((e) => {
+            let targetName = e.key;
+            if (targetName != "amount") {
+                let targetValue = document.getElementById(targetName).value;
+                this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+            }
+        });
 
-        let OldServices = localStorage.getItem('Services');
-        this.setState({ serviceObject: serviceObject });
+        if (this.state.BalanceInquiry && this.serviceRequestOptionalTargetsArray.length > 0) {
+            this.serviceRequestOptionalTargetsArray.forEach((e) => {
+                let targetName = e.key;
+                if (targetName != "amount") {
+                    let targetValueCheck = document.getElementById(targetName);
+                    if (targetValueCheck !== null && targetValueCheck !== undefined) {
+                        let targetValue = document.getElementById(targetName).value;
+                        this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+                    }
 
-        if (this.state.amount) {
-
-            var amount = this.state.amount;
-            var quantity = this.state.quantity;
-            var arr = [];
-
-
-            this.serviceRequestRequiredTargetsArray.forEach((e) => {
-                if (e.key === "amount") {
-                    this.finalizedTargetsArray = Object.assign({ "amount": this.state.amount }, this.finalizedTargetsArray);
-                }
-                if (e.key === "quantity") {
-                    this.finalizedTargetsArray = Object.assign({ "quantity": this.state.quantity }, this.finalizedTargetsArray);
                 }
             });
+        }
 
-            if (OldServices !== null) {
-                arr = JSON.parse(OldServices);
+        ServiceObjectForBillInquiry = Object.assign(
+            {
+                amount: "",
+                currency: "BHD",
+                "service-id": serviceObject.id,
+                target: this.finalizedTargetsArray,
 
-                for (let i = 0; i < this.state.quantity; i++) {
+            }, ServiceObjectForBillInquiry);
 
-                    let Arrcount = Math.random();
+        let servicesArrayFOrBillInquiry = [];
 
-                    var newObject = Object.assign({}, serviceObject);
-                    let MyId = Arrcount + 1;
-                    newObject["MyId"] = MyId;
-                    newObject["quantity"] = quantity;
-                    newObject["amount"] = amount;
-                    newObject["target"] = this.finalizedTargetsArray;
-                    arr.push(newObject);
+        servicesArrayFOrBillInquiry.push(ServiceObjectForBillInquiry);
+        BillInquiry = Object.assign(
+            {
+                services: servicesArrayFOrBillInquiry,
+                "session-id": sessionId
 
-                }
+            }, BillInquiry);
 
-                var newData = [...arr];
-                localStorage.setItem('Services', JSON.stringify(newData));
-                this.props.history.push("/ShoppingCart");
+
+        let BillInquiryResponse = await RequestInfo(BillInquiry);
+        BillInquiryResponse = _.get(BillInquiryResponse, 'data');
+
+        let BillInquiryErrorCode = _.get(BillInquiryResponse, 'error-code');
+
+        if (BillInquiryErrorCode === 0) {
+            alert("Success");
+            let Balance = _.get(BillInquiryResponse, 'info[0].balance');
+            if(Balance === "0.00")
+            {
+                this.setState({amount:0});
             }
-            else {
-                arr = [];
-
-                for (let i = 0; i < this.state.quantity; i++) {
-
-                    let Arrcount = Math.random();
-                    let newObject = Object.assign({}, serviceObject);
-                    let MyId = Arrcount + 1;
-                    newObject["MyId"] = MyId;
-                    newObject["quantity"] = quantity;
-                    newObject["amount"] = amount;
-                    newObject["target"] = this.finalizedTargetsArray;
-                    arr.push(newObject);
-                }
-
-                localStorage.setItem('Services', JSON.stringify(arr));
-                this.props.history.push("/ShoppingCart");
+            else
+            {
+                this.setState({amount:Balance});
             }
         }
         else {
-            this.setState({ PriceError: true })
-
+            alert("Fail");
 
         }
+    }
+
+    saveIntoCart(serviceObject) {
+
+        this.serviceRequestRequiredTargetsArray.forEach((e) => {
+            let targetName = e.key;
+            let targetValue = document.getElementById(targetName).value;
+            this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+        });
+
+        if (this.state.BalanceInquiry && this.serviceRequestOptionalTargetsArray.length > 0) {
+            this.serviceRequestOptionalTargetsArray.forEach((e) => {
+                let targetName = e.key;
+                let targetValue = document.getElementById(targetName).value;
+                this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+            });
+        }
+
+        let OldServices = localStorage.getItem('Services');
+        let servicesArrayForCart = [];
+
+        if (OldServices !== null) {
+            servicesArrayForCart = JSON.parse(OldServices);
+        }
+        
+        for (let i = 0; i < this.state.quantity; i++) {
+            var NewServiceObject = {};
+            NewServiceObject = Object.assign(
+                {
+                    "MyId": Math.random() + 1,
+                    "service-id": serviceObject.id,
+                    target: this.finalizedTargetsArray,
+                    amount: this.state.amount,
+                    iconUrl: serviceObject.iconUrl
+    
+                }, NewServiceObject);
+                servicesArrayForCart.push(NewServiceObject);
+        }
+
+        localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));        
+        this.props.history.push("/ShoppingCart");
     }
 
     amount(e, data) {
@@ -238,6 +300,14 @@ class AddToCart extends Component {
             let targetType = "";
             let targetAttributes = targets.value;
 
+            if (targetNameOriginal === "amount") {
+                inputField.push(
+                    <Fragment></Fragment>
+                );
+
+                return inputField;
+            }
+
             if (targetNameOriginal === "email") {
                 targetName = "Email"
             }
@@ -277,10 +347,7 @@ class AddToCart extends Component {
                 let min = _.get(targetAttributes, 'min');
                 let max = _.get(targetAttributes, 'max');
 
-
-
-                if(targetNameOriginal === "msisdn" || targetNameOriginal === "msisdn-local")
-                {
+                if (targetNameOriginal === "msisdn-local") {
                     inputField.push(
 
                         <TextField
@@ -288,6 +355,7 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
+                            key={targetNameOriginal}
                             InputProps={
                                 {
                                     startAdornment: <InputAdornment position="start">+973</InputAdornment>,
@@ -297,10 +365,9 @@ class AddToCart extends Component {
                             }
                             variant="outlined"
                         />
-                    )
+                    );
                 }
-                else
-                {
+                else {
                     inputField.push(
 
                         <TextField
@@ -308,6 +375,7 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
+                            key={targetNameOriginal}
                             InputProps={
                                 {
                                     minLength: { min },
@@ -316,16 +384,15 @@ class AddToCart extends Component {
                             }
                             variant="outlined"
                         />
-                    )
+                    );
                 }
 
-                
+
             }
             else {
 
 
-                if(targetNameOriginal === "msisdn" || targetNameOriginal === "msisdn-local")
-                {
+                if (targetNameOriginal === "msisdn" || targetNameOriginal === "msisdn-local") {
                     inputField.push(
 
                         <TextField
@@ -333,30 +400,30 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
+                            key={targetNameOriginal}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">+973</InputAdornment>
                             }}
                             variant="outlined"
                         />
-    
-                    )
+
+                    );
                 }
-                else
-                {
+                else {
                     inputField.push(
 
                         <TextField
                             label={targetName}
                             id={targetNameOriginal}
                             type={targetType}
-                            style={styles.textField}                            
+                            style={styles.textField}
+                            key={targetNameOriginal}
                             variant="outlined"
                         />
-    
-                    )
+
+                    );
                 }
             }
-
             return inputField;
         }
     }
@@ -378,12 +445,12 @@ class AddToCart extends Component {
 
     }
 
-    handleChange = (event, newValue) => {
+    BalanceInquiryToggle = (event, newValue) => {
         this.setState({
             setValue: newValue
         });
 
-    };
+    }
 
     TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -409,14 +476,6 @@ class AddToCart extends Component {
         };
     }
 
-    createDiv(e) {
-        return (
-            <this.TabPanel value={this.state.setValue} index={0}>
-                Hello One
-                                                        </this.TabPanel>
-        );
-    }
-
     render() {
 
         var id = this.props.match.params.id;
@@ -432,6 +491,7 @@ class AddToCart extends Component {
         let fixedAmounts = [];
         let serviceImage = "";
         let serviceBalanceInquiry = _.get(serviceObject, 'is-balance-inquiry-available');
+
         let serviceRequestRequiredTargets = _.get(serviceObject, 'request-targets.required');
         this.serviceRequestRequiredTargetsArray = _.map(serviceRequestRequiredTargets, (value, key) => ({ key, value }));
         let serviceRequestOptionalTargets = _.get(serviceObject, 'request-targets.optional');
@@ -458,27 +518,9 @@ class AddToCart extends Component {
                                         </Grid>
                                     </Grid>
                                 </Fragment>
-                                {serviceRequestRequiredTargets !== null && serviceRequestRequiredTargets !== undefined && fixedAmounts.length === 0 ? (
-
-                                    this.serviceRequestRequiredTargetsArray.map(e =>
-
-                                        <Fragment>
-
-                                            <Grid>
-                                                <Grid item key={e} style={styles.CardContentSegments}>
-                                                    {this.inputForTarget(e)}
-                                                </Grid>
-                                            </Grid>
-                                            <span className="field-validation-valid" data-valmsg-for="@target.Key" data-valmsg-replace="true"></span>
-                                        </Fragment>
-                                    )
-
-                                ) : (
-                                        <Fragment></Fragment>
-                                    )
-                                }
 
                                 {fixedAmounts.length > 0 ? (
+
                                     <Fragment>
                                         <Grid>
                                             <Grid item style={styles.CardContentSegments}>
@@ -512,104 +554,115 @@ class AddToCart extends Component {
                                     </Fragment>
 
                                 ) : (
-
-                                        <Fragment>
-                                            <Grid>
-                                                <Grid item style={styles.CardContentSegments}>
-                                                    <TextField
-                                                        label="Amount"
-                                                        id="amount"
-                                                        type="number"
-                                                        ref="amount"
-                                                        value={this.state.amount}
-                                                        style={styles.textField}
-                                                        onChange={this.updateAmount}
-                                                        variant="outlined"
-                                                    />
-                                                </Grid>
-                                            </Grid>
-
-                                        </Fragment>
-
-                                    )}
-
-                                {serviceBalanceInquiry === true ?
-                                    [
-                                        this.serviceRequestOptionalTargetsArray.length > 0 ?
-                                            [
-                                                (
+                                        <Grid>
+                                            <Grid item style={styles.CardContentSegments}>
+                                                {this.serviceRequestRequiredTargetsArray.map(e =>
                                                     <Fragment>
-                                                        <Grid container>
-                                                            <Grid item>
-                                                                <Typography>Balance Inquiry</Typography>
-                                                            </Grid>
-                                                            <Grid item>
-                                                                <Typography>
-                                                                    <Switch
-                                                                        checked={this.state.BalanceInquiry}
-                                                                        onChange={() => this.toggleBalanceInquiry()}
-                                                                        color="primary"
-                                                                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                                                                    />
-                                                                </Typography>
-                                                            </Grid>
+                                                        <Grid container spacing={3}>
+                                                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
+                                                            <span className="field-validation-valid" data-valmsg-for="@target.Key" data-valmsg-replace="true"></span>
                                                         </Grid>
                                                     </Fragment>
-                                                ),
-
-                                                (this.state.BalanceInquiry === true ?
-
-                                                    (this.serviceRequestOptionalTargetsArray.length > 1 ?
-
-                                                        <Fragment>
-                                                            <Tabs value={this.state.setValue} onChange={this.handleChange} aria-label="simple tabs example">
-                                                                {this.serviceRequestOptionalTargetsArray.map((value, index) => {
-                                                                    return <Tab label={value.key} {...this.a11yProps({ index })} />
-                                                                })}
-                                                            </Tabs>
-                                                            {this.serviceRequestOptionalTargetsArray.map((value, index) => {
-                                                                return <this.TabPanel value={this.state.setValue} index={index}>
-                                                                    {this.inputForTarget(value)}
-                                                                </this.TabPanel>
-                                                            })}
-                                                        </Fragment>
-                                                        :
-                                                        <Fragment>
-                                                            <Grid container>
-                                                                <Grid item>
-                                                                    {this.inputForTarget(this.serviceRequestOptionalTargetsArray[0])}
+                                                )}
+                                            </Grid>
+                                            <Grid item style={styles.CardContentSegments}>
+                                                {serviceBalanceInquiry === true ? (
+                                                    <Fragment>
+                                                        {this.serviceRequestOptionalTargetsArray.length > 0 ? (
+                                                            <Fragment>
+                                                                <Grid container spacing={3} xs={12} sm={12} md={12} lg={12} xl={12} style={styles.BalanceInquiryGrid}>
+                                                                    <Grid item xs={8} sm={8} md={8} md={8} lg={8} style={{ textAlign: 'left' }}>
+                                                                        <Typography variant="h4" style={{ color: '#0061ae', fontWeight: '300' }}>Balance Inquiry</Typography>
+                                                                    </Grid>
+                                                                    <Grid item xs={4} sm={4} md={4} md={4} lg={4} style={{ textAlign: 'right' }}>
+                                                                        <Switch
+                                                                            checked={this.state.BalanceInquiry}
+                                                                            onChange={() => this.toggleBalanceInquiry()}
+                                                                            color="primary"
+                                                                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                                                                        />
+                                                                    </Grid>
                                                                 </Grid>
-                                                                <Grid item>
 
-                                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn}>
+
+                                                                {this.state.BalanceInquiry === true ? (
+                                                                    this.serviceRequestOptionalTargetsArray.length > 1 ? (
+
+                                                                        <Fragment>
+                                                                            <Tabs
+                                                                                value={this.state.setValue}
+                                                                                onChange={this.BalanceInquiryToggle}
+                                                                                aria-label="simple tabs example"
+                                                                                variant="fullWidth"
+                                                                                style={styles.BalanceInquiryTabs}
+                                                                                indicatorColor="primary"
+                                                                            >
+                                                                                {this.serviceRequestOptionalTargetsArray.map((value, index) => {
+                                                                                    return <StyledTab label={value.key} {...this.a11yProps({ index })} />
+                                                                                })}
+                                                                            </Tabs>
+                                                                            {this.serviceRequestOptionalTargetsArray.map((value, index) => {
+                                                                                return <this.TabPanel value={this.state.setValue} index={index}>
+                                                                                    <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                                                        <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
+                                                                                            {this.inputForTarget(value)}
+                                                                                        </Grid>
+                                                                                        <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
+                                                                                            <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
+                                                                                        </Grid>
+                                                                                    </Grid>
+                                                                                </this.TabPanel>
+                                                                            })}
+                                                                        </Fragment>
+
+                                                                    ) : (
+                                                                            <Fragment>
+                                                                                <Grid container spacing={3} style={{ marginTop: '2%' }}>
+                                                                                    <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
+                                                                                        {this.inputForTarget(this.serviceRequestOptionalTargetsArray[0])}
+                                                                                    </Grid>
+                                                                                    <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
+                                                                                        <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
+                                                                                    </Grid>
+                                                                                </Grid>
+                                                                            </Fragment>
+                                                                        )
+
+                                                                ) : (
+                                                                        <Fragment></Fragment>
+                                                                    )}
+
+                                                            </Fragment>
+                                                        ) : (
+                                                                <Fragment>
+                                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn} onClick={() => this.billInquiry(serviceObject)}>
                                                                         Bill Inquiry
                                                                 </Fab>
-
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Fragment>
-                                                    )
-                                                    :
-                                                    <Fragment></Fragment>),
-                                            ]
-                                            :
-                                            [
-                                                // Show Button
-                                                <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn}>
-                                                    Bill Inquiry
-                                                </Fab>
-                                            ]
-
-                                    ]
-                                    :
-                                    [
-                                        <Fragment></Fragment>
-                                    ]
-                                }
+                                                                </Fragment>
+                                                            )}
 
 
+                                                    </Fragment>
+                                                ) : (
+                                                        <Fragment></Fragment>
 
+                                                    )}
+                                            </Grid>
+                                            <Grid item style={styles.CardContentSegments}>
+                                                <TextField
+                                                    label="Amount"
+                                                    id="amount"
+                                                    type="number"
+                                                    ref="amount"
+                                                    value={this.state.amount}
+                                                    style={styles.textField}
+                                                    onChange={this.updateAmount}
+                                                    variant="outlined"
+                                                />
+                                            </Grid>
+                                        </Grid>
 
+                                    )}
 
                             </CardContent>
                             <CardActions>
