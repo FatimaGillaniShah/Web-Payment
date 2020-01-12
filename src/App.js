@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';
 import * as comp from './components';
+import styling from './content/css';
 
 
 class App extends Component {

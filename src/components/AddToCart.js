@@ -5,7 +5,7 @@ import { RequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { Grid, Container, CardActions, Typography, Paper, Tabs, Tab, Switch, InputAdornment, Fab, TextField, Box } from '@material-ui/core';
+import { Grid, Container, CardActions, Typography, Tabs, Tab, Switch, InputAdornment, Fab, TextField, Box } from '@material-ui/core';
 import styled from "styled-components";
 
 const styles = {
@@ -189,13 +189,11 @@ class AddToCart extends Component {
         if (BillInquiryErrorCode === 0) {
             alert("Success");
             let Balance = _.get(BillInquiryResponse, 'info[0].balance');
-            if(Balance === "0.00")
-            {
-                this.setState({amount:0});
+            if (Balance === "0.00") {
+                this.setState({ amount: 0 });
             }
-            else
-            {
-                this.setState({amount:Balance});
+            else {
+                this.setState({ amount: Balance });
             }
         }
         else {
@@ -204,7 +202,7 @@ class AddToCart extends Component {
         }
     }
 
-    saveIntoCart(serviceObject) {
+    async saveIntoCart(serviceObject) {
 
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
@@ -220,29 +218,61 @@ class AddToCart extends Component {
             });
         }
 
-        let OldServices = localStorage.getItem('Services');
-        let servicesArrayForCart = [];
 
-        if (OldServices !== null) {
-            servicesArrayForCart = JSON.parse(OldServices);
-        }
-        
-        for (let i = 0; i < this.state.quantity; i++) {
-            var NewServiceObject = {};
-            NewServiceObject = Object.assign(
-                {
-                    "MyId": Math.random() + 1,
-                    "service-id": serviceObject.id,
-                    target: this.finalizedTargetsArray,
-                    amount: this.state.amount,
-                    iconUrl: serviceObject.iconUrl
-    
-                }, NewServiceObject);
-                servicesArrayForCart.push(NewServiceObject);
-        }
+        // Request Info will be done here
+        let sessionId = localStorage.getItem('sessionId');
+        let serviceArrayForRequestInfo = [];
+        var ServiceObjectForRequestInfo = {};
+        ServiceObjectForRequestInfo = Object.assign(
+            {
+                currency: "BHD",
+                "service-id": serviceObject.id,
+                target: this.finalizedTargetsArray,
+                amount: this.state.amount,
 
-        localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));        
-        this.props.history.push("/ShoppingCart");
+            }, ServiceObjectForRequestInfo);
+
+        serviceArrayForRequestInfo.push(ServiceObjectForRequestInfo);
+
+        let paymentsInfoRequestObj;
+        paymentsInfoRequestObj = Object.assign({ "session-id": sessionId, services: serviceArrayForRequestInfo }, paymentsInfoRequestObj);
+        let PaymentsInfoResponse = await RequestInfo(paymentsInfoRequestObj);
+
+        PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
+        if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
+            let errorCode = _.get(PaymentsInfoResponse, 'error-code');
+            if (errorCode !== 0) {
+                let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
+                alert(errorMessage);
+                return;
+            }
+            else {
+                let OldServices = localStorage.getItem('Services');
+                let servicesArrayForCart = [];
+
+                if (OldServices !== null) {
+                    servicesArrayForCart = JSON.parse(OldServices);
+                }
+
+                for (let i = 0; i < this.state.quantity; i++) {
+                    var NewServiceObject = {};
+                    NewServiceObject = Object.assign(
+                        {
+                            "MyId": Math.random() + 1,
+                            currency: "BHD",
+                            "service-id": serviceObject.id,
+                            target: this.finalizedTargetsArray,
+                            amount: this.state.amount,
+                            iconUrl: serviceObject.iconUrl
+
+                        }, NewServiceObject);
+                    servicesArrayForCart.push(NewServiceObject);
+                }
+
+                localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));
+                this.props.history.push("/ShoppingCart");
+            }
+        }
     }
 
     amount(e, data) {
