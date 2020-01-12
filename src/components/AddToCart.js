@@ -247,30 +247,47 @@ class AddToCart extends Component {
                 return;
             }
             else {
-                let OldServices = localStorage.getItem('Services');
-                let servicesArrayForCart = [];
 
-                if (OldServices !== null) {
-                    servicesArrayForCart = JSON.parse(OldServices);
+                PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'info');
+                if(PaymentsInfoResponse.length > 0)
+                {
+                    let ServiceResponse = PaymentsInfoResponse[0];
+                    let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
+                    if(ServiceResponseErrorCode !== 0)
+                    {
+                        let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
+                        alert(ServiceResponseErrorText);
+                        return;
+                    }
+                    else
+                    {
+                        let OldServices = localStorage.getItem('Services');
+                        let servicesArrayForCart = [];
+        
+                        if (OldServices !== null) {
+                            servicesArrayForCart = JSON.parse(OldServices);
+                        }
+        
+                        for (let i = 0; i < this.state.quantity; i++) {
+                            var NewServiceObject = {};
+                            NewServiceObject = Object.assign(
+                                {
+                                    "MyId": Math.random() + 1,
+                                    currency: "BHD",
+                                    "service-id": serviceObject.id,
+                                    target: this.finalizedTargetsArray,
+                                    amount: this.state.amount,
+                                    iconUrl: serviceObject.iconUrl
+        
+                                }, NewServiceObject);
+                            servicesArrayForCart.push(NewServiceObject);
+                        }
+        
+                        localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));
+                        this.props.history.push("/ShoppingCart");
+                    }
+
                 }
-
-                for (let i = 0; i < this.state.quantity; i++) {
-                    var NewServiceObject = {};
-                    NewServiceObject = Object.assign(
-                        {
-                            "MyId": Math.random() + 1,
-                            currency: "BHD",
-                            "service-id": serviceObject.id,
-                            target: this.finalizedTargetsArray,
-                            amount: this.state.amount,
-                            iconUrl: serviceObject.iconUrl
-
-                        }, NewServiceObject);
-                    servicesArrayForCart.push(NewServiceObject);
-                }
-
-                localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));
-                this.props.history.push("/ShoppingCart");
             }
         }
     }
