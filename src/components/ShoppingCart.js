@@ -6,113 +6,8 @@ import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import styles from '../content/css/styles';
 
-const styles = {
-    root: {
-        flexGrow: 1,
-
-    },
-    Header: {
-
-        padding: '13px 19px',
-        height: '50px',
-        backgroundColor: 'gainsboro',
-        fontSize: '15px',
-        display: 'flex',
-        justifyContent: 'start'
-    },
-
-    Image: {
-        height: '90px',
-        width: '165px',
-        alignItems: 'flex-start',
-        display: 'flex',
-
-    },
-
-    CardSegments: {
-        paddingTop: '45px',
-        color: "#ff6060",
-        cursor: 'pointer'
-
-    },
-    CardSegmentsRightAlign: {
-        paddingTop: '45px',
-        textAlign: 'right',
-
-    },
-    Heading: {
-        color: '#0888e9',
-        fontSize: '18px',
-        fontWeight: "900"
-
-    },
-    Total: {
-        color: '#0888e9',
-        fontSize: '18px',
-        fontWeight: "900",
-        textAlign: 'right',
-        padding: '10px 0px'
-    },
-
-    footer: {
-        backgroundColor: '#e7efde',
-        height: '90px'
-    },
-    ImageIcon: {
-        padding: '32px'
-    },
-
-    CardSegmentsLeftAlign: {
-        paddingTop: '37px',
-        textAlign: 'left'
-    },
-    Button: {
-        backgroundColor: '#6a9b34',
-        border: 'solid 2px #6a9b34',
-        color: '#fff',
-        fontSize: '15px',
-        padding: '3px 32px',
-        fontWeight: 'bold'       
-    },
-    buttonFooter: {
-        height: '90px',
-        textAlign: 'right'
-    },
-
-    card: {
-        marginTop: '30px'
-    },
-
-    cardGrid: {
-        margin: 'auto'
-    },
-    EmptyCartHeading: {
-        color: '#6a4098',
-        fontSize: '21px',
-        fontWeight: '600',
-        marginBottom: '20px'
-    },
-    CartSubHeading: {
-        fontSize: '18px',
-        marginBottom: '6%'
-    },
-    TakeMeHomeBtn: {
-        margin: 'auto',
-        backgroundColor: '#5E8C2A',
-        marginBottom: '5%',
-        width: '60%',
-        fontSize: 'medium',
-        fontWeight: 'bold'
-    },
-
-    CardContentSegments: {
-        padding: '20px',
-
-
-    },
-
-}
 class ShoppingCart extends Component {
 
     constructor(props) {
@@ -299,13 +194,11 @@ class ShoppingCart extends Component {
     }
 
     render() {
-
-        var sum = 0;
-        if (this.state.Items !== [] && this.state.Items !== undefined && this.state.Items !== 0) {
+            var sum = 0;
             this.state.Items.forEach((e) => {
                 sum = sum + parseFloat(e.amount);
             });
-        }
+  
         return (
 
             <Container style={{ marginTop: '30px' }}>
@@ -329,7 +222,7 @@ class ShoppingCart extends Component {
                                         <Grid item xs={6} sm={6} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
                                             <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
                                         </Grid>
-                                        <Grid item xs={6} sm={6} md={1} lg={1} style={styles.CardSegments}>
+                                        <Grid item xs={6} sm={6} md={1} lg={1} style={styles.CardSegmentsCart}>
                                             <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
                                         </Grid>
                                     </Grid>
@@ -357,7 +250,7 @@ class ShoppingCart extends Component {
 
                         <Grid container spacing={10}>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
-                                <Card elevation={16} style={styles.card}>
+                                <Card elevation={16} style={styles.CardCard}>
                                     <CardContent>
                                         <Fragment>
                                             <Grid>

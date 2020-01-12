@@ -3,45 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import {Grid, Container, CardHeader, Avatar, CardMedia } from '@material-ui/core';
+import {Grid, Container, CardHeader, Avatar} from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
-import CircularProgress from '@material-ui/core/CircularProgress';
-//import Image from 'material-ui-image'
-
-const styles = {
-  card: {
-    maxWidth: '345',
-    marginTop:'30px'
-  },
-
-  media: {
-    height: 0,
-    paddingTop: '56.25%'
-  },
-  avatarEven: {
-    backgroundColor: '#1cc1f7',
-    textAlign:'left',
-    color:'white',
-    fontFamily: 'inherit',
-    fontSize: '18px'
-  },
-  avatarOdd: {
-    backgroundColor: '#1961d7',
-    textAlign:'left',
-    color:'white',
-    fontFamily: 'inherit',
-    fontSize: '18px'
-  },
-  avatarImage: {
-    maxWidth: '85%'
-  },
-  LinkText: {
-    color: 'white',
-    cursor: 'pointer'
-  }
-}
-
+import Image from 'material-ui-image';
+import styles from '../content/css/styles';
 
 class Home extends Component {
   constructor(props) {
@@ -50,7 +16,6 @@ class Home extends Component {
       count: 0,
       show: false
     }
-  
     
     let isValid = validateLogin();
     if (isValid) {
@@ -99,18 +64,14 @@ class Home extends Component {
        
           {groups.map((e, i) =>
             <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+               
               <Card elevation={16} style={styles.card}>
-                <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkText}> 
-                {/* <Image
-                     src={e.iconUrlLarge}
-                  />  */}
-                      
-                  <CardMedia   
+                <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkTextHome}>
+                <Image 
+                  src={e.iconUrlLarge}
                   style={styles.media} 
-                  image={e.iconUrlLarge}
-                  title={e.name} >
-                  </CardMedia>
-                 
+                  title={e.name}
+                 />
                   <CardHeader 
                     avatar={
                     <Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
@@ -123,6 +84,7 @@ class Home extends Component {
                   />
                 </Link>
               </Card>
+              
             </Grid>
           )}
         </Grid>

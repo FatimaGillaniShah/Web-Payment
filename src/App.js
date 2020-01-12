@@ -4,8 +4,8 @@ import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';
-import * as css from './content/css';
 import * as comp from './components';
+
 
 class App extends Component {
   constructor(props) {

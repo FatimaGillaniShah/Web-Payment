@@ -8,36 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
 import { Container, Grid, Card, CardContent, Typography, Hidden } from '@material-ui/core';
-
-const styles = {
-  containerStart:{
-    marginTop:'30px'
-  },
-  cardArea:{
-    paddingBottom: 'unset'
-  },
-  cardHeader: {
-    backgroundColor:'#DDDDDD',
-    width:'100%',
-    textAlign:'Center',
-    padding:'10px 15px',
-    marginTop: '10px',
-    marginBottom: '10px'
-  },
-  CardName:{
-    textAlign: 'left',
-    paddingTop: '20px',
-    paddingLeft: '20px'
-  },
-  CardIcon:{
-    height:'50px'
-  },
-  CardAmount:{
-    color:'#0888e9',
-    fontSize: '18px',
-    fontWeight:'800'
-  }
-}
+import styles from '../content/css/styles';
 
 class History extends Component {
   constructor(props) {
@@ -101,9 +72,19 @@ class History extends Component {
     return (
 
       <Container  style={styles.containerStart}>
+         <Grid item xs={12} sm={12} md={12} lg={12}>
+        
+        <Pagination
+          itemsCount={count}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+          currentPage={this.state.currentPage}
+        />
+      
+      </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={12}>
-          {services.length === 0 ? <LoadingHtmlHistory /> : "" }
+          {services.length === 0 ? <LoadingHtmlHistory /> : null }
 
           {services.map((e, i) =>
             <Card>
@@ -146,16 +127,7 @@ class History extends Component {
           )}
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-        
-          <Pagination
-            itemsCount={count}
-            pageSize={this.state.pageSize}
-            onPageChange={this.handlePageChange}
-            currentPage={this.state.currentPage}
-          />
-        
-        </Grid>
+       
       </Container>
 
     );

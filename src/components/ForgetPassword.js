@@ -2,46 +2,14 @@ import React, { Component } from 'react';
 import '../content/css/forgetPassword.css';
 import {ForgetRequestInfo} from '../api/ApiCalls';
 import _ from 'lodash';
-import { CardContent, FormControl } from '@material-ui/core';
+import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
-
-const styles = {
-    mainGrid: {
-        margin:'auto',
-        marginTop:'30px',
-      },
-      Card:{
-          width:'85%',
-          margin:'auto'
-      },
-      CardSegments: {
-        padding:'10px'
-      },
-      CardSegmentSeparator: {
-        borderBottom:'1px solid #ddd'
-      },
-      CardFields:{
-          width:'90%',
-          fontSize:'30px'
-      },
-      LoginBtn: {
-          margin: 'auto',
-          backgroundColor: '#5E8C2A',
-          width:'90%',
-          fontSize:'medium'        
-      },
-      LinkText:{
-        color:'#1961d7',
-        fontSize: 'medium',
-        cursor:'pointer'
-      },
-      
-}
+import styles from '../content/css/styles';
 
 const initialState = {
     error: '',
@@ -130,8 +98,8 @@ class ForgetPassword extends Component {
         .then((result) => {
             if (result  !== undefined) {
               
-                let resultData = _.get(result.data, 'error-code');
-                let resultDataMessage = _.get(result.data, 'error-message');
+                // let resultData = _.get(result.data, 'error-code');
+                // let resultDataMessage = _.get(result.data, 'error-message');
                 // if(resultData === 0){
                    
                 //     this.props.history.push('/login');
