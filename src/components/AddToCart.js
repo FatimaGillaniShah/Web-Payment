@@ -253,7 +253,7 @@ class AddToCart extends Component {
                 {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if(ServiceResponseErrorCode !== 0)
+                    if(ServiceResponseErrorCode !== undefined && ServiceResponseErrorCode !== 0)
                     {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
                         alert(ServiceResponseErrorText);
