@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
 import _ from 'lodash';
-import {Grid, Container,CardHeader, Card} from '@material-ui/core';
+import { Grid, Container, CardHeader, Card } from '@material-ui/core';
 import Image from 'material-ui-image';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
+
+
 
 class ServiceProvider extends Component {
   constructor(props) {
@@ -14,6 +17,8 @@ class ServiceProvider extends Component {
       FoundGroups: false
     }
   }
+
+
 
   validateGroupsForServices(groupObject) {
     let serviceProviderId = _.get(groupObject, 'group-id');
@@ -84,27 +89,42 @@ class ServiceProvider extends Component {
 
     return (
 
-<Container maxWidth="xl">
-        <Grid container spacing={3}>
-          {this.state.servicesOrGroups.map((e, i) =>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
-              <Card elevation={16} style={styles.card} onClick={() => this.validateGroupsForServices(e)}>
-              <Image 
-                  src={e.iconUrl}
-                  style={styles.media} 
-                  title={e.name}
-                 />                      
-                  <CardHeader 
-                    titleTypographyProps={{ variant: 'h4', }}
-                    disableTypography={true}
-                    style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
-                    title={e.name}
-                  />                
-              </Card>
-            </Grid>
-          )}
-        </Grid>
-      </Container>
+      <Spring
+        native
+        from={{ o: 0, xyz: [0, 500, 0] }}
+        to={{ o: 1, xyz: [0, 0, 0] }}
+      >
+        {({ o, xyz }) => (
+          <animated.div style={{
+            transform: xyz.interpolate(
+              (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+            )
+          }}>
+            <Container maxWidth="xl">
+              <Grid container spacing={3}>
+                {this.state.servicesOrGroups.map((e, i) =>
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                    <Card elevation={16} style={styles.card} onClick={() => this.validateGroupsForServices(e)}>
+                      <Image
+                        src={e.iconUrl}
+                        style={styles.media}
+                        title={e.name}
+                      />
+                      <CardHeader
+                        titleTypographyProps={{ variant: 'h4', }}
+                        disableTypography={true}
+                        style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
+                        title={e.name}
+                      />
+                    </Card>
+                  </Grid>
+                )}
+              </Grid>
+            </Container>
+          </animated.div>
+        )}
+      </Spring>
+
     );
   }
 }
