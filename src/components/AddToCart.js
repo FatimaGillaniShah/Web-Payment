@@ -66,12 +66,13 @@ const styles = {
         fontSize: 'larger'
     },
     BalanceInquiryGrid: {
-        margin: 'auto',
-        backgroundColor: '#EEEEEE'
+        margin: 'auto ',
+        backgroundColor: '#EEEEEE',
     },
     BalanceInquiryTabs: {
         border: '1px solid #0D61AF',
-        marginTop: '2%'
+        marginTop: '8%',
+
     }
 
 }
@@ -87,11 +88,11 @@ const StyledTab = styled(({ ...props }) => (
         font-size: large;
     }
   `;
-  const initialState = {
-    error: '',
-    AccountError: '',
-    passwordError: '',
-    loading: false
+const initialState = {
+   
+    PhoneError: '',
+    CPRError: '',
+    AmountError: ''
 }
 class AddToCart extends Component {
 
@@ -100,7 +101,7 @@ class AddToCart extends Component {
         super(props)
         this.state = {
             services: [],
-            amount: 1,
+            amount: null,
             Amount: null,
             serviceObject: [],
             quantity: 1,
@@ -121,22 +122,33 @@ class AddToCart extends Component {
 
     }
 
+
     updateInput(event) {
         this.setState({ quantity: event.target.value });
     }
+    
 
     updateAmount(event) {
 
-        //let amount = this.refs.amount.value;
         let amount = event.target.value;
+        if (amount < 0.500) {
+            this.setState({
+                AmountError: "The minimum amount is 0.500",
 
-        let quantity = 1;
-        this.setState({
-            amount: amount,
-            quantity: quantity
-        });
+            });
+        }
+        else {
+            this.setState({
+                AmountError: ""
+            });
+            let quantity = 1;
+            this.setState({
+                amount: amount,
+                quantity: quantity
+            });
+        }
+
     }
-
     async billInquiry(serviceObject) {
 
         var BillInquiry;
@@ -254,25 +266,22 @@ class AddToCart extends Component {
             else {
 
                 PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'info');
-                if(PaymentsInfoResponse.length > 0)
-                {
+                if (PaymentsInfoResponse.length > 0) {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if(ServiceResponseErrorCode !== 0)
-                    {
+                    if (ServiceResponseErrorCode !== 0) {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
                         alert(ServiceResponseErrorText);
                         return;
                     }
-                    else
-                    {
+                    else {
                         let OldServices = localStorage.getItem('Services');
                         let servicesArrayForCart = [];
-        
+
                         if (OldServices !== null) {
                             servicesArrayForCart = JSON.parse(OldServices);
                         }
-        
+
                         for (let i = 0; i < this.state.quantity; i++) {
                             var NewServiceObject = {};
                             NewServiceObject = Object.assign(
@@ -284,11 +293,11 @@ class AddToCart extends Component {
                                     amount: this.state.amount,
                                     iconUrl: serviceObject.iconUrl,
                                     name: serviceObject.name
-        
+
                                 }, NewServiceObject);
                             servicesArrayForCart.push(NewServiceObject);
                         }
-        
+
                         localStorage.setItem('Services', JSON.stringify(servicesArrayForCart));
                         this.props.history.push("/ShoppingCart");
                     }
@@ -344,11 +353,66 @@ class AddToCart extends Component {
         }
 
     }
-    onChange = (min,max,event) => {
+    onChange = (event, targetName, min, max) => {
         debugger
-       this.setState({AccountError:'Enter 5 digts number'});
-      }
+        console.log(targetName)
 
+        if (targetName === 'Phone Number') {
+            if (event.target.value.length === 8) {
+                this.setState({
+                    PhoneError: ""
+                });
+            }
+
+            else {
+                this.setState({
+                    PhoneError: 'Enter ' + min + " digits"
+                });
+            }
+
+        }
+
+        else if (targetName === 'Account Number') {
+            if (event.target.value.length > min && event.target.value.length < max) {
+                this.setState({
+                    PhoneError: ""
+                });
+            }
+            else {
+                this.setState({
+                    PhoneError: 'Enter ' + min + "-" + max + " digits"
+                });
+            }
+
+        }
+        if (targetName === 'CPR')
+            if (event.target.value.length !== 9) {
+                this.setState({
+                    CPRError: 'Enter 9 digits'
+                });
+            }
+            else {
+                this.setState({
+                    CPRError: ''
+                });
+
+            }
+        else if (targetName === 'CR') {
+            if (event.target.value.length !== 8) {
+                this.setState({
+                    CPRError: 'Enter 8 digits'
+                });
+            }
+            else {
+                this.setState({
+                    CPRError: ''
+                });
+
+            }
+
+        }
+
+    }
     inputForTarget(targets) {
         if (targets !== null && targets !== undefined) {
             let inputField = [];
@@ -399,19 +463,19 @@ class AddToCart extends Component {
 
 
             if (targetAttributes !== null && targetAttributes !== undefined) {
-         
+
                 let min = _.get(targetAttributes, 'min');
                 let max = _.get(targetAttributes, 'max');
                 if (targetNameOriginal === "msisdn-local") {
                     inputField.push(
 
-                        <TextField
+                        <TextField 
                             label={targetName}
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
-                            onChange={(e) => this.onChange(min,max,e)}
+                            onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
                                 {
 
@@ -433,7 +497,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
-                            onChange={this.onChange}
+                            onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
                                 {
                                     minLength: { min },
@@ -459,7 +523,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
-                            onChange={this.onChange}
+                            onChange={(e) => this.onChange(targetName)}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">+973</InputAdornment>
                             }}
@@ -477,7 +541,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
-                            onChange={this.onChange}
+                            onChange={(e) => this.onChange(targetName)}
                             variant="outlined"
                         />
 
@@ -596,7 +660,7 @@ class AddToCart extends Component {
                                                     </div>
                                                 </fieldset>
                                             </Grid>
-                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '5px' }}>{this.state.error}</div> : null}
+
                                             <Grid item style={styles.CardContentSegments}>
 
 
@@ -620,8 +684,8 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
-                                                            {this.state.AccountError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.AccountError}</div> : null}
-                                                           
+                                                            {this.state.PhoneError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.PhoneError}</div> : null}
+
                                                         </Grid>
                                                     </Fragment>
                                                 )}
@@ -667,7 +731,9 @@ class AddToCart extends Component {
                                                                                     <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                                         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
                                                                                             {this.inputForTarget(value)}
+                                                                                            {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null}
                                                                                         </Grid>
+
                                                                                         <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
                                                                                             <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
                                                                                         </Grid>
@@ -682,6 +748,7 @@ class AddToCart extends Component {
                                                                                     <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
                                                                                         {this.inputForTarget(this.serviceRequestOptionalTargetsArray[0])}
                                                                                     </Grid>
+                                                                                    {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null}
                                                                                     <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
                                                                                         <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
                                                                                     </Grid>
@@ -713,7 +780,7 @@ class AddToCart extends Component {
                                                 <TextField
                                                     label="Amount"
                                                     id="amount"
-                                                    type="number"
+
                                                     ref="amount"
                                                     value={this.state.amount}
                                                     style={styles.textField}
@@ -721,6 +788,7 @@ class AddToCart extends Component {
                                                     variant="outlined"
                                                 />
                                             </Grid>
+                                            {this.state.AmountError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.AmountError}</div> : null}
                                         </Grid>
 
                                     )}
@@ -738,7 +806,6 @@ class AddToCart extends Component {
         );
 
     }
-
 
 }
 
