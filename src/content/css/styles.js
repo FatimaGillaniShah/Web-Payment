@@ -55,7 +55,8 @@ const styles = {
   },
   LinkText: {
     color: '#1961d7',
-    fontSize: 'medium'
+    fontSize: 'medium',
+    cursor:'pointer'
   },
 
   // ActivateAccount
@@ -202,7 +203,7 @@ const styles = {
   CardContentSegments: {
     padding: '20px',
   },
-
+  
   //SignUp
 
   AgreeTerms: {
@@ -218,6 +219,24 @@ const styles = {
   },
 
   //SubGroups
+
+  //Footer
+
+  FooterContainer:{
+    backgroundColor:"#f3f3f3",
+    marginTop:'50px',
+    borderTop: '2px solid #dddddd'
+
+  },
+  FooterStyling:{
+    marginTop:'20px',
+    marginBottom:"10px"
+    
+  },
+  FooterText:{
+    fontFamily: "sans-serif",
+    textAlign:"center"
+  }
  
 }
 export default styles
