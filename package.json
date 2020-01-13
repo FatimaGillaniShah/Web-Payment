@@ -17,6 +17,7 @@
     "placeholder-loading": "^0.2.4",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-favicon": "0.0.17",
     "react-js-pagination": "^3.0.2",
     "react-lodash": "^0.1.2",
     "react-recaptcha": "^2.3.10",
