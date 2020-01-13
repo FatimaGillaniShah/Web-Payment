@@ -184,8 +184,42 @@ class ShoppingCart extends Component {
                                                 <img alt="img" src={e.iconUrl} style={styles.Image} />
                                             </Grid>
                                             <Grid item xs={6} sm={6} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
-                                                <Typography variant='h4'>{e.amount}</Typography>
-                                                <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{e.name}</Typography>
+                                                <Typography variant='h4'>{e.name}</Typography>
+                                                <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{
+                                                    _.get(e, 'target.msisdn-local') !== "" && _.get(e, 'target.msisdn-local') !== undefined ? (                                                        
+                                                        "+" + 973 + _.get(e, 'target.msisdn-local')
+                                                    ) : 
+                                                    (
+                                                            _.get(e, 'target.msisdn') !== "" && _.get(e, 'target.msisdn') !== undefined ? 
+                                                            (
+                                                                _.get(e, 'target.msisdn')
+                                                            ) : (
+                                                                _.get(e, 'target.account') !== "" && _.get(e, 'target.account') !== undefined ? 
+                                                                (
+                                                                    _.get(e, 'target.account')
+                                                                )
+                                                                :
+                                                                (
+                                                                    _.get(e, 'target.cpr') !== "" && _.get(e, 'target.cpr') !== undefined ?
+                                                                    (
+                                                                        _.get(e, 'target.cpr')
+                                                                    )
+                                                                    :
+                                                                    (
+                                                                        _.get(e, 'target.cr') !== "" && _.get(e, 'target.cr') !== undefined ?
+                                                                        (
+                                                                            _.get(e, 'target.cr')
+                                                                        ):
+                                                                        (
+                                                                            <Fragment></Fragment>
+                                                                        )
+                                                                    )
+                                                                )
+                                                        )
+                                                            
+                                                        )
+                                                }
+                                                </Typography>
                                             </Grid>
                                             <Grid item xs={6} sm={6} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
                                                 <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
