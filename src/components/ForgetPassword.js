@@ -23,6 +23,8 @@ class ForgetPassword extends Component {
     constructor(props)
     {
         super(props);
+
+    
         this.state = {
             msisdn: '',
             newPassword: '',
@@ -118,6 +120,10 @@ class ForgetPassword extends Component {
             });
         }
     }
+    NavigateToSignup = () => {
+        this.props.history.push('/signup');
+
+    }
    
     render() {
         return (
@@ -129,7 +135,7 @@ class ForgetPassword extends Component {
                         <CardContent>
                             <Grid>
                                 <Grid item style={styles.CardSegments}>
-                                    <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>FORGOT YOUR PASSWORD</Typography>
+                                    <Typography gutterBottom variant="h4" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>FORGOT YOUR PASSWORD</Typography>
                                 </Grid>
 
                                 <Grid item style={styles.CardSegments}>

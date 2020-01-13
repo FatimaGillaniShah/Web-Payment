@@ -91,15 +91,23 @@ const useStyles = makeStyles(theme =>({
     },
     language: {
         color: 'white',
-        fontFamily: "Droid Arabic Kufi",
-        fontSize: '22px',
-         margin: '1px 35px',
-        // borderRight: '5px solid grey'
+        margin: '0px 26px',
+        fontSize: '20px',
+        '&:hover': {
+            color: "white",
+         },
+        
+       //  borderRight: '5px solid grey'
 
     },
-    homeIcon: {
+   
+    homeIcon: {    
         fontSize: '30px',
-        margin: '0px 5px'
+        margin: '0px 16px',
+        cursor:'pointer',
+        '&:hover': {
+            color: "white",
+         },
     }
 
    

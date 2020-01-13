@@ -87,8 +87,12 @@ const StyledTab = styled(({ ...props }) => (
         font-size: large;
     }
   `;
-
-
+  const initialState = {
+    error: '',
+    AccountError: '',
+    passwordError: '',
+    loading: false
+}
 class AddToCart extends Component {
 
     constructor(props) {
@@ -107,6 +111,7 @@ class AddToCart extends Component {
             setValue: 0
 
         }
+        this.onChange = this.onChange.bind(this);
         this.updateInput = this.updateInput.bind(this);
         this.updateAmount = this.updateAmount.bind(this);
         this.serviceRequestRequiredTargetsArray = [];
@@ -277,7 +282,8 @@ class AddToCart extends Component {
                                     "service-id": serviceObject.id,
                                     target: this.finalizedTargetsArray,
                                     amount: this.state.amount,
-                                    iconUrl: serviceObject.iconUrl
+                                    iconUrl: serviceObject.iconUrl,
+                                    name: serviceObject.name
         
                                 }, NewServiceObject);
                             servicesArrayForCart.push(NewServiceObject);
@@ -338,6 +344,10 @@ class AddToCart extends Component {
         }
 
     }
+    onChange = (min,max,event) => {
+        debugger
+       this.setState({AccountError:'Enter 5 digts number'});
+      }
 
     inputForTarget(targets) {
         if (targets !== null && targets !== undefined) {
@@ -377,8 +387,6 @@ class AddToCart extends Component {
                 targetName = targetNameOriginal
             }
 
-
-
             if (targetNameOriginal === "email") {
                 targetType = "email";
             }
@@ -391,9 +399,9 @@ class AddToCart extends Component {
 
 
             if (targetAttributes !== null && targetAttributes !== undefined) {
+         
                 let min = _.get(targetAttributes, 'min');
                 let max = _.get(targetAttributes, 'max');
-
                 if (targetNameOriginal === "msisdn-local") {
                     inputField.push(
 
@@ -403,8 +411,10 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
+                            onChange={(e) => this.onChange(min,max,e)}
                             InputProps={
                                 {
+
                                     startAdornment: <InputAdornment position="start">+973</InputAdornment>,
                                     minLength: { min },
                                     maxLength: { max }
@@ -423,6 +433,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
+                            onChange={this.onChange}
                             InputProps={
                                 {
                                     minLength: { min },
@@ -448,6 +459,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
+                            onChange={this.onChange}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">+973</InputAdornment>
                             }}
@@ -465,6 +477,7 @@ class AddToCart extends Component {
                             type={targetType}
                             style={styles.textField}
                             key={targetNameOriginal}
+                            onChange={this.onChange}
                             variant="outlined"
                         />
 
@@ -583,7 +596,7 @@ class AddToCart extends Component {
                                                     </div>
                                                 </fieldset>
                                             </Grid>
-                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                            {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '5px' }}>{this.state.error}</div> : null}
                                             <Grid item style={styles.CardContentSegments}>
 
 
@@ -607,7 +620,8 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
-                                                            <span className="field-validation-valid" data-valmsg-for="@target.Key" data-valmsg-replace="true"></span>
+                                                            {this.state.AccountError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.AccountError}</div> : null}
+                                                           
                                                         </Grid>
                                                     </Fragment>
                                                 )}

@@ -18,7 +18,6 @@ import WidgetsIcon from '@material-ui/icons/Widgets';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import useStyles from '../../content/css/useStyles';
 
-
 function Header(props) {
 
     const { container } = props;
@@ -34,6 +33,7 @@ function Header(props) {
 
     };
     const logout = () => {
+
         let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
             "session-id": sessionId
@@ -57,7 +57,7 @@ function Header(props) {
     }
 
     const drawer = (
-        <Hidden only="sm" >
+        <Hidden only="sm"  >
             {props.isLoggedIn ? (
                 <MenuList>
                     <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
@@ -152,7 +152,6 @@ function Header(props) {
 
     return (
 
-
         <div >
             <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
                 <Toolbar>
@@ -177,14 +176,8 @@ function Header(props) {
                             {props.isLoggedIn ? (
                                 <div className={classes.NavMenuButtons}>
                                     <Fab variant="extended" size="medium" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
-                                    {/* <Link href="#" className={classes.language}>
-                                    عربي
 
-                                     </Link> */}
-                                    {/* <HomeIcon  className={classes.homeIcon}/> */}
                                 </div>
-
-
 
                             ) : (
                                     <div className={classes.NavMenuButtons}>
@@ -193,6 +186,15 @@ function Header(props) {
                                     </div>
 
                                 )}
+
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                            <Link href="#" className={classes.language}>
+                                عربي
+                                 </Link>
+                            {/* <Link href="https://sadadbahrain.com/">
+                                   <HomeIcon className={classes.homeIcon}/>
+                                </Link>  */}
                         </div>
 
                     </Hidden>
