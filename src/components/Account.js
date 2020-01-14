@@ -8,6 +8,8 @@ import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
+
 // const styles = {
 //     mainGrid: {
 //         margin:'auto',
@@ -166,6 +168,17 @@ class Account extends Component {
     render() {
   
         return (
+            <Spring
+        native
+        from={{ o: 0, xyz: [0, 500, 0] }}
+        to={{ o: 1, xyz: [0, 0, 0] }}
+      >
+        {({ o, xyz }) => (
+          <animated.div style={{
+            transform: xyz.interpolate(
+              (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+            )
+          }}>
             <Container xl={12}>
             <Grid container spacing={10}>
                 <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
@@ -214,7 +227,9 @@ class Account extends Component {
                 </Grid>
             </Grid>
         </Container>
-
+        </animated.div>
+        )}
+      </Spring>
         );
     }
 }

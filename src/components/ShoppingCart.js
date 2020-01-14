@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
 
 class ShoppingCart extends Component {
 
@@ -167,84 +168,131 @@ class ShoppingCart extends Component {
         });
 
         return (
+            <Spring
+                native
+                from={{ o: 0, xyz: [0, 500, 0] }}
+                to={{ o: 1, xyz: [0, 0, 0] }}
+            >
+                {({ o, xyz }) => (
+                    <animated.div style={{
+                        transform: xyz.interpolate(
+                            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+                        )
+                    }}>
 
-            <Container style={{ marginTop: '30px' }}>
-                {this.state.cartItemCount ?
-                    (
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12} md={12} lg={12}>
-                                <Paper style={styles.Header}>
-                                    Shopping Cart
+                        <Container style={{ marginTop: '30px' }}>
+                            {this.state.cartItemCount ?
+                                (
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                                            <Paper style={styles.Header}>
+                                                Shopping Cart
                                 </Paper>
 
-                                {this.state.Items.map((e, i) =>
-                                    <Card style={{ borderBottom: '2px solid #dddddd' }}>
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={6} sm={6} md={2} lg={2}>
-                                                <img alt="img" src={e.iconUrl} style={styles.Image} />
-                                            </Grid>
-                                            <Grid item xs={6} sm={6} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
-                                                <Typography variant='h4'>{e.amount}</Typography>
-                                                <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{e.name}</Typography>
-                                            </Grid>
-                                            <Grid item xs={6} sm={6} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
-                                                <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
-                                            </Grid>
-                                            <Grid item xs={6} sm={6} md={1} lg={1} style={styles.CardSegmentsCart}>
-                                                <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
+                                            {this.state.Items.map((e, i) =>
+                                                <Card style={{ borderBottom: '2px solid #dddddd' }}>
+                                                    <Grid container spacing={3}>
+                                                        <Grid item xs={6} sm={6} md={2} lg={2}>
+                                                            <img alt="img" src={e.iconUrl} style={styles.Image} />
+                                                        </Grid>
+                                                        <Grid item xs={6} sm={6} md={7} lg={7} style={styles.CardSegmentsLeftAlign}>
+                                                            <Typography variant='h4'>{e.name}</Typography>
+                                                            <Typography style={{ fontSize: 15, fontFamily: 'Raleway' }}>{
+                                                                _.get(e, 'target.msisdn-local') !== "" && _.get(e, 'target.msisdn-local') !== undefined ? (
+                                                                    "+" + 973 + _.get(e, 'target.msisdn-local')
+                                                                ) :
+                                                                    (
+                                                                        _.get(e, 'target.msisdn') !== "" && _.get(e, 'target.msisdn') !== undefined ?
+                                                                            (
+                                                                                _.get(e, 'target.msisdn')
+                                                                            ) : (
+                                                                                _.get(e, 'target.account') !== "" && _.get(e, 'target.account') !== undefined ?
+                                                                                    (
+                                                                                        _.get(e, 'target.account')
+                                                                                    )
+                                                                                    :
+                                                                                    (
+                                                                                        _.get(e, 'target.cpr') !== "" && _.get(e, 'target.cpr') !== undefined ?
+                                                                                            (
+                                                                                                _.get(e, 'target.cpr')
+                                                                                            )
+                                                                                            :
+                                                                                            (
+                                                                                                _.get(e, 'target.cr') !== "" && _.get(e, 'target.cr') !== undefined ?
+                                                                                                    (
+                                                                                                        _.get(e, 'target.cr')
+                                                                                                    ) :
+                                                                                                    (
+                                                                                                        <Fragment></Fragment>
+                                                                                                    )
+                                                                                            )
+                                                                                    )
+                                                                            )
+
+                                                                    )
+                                                            }
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={6} sm={6} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
+                                                            <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
+                                                        </Grid>
+                                                        <Grid item xs={6} sm={6} md={1} lg={1} style={styles.CardSegmentsCart}>
+                                                            <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
+                                                        </Grid>
+                                                    </Grid>
+                                                </Card>
+                                            )}
+                                            <Grid container style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
+                                                <Grid item xs={12} sm={12} md={12} lg={12} >
+                                                    <Typography style={styles.Total}>
+                                                        BHD Total {sum}
+                                                        <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
+                                                    </Typography>
+                                                </Grid >
+                                                <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
+                                                    <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                                    <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Card>
-                                )}
-                                <Grid container style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
-                                    <Grid item xs={12} sm={12} md={12} lg={12} >
-                                        <Typography style={styles.Total}>
-                                            BHD Total {sum}
-                                            <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
-                                        </Typography>
-                                    </Grid >
-                                    <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
-                                        <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
-                                        <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
+                                        <form action={this.state.actionUrl} method="post" id="benefitForm">
+                                            <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
+                                        </form>
                                     </Grid>
-                                </Grid>
-                            </Grid>
-                            <form action={this.state.actionUrl} method="post" id="benefitForm">
-                                <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
-                            </form>
-                        </Grid>
 
-                    ) : (
+                                ) : (
 
-                        <Grid container spacing={10}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
-                                <Card elevation={16} style={styles.CardCard}>
-                                    <CardContent>
-                                        <Fragment>
-                                            <Grid>
-                                                <Grid item style={styles.CardContentSegments}>
-                                                    <Typography style={styles.EmptyCartHeading}>OOPS! NOTHING FOUND IN THE CART!</Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </Fragment>
-                                        <Fragment>
-                                            <Grid>
-                                                <Grid item style={styles.CardContentSegments}>
-                                                    <img style={{ marginBottom: '3%' }} src={require('../content/img/empty-cart.png')} alt="sadad" />
-                                                </Grid>
-                                            </Grid>
-                                            <Typography style={styles.CartSubHeading}>Your cart is empty. Please add few items to pay.</Typography>
-                                            <Fab variant="extended" color="primary" aria-label="add" onClick={() => this.NavigateToHome()} style={styles.TakeMeHomeBtn} >
-                                                TAKE ME HOME
+                                    <Grid container spacing={10}>
+                                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
+                                            <Card elevation={16} style={styles.CardCard}>
+                                                <CardContent>
+                                                    <Fragment>
+                                                        <Grid>
+                                                            <Grid item style={styles.CardContentSegments}>
+                                                                <Typography style={styles.EmptyCartHeading}>OOPS! NOTHING FOUND IN THE CART!</Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Fragment>
+                                                    <Fragment>
+                                                        <Grid>
+                                                            <Grid item style={styles.CardContentSegments}>
+                                                                <img style={{ marginBottom: '3%' }} src={require('../content/img/empty-cart.png')} alt="sadad" />
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Typography style={styles.CartSubHeading}>Your cart is empty. Please add few items to pay.</Typography>
+                                                        <Fab variant="extended" color="primary" aria-label="add" onClick={() => this.NavigateToHome()} style={styles.TakeMeHomeBtn} >
+                                                            TAKE ME HOME
                                             </Fab>
-                                        </Fragment>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        </Grid>
-                    )}
-            </Container>
-
+                                                    </Fragment>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                    </Grid>
+                                )}
+                        </Container>
+                    </animated.div>
+                )}
+            </Spring>
         )
 
 

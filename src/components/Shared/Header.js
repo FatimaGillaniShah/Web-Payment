@@ -55,7 +55,6 @@ function Header(props) {
         props.getHeaderInfo(0, false);
 
     }
-
     const drawer = (
         <Hidden only="sm"  >
             {props.isLoggedIn ? (

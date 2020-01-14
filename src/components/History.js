@@ -1,4 +1,4 @@
-import React, { Component,Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import Pagination from './Pagination';
 import { paginate } from '../utils/Paginate';
@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux'
 import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
 import { Container, Grid, Card, CardContent, Typography, Hidden } from '@material-ui/core';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
 
 class History extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class History extends Component {
       this.props.history.push("/login");
     }
   }
-  
+
   componentDidMount() {
     this.props.Data();
   }
@@ -49,13 +50,13 @@ class History extends Component {
       currentPage: page
     })
   }
-  
+
   render() {
 
     let data = this.props.historyData;
     let localServices = [];
     if (data != null) {
-      localServices = [];     
+      localServices = [];
       let details = [];
       data.forEach(element => {
         details = _.get(element, 'information');
@@ -65,71 +66,83 @@ class History extends Component {
       });
     }
     const count = localServices.length;
-    const { pageSize, currentPage} = this.state;
+    const { pageSize, currentPage } = this.state;
     const services = paginate(localServices, currentPage, pageSize);
 
 
     return (
+      <Spring
+        native
+        from={{ o: 0, xyz: [0, 500, 0] }}
+        to={{ o: 1, xyz: [0, 0, 0] }}
+      >
+        {({ o, xyz }) => (
+          <animated.div style={{
+            transform: xyz.interpolate(
+              (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+            )
+          }}>
+            <Container style={styles.containerStart}>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
 
-      <Container  style={styles.containerStart}>
-         <Grid item xs={12} sm={12} md={12} lg={12}>
-        
-        <Pagination
-          itemsCount={count}
-          pageSize={this.state.pageSize}
-          onPageChange={this.handlePageChange}
-          currentPage={this.state.currentPage}
-        />
-      
-      </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-          {services.length === 0 ? <LoadingHtmlHistory /> : null }
+                <Pagination
+                  itemsCount={count}
+                  pageSize={this.state.pageSize}
+                  onPageChange={this.handlePageChange}
+                  currentPage={this.state.currentPage}
+                />
 
-          {services.map((e, i) =>
-            <Card>
-              <CardContent style={styles.cardArea}>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  {services.length === 0 ? <LoadingHtmlHistory /> : null}
 
-              {this.DateHeader(e) ? (
-                <Grid style={styles.cardHeader}>
-                <Grid item>
-                  <Typography variant='h4'>
-                  {(_.get(e, 'Date Time')).split(' ')[0]}
-                  </Typography>
+                  {services.map((e, i) =>
+                    <Card>
+                      <CardContent style={styles.cardArea}>
+
+                        {this.DateHeader(e) ? (
+                          <Grid style={styles.cardHeader}>
+                            <Grid item>
+                              <Typography variant='h4'>
+                                {(_.get(e, 'Date Time')).split(' ')[0]}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        ) : (
+                            <Fragment></Fragment>
+                          )
+                        }
+
+                        <Grid container spacing={3}>
+                          <Grid Item item xs={1} sm={1} md={1} lg={1}>
+                            <img alt="" src={e.iconUrl} style={styles.CardIcon} />
+                          </Grid>
+
+                          <Grid Item item xs={8} sm={8} md={8} lg={8} >
+                            <Hidden smDown='true'>
+                              <Typography variant='h5' style={styles.CardName}>
+                                {_.get(e, 'Service Name')}
+                              </Typography>
+                            </Hidden>
+                          </Grid>
+
+                          <Grid Item item xs={2} sm={2} md={2} lg={2}>
+                            <Typography style={styles.CardAmount}>BHD {e.Amount}</Typography>
+                            <p>{(_.get(e, 'Date Time')).split(' ')[1]}</p>
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+
+                  )}
                 </Grid>
               </Grid>
-              ) : (
-                <Fragment></Fragment>
-              )
-              }
-                
-                <Grid container spacing={3}>
-                  <Grid Item item xs={1} sm={1} md={1} lg={1}>
-                    <img alt="" src={e.iconUrl} style={styles.CardIcon} />
-                  </Grid>
-                  
-                  <Grid Item item xs={8} sm={8} md={8} lg={8} >
-                  <Hidden smDown='true'>
-                    <Typography variant='h5' style={styles.CardName}>
-                      {_.get(e, 'Service Name')}
-                    </Typography>
-                    </Hidden>
-                  </Grid>
-                  
-                  <Grid Item item xs={2} sm={2} md={2} lg={2}>
-                  <Typography style={styles.CardAmount}>BHD {e.Amount}</Typography>
-                    <p>{(_.get(e, 'Date Time')).split(' ')[1]}</p>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
 
-          )}
-          </Grid>
-        </Grid>
-       
-      </Container>
-
+            </Container>
+          </animated.div>
+        )}
+      </Spring>
     );
   }
 }

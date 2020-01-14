@@ -10,7 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
-
+import { Spring, animated } from "react-spring/renderprops";
 
 const initialState = {
     phoneError: '',
@@ -140,69 +140,83 @@ class ActivateAccount extends Component {
     }
     render() {
         return (
-            <Container xl={12}>
-            <Grid container spacing={10}>
-                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
-                    <Card elevation={16} style={styles.Card}>                           
-                        <CardContent>
-                            <Grid>
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>ACTIVATE</Typography>
-                                </Grid>
+            <Spring
+                native
+                from={{ o: 0, xyz: [0, 500, 0] }}
+                to={{ o: 1, xyz: [0, 0, 0] }}
+            >
+                {({ o, xyz }) => (
+                    <animated.div style={{
+                        transform: xyz.interpolate(
+                            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+                        )
+                    }}>
 
-                                <Grid item style={styles.CardSegments}>
-                                {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                    <TextField
-                                        label="Phone Number"
-                                        variant="outlined"
-                                        type="text"
-                                        InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
-                                        name='phone'
-                                        value={this.state.msisdn}
-                                        onChange={this.handleChange}
-                                        style={styles.CardFields}
-                                    />
-                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
-                                </Grid>
+                        <Container xl={12}>
+                            <Grid container spacing={10}>
+                                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
+                                    <Card elevation={16} style={styles.Card}>
+                                        <CardContent>
+                                            <Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography gutterBottom variant="h3" component="h2" style={{ color: '#0061ae', fontWeight: '300' }}>ACTIVATE</Typography>
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <TextField
-                                        label="Activation Code"
-                                        variant="outlined"
-                                        type="text"
-                                        name='code'
-                                        value={this.state.code}
-                                        onChange={this.handleChange} 
-                                        style={styles.CardFields}
-                                    />
-                                {this.state.codeError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.codeError}</div> : null}
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                                    <TextField
+                                                        label="Phone Number"
+                                                        variant="outlined"
+                                                        type="text"
+                                                        InputProps={{ startAdornment: <InputAdornment position="start">+973</InputAdornment> }}
+                                                        name='phone'
+                                                        value={this.state.msisdn}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.activate}>ACTIVATE</Fab>
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <TextField
+                                                        label="Activation Code"
+                                                        variant="outlined"
+                                                        type="text"
+                                                        name='code'
+                                                        value={this.state.code}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.codeError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.codeError}</div> : null}
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                <Typography style={styles.ActivateText}>
-                                   To resend activation code, please login.
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.activate}>ACTIVATE</Fab>
+                                                </Grid>
 
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography style={styles.ActivateText}>
+                                                        To resend activation code, please login.
+                     
                                 </Typography>
-                                </Grid>
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography style={styles.CardSegmentSeparator}></Typography>
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography style={styles.CardSegmentSeparator}></Typography>
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                    </Card>
                                 </Grid>
                             </Grid>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Container>
-           
+                        </Container>
+                    </animated.div>
+                )}
+            </Spring>
         );
     }
 }

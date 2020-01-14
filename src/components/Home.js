@@ -3,23 +3,24 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import {Grid, Container, CardHeader, Avatar} from '@material-ui/core';
+import { Grid, Container, CardHeader, Avatar } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
 import Image from 'material-ui-image';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       count: 0,
       show: false
     }
-    
+
     let isValid = validateLogin();
     if (isValid) {
-        this.props.history.push("/");
+      this.props.history.push("/");
     }
 
   }
@@ -36,7 +37,7 @@ class Home extends Component {
     this.setState({ show: false })
     this.setTimeout(() => this.setState(state => ({ count: state.count + 1, show: true })), 500)
   }
-  
+
 
   render() {
 
@@ -58,37 +59,51 @@ class Home extends Component {
     groups = filteredGruops;
 
     return (
-      <Container maxWidth="xl">
-        <Grid container spacing={3}>
-        {groups.length === 0 ? <LoadingHtml /> : " " }
-       
-          {groups.map((e, i) =>
-            <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
-               
-              <Card elevation={16} style={styles.card}>
-                <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkTextHome}>
-                <Image 
-                  src={e.iconUrlLarge}
-                  style={styles.media} 
-                  title={e.name}
-                 />
-                  <CardHeader 
-                    avatar={
-                    <Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
-                      <img alt="img" src={e.iconUrlSmall} style={styles.avatarImage} />
-                    </Avatar>}
-                    titleTypographyProps={{ variant: 'h4', }}
-                    disableTypography={true}
-                    style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
-                    title={e.name}
-                  />
-                </Link>
-              </Card>
-              
-            </Grid>
-          )}
-        </Grid>
-      </Container>
+      <Spring
+        native
+        from={{ o: 0, xyz: [0, 500, 0] }}
+        to={{ o: 1, xyz: [0, 0, 0] }}
+      >
+        {({ o, xyz }) => (
+          <animated.div style={{
+            transform: xyz.interpolate(
+              (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+            )
+          }}>
+            <Container maxWidth="xl">
+              <Grid container spacing={3}>
+                {groups.length === 0 ? <LoadingHtml /> : " "}
+
+                {groups.map((e, i) =>
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+
+                    <Card elevation={16} style={styles.card}>
+                      <Link to={{ pathname: "/ServiceProvider/" + e.id, }} style={styles.LinkTextHome}>
+                        <Image
+                          src={e.iconUrlLarge}
+                          style={styles.media}
+                          title={e.name}
+                        />
+                        <CardHeader
+                          avatar={
+                            <Avatar aria-label="recipe" style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}>
+                              <img alt="img" src={e.iconUrlSmall} style={styles.avatarImage} />
+                            </Avatar>}
+                          titleTypographyProps={{ variant: 'h4', }}
+                          disableTypography={true}
+                          style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
+                          title={e.name}
+                        />
+                      </Link>
+                    </Card>
+
+                  </Grid>
+                )}
+              </Grid>
+            </Container>
+          </animated.div>
+        )}
+      </Spring>
     );
   }
 }

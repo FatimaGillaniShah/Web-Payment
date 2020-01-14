@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../content/css/forgetPassword.css';
-import {ForgetRequestInfo} from '../api/ApiCalls';
+import { ForgetRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
@@ -10,31 +10,31 @@ import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
+import { Spring, animated } from "react-spring/renderprops";
 
 const initialState = {
     error: '',
-    phoneError: '', 
-    newPasswordError:'',
-    RepeatPasswordError:'',
+    phoneError: '',
+    newPasswordError: '',
+    RepeatPasswordError: '',
     loading: ''
 
 }
 class ForgetPassword extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
 
-    
+
         this.state = {
             msisdn: '',
             newPassword: '',
-            RepeatPassword:''
+            RepeatPassword: ''
         }
         this.forgetPassword = this.forgetPassword.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
     handleChange(event) {
-      
+
         if (event.target.name === 'phone') {
             this.setState({ msisdn: event.target.value });
         }
@@ -44,7 +44,7 @@ class ForgetPassword extends Component {
         else if (event.target.name === 'RepeatPassword') {
             this.setState({ RepeatPassword: event.target.value });
         }
-       
+
     }
     validate(msisdn, newpassword, RepeatPassword) {
         this.setState(initialState);
@@ -63,7 +63,7 @@ class ForgetPassword extends Component {
             return false;
         }
 
-      
+
         else if (newpassword === "" || newpassword === null || newpassword === undefined) {
             this.setState({
                 newPasswordError: "password is required"
@@ -78,125 +78,139 @@ class ForgetPassword extends Component {
             })
             return false;
         }
-       
+
         return true;
     }
 
-    forgetPassword(){
-      
+    forgetPassword() {
+
         let msisdn = this.state.msisdn;
         let newpassword = this.state.newPassword;
         let RepeatPassword = this.state.RepeatPassword;
-       
+
         const isValid = this.validate(msisdn, newpassword, RepeatPassword);
         if (isValid) {
             this.setState(initialState);
             let forgetRequestObject = {
-                "msisdn": "973"+msisdn,
+                "msisdn": "973" + msisdn,
                 "password": newpassword,
-           
-        }
-        ForgetRequestInfo(forgetRequestObject)
-        .then((result) => {
-            if (result  !== undefined) {
-              
-                // let resultData = _.get(result.data, 'error-code');
-                // let resultDataMessage = _.get(result.data, 'error-message');
-                // if(resultData === 0){
-                   
-                //     this.props.history.push('/login');
-                // }
-                // else{     
-                  
-                //      alert(resultDataMessage);
-                    
-                // }
-                console.log(result)
 
             }
-        })
-        .catch((err) => {
-            console.log("error login failed !!!")
-            });
+            ForgetRequestInfo(forgetRequestObject)
+                .then((result) => {
+                    if (result !== undefined) {
+
+                        // let resultData = _.get(result.data, 'error-code');
+                        // let resultDataMessage = _.get(result.data, 'error-message');
+                        // if(resultData === 0){
+
+                        //     this.props.history.push('/login');
+                        // }
+                        // else{     
+
+                        //      alert(resultDataMessage);
+
+                        // }
+                        console.log(result)
+
+                    }
+                })
+                .catch((err) => {
+                    console.log("error login failed !!!")
+                });
         }
     }
     NavigateToSignup = () => {
         this.props.history.push('/signup');
 
     }
-   
+
     render() {
         return (
 
-            <Container xl={12}>
-            <Grid container spacing={10}>
-                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>                    
-                    <Card elevation={16} style={styles.Card}>                           
-                        <CardContent>
-                            <Grid>
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography gutterBottom variant="h4" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>FORGOT YOUR PASSWORD</Typography>
-                                </Grid>
+            <Spring
+                native
+                from={{ o: 0, xyz: [0, 500, 0] }}
+                to={{ o: 1, xyz: [0, 0, 0] }}
+            >
+                {({ o, xyz }) => (
+                    <animated.div style={{
+                        transform: xyz.interpolate(
+                            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+                        )
+                    }}>
 
-                                <Grid item style={styles.CardSegments}>
-                                {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                    <TextField 
-                                        label="Phone Number"
-                                        variant="outlined"
-                                        type="text"
-                                        InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
-                                        name='phone'
-                                        value={this.state.msisdn}
-                                        onChange={this.handleChange}
-                                        style={styles.CardFields}
-                                    />
-                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
-                                </Grid>
-                                <Grid item style={styles.CardSegments}>
-                                    <TextField
-                                        label="New Password"
-                                        variant="outlined"
-                                        type="password"
-                                        name='NewPassword'
-                                        value={this.state.newPassword}
-                                        onChange={this.handleChange} 
-                                        style={styles.CardFields}
-                                    />
-                                {this.state.newPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.newPasswordError}</div> : null}
-                                </Grid>
+                        <Container xl={12}>
+                            <Grid container spacing={10}>
+                                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
+                                    <Card elevation={16} style={styles.Card}>
+                                        <CardContent>
+                                            <Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography gutterBottom variant="h4" component="h2" style={{ color: '#0061ae', fontWeight: '300' }}>FORGOT YOUR PASSWORD</Typography>
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <TextField
-                                        label="Repeat Password"
-                                        variant="outlined"
-                                        type="password"
-                                        name='RepeatPassword'
-                                        value={this.state.RepeatPassword}
-                                        onChange={this.handleChange} 
-                                        style={styles.CardFields}
-                                    />
-                                {this.state.RepeatPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.RepeatPasswordError}</div> : null}
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                                    <TextField
+                                                        label="Phone Number"
+                                                        variant="outlined"
+                                                        type="text"
+                                                        InputProps={{ startAdornment: <InputAdornment position="start">+973</InputAdornment> }}
+                                                        name='phone'
+                                                        value={this.state.msisdn}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <TextField
+                                                        label="New Password"
+                                                        variant="outlined"
+                                                        type="password"
+                                                        name='NewPassword'
+                                                        value={this.state.newPassword}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.newPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.newPasswordError}</div> : null}
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.forgetPassword}>SUBMIT</Fab>
-                                </Grid>
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography style={styles.CardSegmentSeparator}></Typography>
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <TextField
+                                                        label="Repeat Password"
+                                                        variant="outlined"
+                                                        type="password"
+                                                        name='RepeatPassword'
+                                                        value={this.state.RepeatPassword}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.RepeatPasswordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.RepeatPasswordError}</div> : null}
+                                                </Grid>
 
-                                <Grid item style={styles.CardSegments}>
-                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
-                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.forgetPassword}>SUBMIT</Fab>
+                                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography style={styles.CardSegmentSeparator}></Typography>
+                                                </Grid>
 
-                               
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                                </Grid>
+
+
+                                            </Grid>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
                             </Grid>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
-        </Container>
-           
+                        </Container>
+                    </animated.div>
+                )}
+            </Spring>
         );
     }
 }

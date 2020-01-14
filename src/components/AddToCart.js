@@ -90,8 +90,8 @@ const StyledTab = styled(({ ...props }) => (
   `;
 const initialState = {
    
-    PhoneError: '',
-    CPRError: '',
+    PhoneError: false,
+    CPRError: false,
     AmountError: ''
 }
 class AddToCart extends Component {
@@ -119,32 +119,28 @@ class AddToCart extends Component {
         this.serviceRequestOptionalTargetsArray = [];
         this.finalizedTargetsArray = {};
 
-
     }
-
 
     updateInput(event) {
         this.setState({ quantity: event.target.value });
     }
     
-
+   
     updateAmount(event) {
-
-        let amount = event.target.value;
-        if (amount < 0.500) {
-            this.setState({
-                AmountError: "The minimum amount is 0.500",
-
-            });
-        }
-        else {
-            this.setState({
-                AmountError: ""
-            });
+    
+      let amount = event.target.value;
+         if (amount >= 0.500) {
             let quantity = 1;
             this.setState({
-                amount: amount,
-                quantity: quantity
+                AmountError: "",
+                //amount:amount,
+                // [quantity]: quantity
+            });
+            console.log(this.state.amount)
+         }
+        else{
+            this.setState({
+                AmountError: "Minimum amount is 0.500",
             });
         }
 
@@ -220,6 +216,12 @@ class AddToCart extends Component {
     }
 
     async saveIntoCart(serviceObject) {
+       
+        // const isValid = this.onChange((event, targetName, min, max))
+        // debugger
+        // console.log(isValid)
+        
+        // if(isValid){
 
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
@@ -305,6 +307,8 @@ class AddToCart extends Component {
                 }
             }
         }
+    // }
+   
     }
 
     amount(e, data) {
@@ -354,24 +358,23 @@ class AddToCart extends Component {
 
     }
     onChange = (event, targetName, min, max) => {
-        debugger
-        console.log(targetName)
-
+ 
         if (targetName === 'Phone Number') {
             if (event.target.value.length === 8) {
                 this.setState({
                     PhoneError: ""
                 });
+               
             }
 
             else {
                 this.setState({
                     PhoneError: 'Enter ' + min + " digits"
                 });
+                return false;
+
             }
-
         }
-
         else if (targetName === 'Account Number') {
             if (event.target.value.length > min && event.target.value.length < max) {
                 this.setState({
@@ -382,36 +385,40 @@ class AddToCart extends Component {
                 this.setState({
                     PhoneError: 'Enter ' + min + "-" + max + " digits"
                 });
+                return false;
             }
-
         }
-        if (targetName === 'CPR')
+       else if (targetName === 'CPR'){
             if (event.target.value.length !== 9) {
                 this.setState({
                     CPRError: 'Enter 9 digits'
                 });
+                return false;
             }
             else {
                 this.setState({
                     CPRError: ''
-                });
+                });          
 
             }
+                 
+        }
         else if (targetName === 'CR') {
             if (event.target.value.length !== 8) {
                 this.setState({
                     CPRError: 'Enter 8 digits'
                 });
+                return false;
+                
             }
             else {
                 this.setState({
                     CPRError: ''
                 });
-
             }
-
+           
         }
-
+        return true;
     }
     inputForTarget(targets) {
         if (targets !== null && targets !== undefined) {
@@ -461,7 +468,6 @@ class AddToCart extends Component {
                 targetType = "text";
             }
 
-
             if (targetAttributes !== null && targetAttributes !== undefined) {
 
                 let min = _.get(targetAttributes, 'min');
@@ -478,7 +484,6 @@ class AddToCart extends Component {
                             onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
                                 {
-
                                     startAdornment: <InputAdornment position="start">+973</InputAdornment>,
                                     minLength: { min },
                                     maxLength: { max }
@@ -490,7 +495,6 @@ class AddToCart extends Component {
                 }
                 else {
                     inputField.push(
-
                         <TextField
                             label={targetName}
                             id={targetNameOriginal}
@@ -505,7 +509,9 @@ class AddToCart extends Component {
                                 }
                             }
                             variant="outlined"
+                            
                         />
+                       
                     );
                 }
 
@@ -565,7 +571,6 @@ class AddToCart extends Component {
                 BalanceInquiry: true
             });
         }
-
 
     }
 
@@ -684,11 +689,16 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
-                                                            {this.state.PhoneError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.PhoneError}</div> : null}
-
+                                                            
+                                                          
                                                         </Grid>
+                                                       
                                                     </Fragment>
+                                                    
                                                 )}
+                                                {this.state.PhoneError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.PhoneError}</div> : null}
+                                                 {/* {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null} */}
+                                                
                                             </Grid>
                                             <Grid item style={styles.CardContentSegments}>
                                                 {serviceBalanceInquiry === true ? (
@@ -785,6 +795,7 @@ class AddToCart extends Component {
                                                     value={this.state.amount}
                                                     style={styles.textField}
                                                     onChange={this.updateAmount}
+                                                    onKeyDown={this.onKeyDown}
                                                     variant="outlined"
                                                 />
                                             </Grid>

@@ -1,11 +1,11 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import '../content/css/login.css';
 import { LoginRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
 import { validateLogin } from '../components/common/common';
-import { CardContent} from '@material-ui/core';
+import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Grid, Container, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +14,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { Spring, animated } from "react-spring/renderprops";
+
 const initialState = {
     error: '',
     phoneError: '',
@@ -28,7 +30,7 @@ class Login extends Component {
         this.state = {
             msisdn: '',
             password: '',
-          
+
         }
         let isValid = validateLogin();
         if (isValid) {
@@ -37,9 +39,9 @@ class Login extends Component {
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
 
-    } 
+    }
     validate(msisdn, password) {
-      
+
         this.setState(initialState);
         if (msisdn === "" || msisdn === null || msisdn === undefined) {
             this.setState({
@@ -74,9 +76,9 @@ class Login extends Component {
     }
 
     login() {
-        
+
         let msisdn = this.state.msisdn;
-        let password = this.state.password;   
+        let password = this.state.password;
         const isValid = this.validate(msisdn, password);
 
         if (isValid) {
@@ -90,7 +92,7 @@ class Login extends Component {
 
             LoginRequestInfo(LoginRequestObject)
                 .then((result) => {
-                  
+
                     if (result !== undefined) {
                         this.setState({ loading: false })
 
@@ -98,7 +100,7 @@ class Login extends Component {
                         let resultDataMessage = _.get(result.data, 'error-message');
                         console.log(resultDataMessage)
                         if (resultData === 0) {
-                            
+
 
                             let sessionId = _.get(result.data, 'session-id');
                             localStorage.setItem('sessionId', sessionId);
@@ -176,80 +178,94 @@ class Login extends Component {
     }
     render() {
         return (
+            <Spring
+                native
+                from={{ o: 0, xyz: [0, 500, 0] }}
+                to={{ o: 1, xyz: [0, 0, 0] }}
+            >
+                {({ o, xyz }) => (
+                    <animated.div style={{
+                        transform: xyz.interpolate(
+                            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+                        )
+                    }}>
 
-            <Container xl={12}>
-                <Grid container spacing={10}>
-                    <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
-                                      
-                        <Card elevation={16} style={styles.Card}>  
-                              {this.state.loading? <LinearProgress  /> : ""}                       
-                            <CardContent>
-                                <Grid>
-                                    <Grid item style={styles.CardSegments}>
-                                        <Typography gutterBottom variant="h3" component="h2" style={{color:'#0061ae', fontWeight:'300'}}>LOGIN</Typography>
-                                    </Grid>
-    
-                                    <Grid item style={styles.CardSegments}>
-                                    {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
-                                        <TextField 
-                                            label="Phone Number"
-                                            variant="outlined"
-                                            type="text"
-                                            InputProps={{startAdornment: <InputAdornment position="start">+973</InputAdornment>}}
-                                            name='phone'
-                                            value={this.state.msisdn}
-                                            onChange={this.handleChange}
-                                            style={styles.CardFields}
-                                            
-                                        >
-                                        
-                                        </TextField >
-                            
-                                        {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
-                                    </Grid>
+                        <Container xl={12}>
+                            <Grid container spacing={10}>
+                                <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
 
-                                    <Grid item style={styles.CardSegments}>
-                                        <TextField
-                                            label="Password"
-                                            variant="outlined"
-                                            type="password"
-                                            name='password'
-                                            value={this.state.password}
-                                            onChange={this.handleChange} 
-                                            style={styles.CardFields}
-                                        />
-                                    {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
-                                    </Grid>
+                                    <Card elevation={16} style={styles.Card}>
+                                        {this.state.loading ? <LinearProgress /> : ""}
+                                        <CardContent>
+                                            <Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography gutterBottom variant="h3" component="h2" style={{ color: '#0061ae', fontWeight: '300' }}>LOGIN</Typography>
+                                                </Grid>
 
-                                    <Grid item style={styles.CardSegments}>
-                                        <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn}  onClick={this.login}>Login</Fab>
-                                    </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
+                                                    <TextField
+                                                        label="Phone Number"
+                                                        variant="outlined"
+                                                        type="text"
+                                                        InputProps={{ startAdornment: <InputAdornment position="start">+973</InputAdornment> }}
+                                                        name='phone'
+                                                        value={this.state.msisdn}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
 
-                                    <Grid item style={styles.CardSegments}>
+                                                    >
 
-                                        <Grid container>
-                                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
-                                                <Link onClick={this.NavigateToForget}><Typography style={styles.LinkText}>Forget Password</Typography></Link>
+                                                    </TextField >
+
+                                                    {this.state.phoneError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.phoneError}</div> : null}
+                                                </Grid>
+
+                                                <Grid item style={styles.CardSegments}>
+                                                    <TextField
+                                                        label="Password"
+                                                        variant="outlined"
+                                                        type="password"
+                                                        name='password'
+                                                        value={this.state.password}
+                                                        onChange={this.handleChange}
+                                                        style={styles.CardFields}
+                                                    />
+                                                    {this.state.passwordError ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.passwordError}</div> : null}
+                                                </Grid>
+
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
+                                                </Grid>
+
+                                                <Grid item style={styles.CardSegments}>
+
+                                                    <Grid container>
+                                                        <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                                                            <Link onClick={this.NavigateToForget}><Typography style={styles.LinkText}>Forget Password</Typography></Link>
+                                                        </Grid>
+                                                        <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+                                                            <Link onClick={this.NavigateToActivate}><Typography style={styles.LinkText}>Activate Account</Typography></Link>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                </Grid>
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography style={styles.CardSegmentSeparator}></Typography>
+                                                </Grid>
+
+                                                <Grid item style={styles.CardSegments}>
+                                                    <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
-                                                <Link onClick={this.NavigateToActivate}><Typography style={styles.LinkText}>Activate Account</Typography></Link>
-                                            </Grid>
-                                        </Grid>
-
-                                    </Grid>
-                                    <Grid item style={styles.CardSegments}>
-                                        <Typography style={styles.CardSegmentSeparator}></Typography>
-                                    </Grid>
-
-                                    <Grid item style={styles.CardSegments}>
-                                        <Typography variant='h4'>Don’t have an account?<Link onClick={this.NavigateToSignup}><Typography style={styles.LinkText}>Sign Up For Free</Typography></Link></Typography>
-                                    </Grid>
+                                        </CardContent>
+                                    </Card>
                                 </Grid>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Container>
+                            </Grid>
+                        </Container>
+                    </animated.div>
+                )}
+            </Spring>
         );
     }
 }

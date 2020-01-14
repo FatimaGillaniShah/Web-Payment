@@ -6,7 +6,8 @@ import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';
 import * as comp from './components';
 import styling from './content/css';
-
+import Favicon from 'react-favicon';
+import faviconImage from './content/img/favicon.png'
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class App extends Component {
     
     return (
       <div>
+        <Favicon url={faviconImage} />
         <comp.Header />
 
         <div className="App">
