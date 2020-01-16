@@ -76,7 +76,6 @@ class Login extends Component {
     }
 
     login() {
-
         let msisdn = this.state.msisdn;
         let password = this.state.password;
         const isValid = this.validate(msisdn, password);
@@ -213,7 +212,6 @@ class Login extends Component {
                                                         value={this.state.msisdn}
                                                         onChange={this.handleChange}
                                                         style={styles.CardFields}
-
                                                     >
 
                                                     </TextField >
@@ -235,7 +233,7 @@ class Login extends Component {
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
-                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
+                                                   <Fab variant="extended" disabled={this.state.loading} color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>

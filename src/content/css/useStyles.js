@@ -37,7 +37,8 @@ const useStyles = makeStyles(theme =>({
     NavMenuButtons:
     {
         float: 'right',
-        marginTop: '12px'
+        marginTop: '12px',
+        cursor:'pointer'
 
     },
     text: {
@@ -87,7 +88,8 @@ const useStyles = makeStyles(theme =>({
     loginbtn: {
         margin: '0px 2px',
         fontSize: '14px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        cursor:'pointer'
     },
     language: {
         color: 'white',

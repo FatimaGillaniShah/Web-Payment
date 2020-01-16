@@ -19,9 +19,12 @@ class Home extends Component {
     }
 
     let isValid = validateLogin();
+    debugger
     if (isValid) {
+     
       this.props.history.push("/");
     }
+
 
   }
 

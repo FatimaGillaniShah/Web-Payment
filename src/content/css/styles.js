@@ -70,7 +70,8 @@ const styles = {
 
   card: {
     maxWidth: '345',
-    marginTop: '30px'
+    marginTop: '30px',
+    cursor:'pointer'
   },
 
   media: {
@@ -235,6 +236,7 @@ const styles = {
   },
   FooterText:{
     fontFamily: "sans-serif",
+    fontSize:'14px',
     textAlign:"center"
   }
  
