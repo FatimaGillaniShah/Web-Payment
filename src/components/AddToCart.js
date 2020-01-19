@@ -131,14 +131,14 @@ class AddToCart extends Component {
     updateAmount(event) {
 
         let amount = event.target.value;
+
         if (amount >= 0.500) {
             let quantity = 1;
             this.setState({
                 AmountError: "",
                 // amount          
-                // [quantity]: quantity
+                // quantity: quantity
             });
-            console.log(this.state.amount)
         }
         else {
             this.setState({
@@ -237,14 +237,13 @@ class AddToCart extends Component {
     }
     async saveIntoCart(serviceObject) {
       debugger
-        if(this.state.NonFixedServices === true ){
+        if(this.state.NonFixedServices === true){
            const isValid = this.validate();
            if(!isValid){
                alert("Validation Error");
                return;
            }
-        }
-        
+        }  
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
             let targetValue = document.getElementById(targetName).value;
@@ -340,7 +339,6 @@ class AddToCart extends Component {
    
 
     }
-
     amount(e, data) {
         let ele = document.getElementsByClassName('active');
         if (ele.length > 0) {
@@ -522,7 +520,6 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
-
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
@@ -547,7 +544,6 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
-
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(targetName)}
                             InputProps={{
@@ -566,7 +562,6 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
-
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(targetName)}
                             variant="outlined"
