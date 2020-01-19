@@ -93,6 +93,7 @@ const StyledTab = styled(({ ...props }) => (
 //     CPRError: null,
 //     AmountError: null
 // }
+var NonFixedServices = false;
 class AddToCart extends Component {
 
     constructor(props) {
@@ -217,8 +218,7 @@ class AddToCart extends Component {
         }
     }
     validate() {
-        // this.setState(initialState);
-      
+       
         if(this.state.BalanceInquiry === true){
             if (this.state.PhoneError === false && this.state.CPRError === false && this.state.AmountError === '') {
                 return true
@@ -236,8 +236,9 @@ class AddToCart extends Component {
         }
     }
     async saveIntoCart(serviceObject) {
-      debugger
-        if(this.state.NonFixedServices === true){
+        debugger
+
+        if(NonFixedServices === true){
            const isValid = this.validate();
            if(!isValid){
                alert("Validation Error");
@@ -386,20 +387,23 @@ class AddToCart extends Component {
 
     }
     onChange = (event, targetName, min, max) => {
+    
         this.setState({ NonFixedServices : true})
 
         if (targetName === 'Phone Number') {
+           
             if (event.target.value.length === 8) {
                 this.setState({
-                    PhoneError: false,
-                    
+                    PhoneError: false,        
                 });
             }
+
             else {
                 this.setState({
                     PhoneError: 'Enter ' + min + " digits",
                 });
             }
+            
         }
         else if (targetName === 'Account Number') {
             if (event.target.value.length > min && event.target.value.length < max) {
@@ -419,6 +423,7 @@ class AddToCart extends Component {
                     CPRError: 'Enter 9 digits',
                 });
             }
+          
             else {
                 this.setState({
                     CPRError: false
@@ -439,7 +444,7 @@ class AddToCart extends Component {
         }
     }
     inputForTarget(targets) {
-      
+        NonFixedServices = true;
         if (targets !== null && targets !== undefined) {
             let inputField = [];
             let targetNameOriginal = targets.key;
@@ -502,7 +507,7 @@ class AddToCart extends Component {
                             value={this.state.msisdn}
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(e, targetName, min, max)}
-                            InputProps={
+                            inputProps={
                                 {
                                     startAdornment: <InputAdornment position="start">+973</InputAdornment>,
                                     minLength: min,
@@ -522,7 +527,7 @@ class AddToCart extends Component {
                             style={styles.textField}
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(e, targetName, min, max)}
-                            InputProps={
+                            inputProps={
                                 {
                                     minLength: min,
                                     maxLength: max 
@@ -546,7 +551,7 @@ class AddToCart extends Component {
                             style={styles.textField}
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(targetName)}
-                            InputProps={{
+                            inputProps={{
                                 startAdornment: <InputAdornment position="start">+973</InputAdornment>
                             }}
                             variant="outlined"
@@ -622,6 +627,7 @@ class AddToCart extends Component {
     }
 
     render() {
+        
 
         var id = this.props.match.params.id;
         let serviceObject;
@@ -823,7 +829,7 @@ class AddToCart extends Component {
                                                     style={styles.textField}
                                                     onChange={this.updateAmount}
                                                     onKeyDown={this.onKeyDown}
-                                                    InputProps={
+                                                    inputProps={
                                                         {
                                                             minLength: serviceAmountMin,
                                                             maxLength: serviceAmountMax

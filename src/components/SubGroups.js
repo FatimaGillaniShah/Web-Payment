@@ -5,6 +5,7 @@ import { Grid, Container, CardHeader, Card } from '@material-ui/core';
 import styles from '../content/css/styles';
 import Image from 'material-ui-image';
 import { Spring, animated } from "react-spring/renderprops";
+import LoadingHtml from '../components/Shared/LoadingHtml';
 
 class ServiceProvider extends Component {
   constructor(props) {
@@ -78,16 +79,15 @@ class ServiceProvider extends Component {
           }}>
             <Container maxWidth="xl">
               <Grid container spacing={3}>
+                {this.state.servicesOrGroups.length === 0 ? <LoadingHtml /> : " "}
                 {this.state.servicesOrGroups.map((e, i) =>
                   <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
                     <Card elevation={16} style={styles.card} onClick={() => this.validateGroupsForServices(e)}>
-
                       <Image
                         src={e.iconUrl}
                         style={styles.media}
                         title={e.name}
                       />
-
                       <CardHeader
                         titleTypographyProps={{ variant: 'h4', }}
                         disableTypography={true}
