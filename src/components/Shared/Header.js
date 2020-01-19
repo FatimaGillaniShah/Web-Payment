@@ -131,11 +131,6 @@ function Header(props) {
         props.history.push('/History');
     }
     React.useEffect(() => {
-        let isLogin = validateLogin();
-        if (!isLogin) {
-            //logout();
-        }
-        else {
             let cartItemCount = localStorage.getItem('cartItemCount');
             if (cartItemCount === null) {
                 props.getHeaderInfo(0, true);
@@ -143,7 +138,6 @@ function Header(props) {
             else {
                 props.getHeaderInfo(cartItemCount, true);
             }
-        }
     }, []);
 
     return (
