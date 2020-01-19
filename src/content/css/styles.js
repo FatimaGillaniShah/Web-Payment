@@ -51,7 +51,13 @@ const styles = {
     margin: 'auto',
     backgroundColor: '#5E8C2A',
     width: '90%',
-    fontSize: 'medium'
+    fontSize: 'medium',
+    color:"white"
+  },
+  LoginBtnLoader:{
+   
+      color: 'white',
+
   },
   LinkText: {
     color: '#1961d7',

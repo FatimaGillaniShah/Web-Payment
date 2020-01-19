@@ -179,7 +179,7 @@ function Header(props) {
 
                             ) : (
                                     <div className={classes.NavMenuButtons}>
-                                        <Fab variant="extended" size="medium" className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
+                                        <Fab variant="extended" size="medium" onClick={NavigateToLogin} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
                                         <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
                                     </div>
 

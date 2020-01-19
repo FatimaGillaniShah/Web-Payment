@@ -15,7 +15,7 @@ import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Spring, animated } from "react-spring/renderprops";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const initialState = {
     error: '',
     phoneError: '',
@@ -76,6 +76,7 @@ class Login extends Component {
     }
 
     login() {
+       
         let msisdn = this.state.msisdn;
         let password = this.state.password;
         const isValid = this.validate(msisdn, password);
@@ -88,19 +89,19 @@ class Login extends Component {
                 "locale": "en-US"
             }
             this.setState({ loading: true })
-
+        
             LoginRequestInfo(LoginRequestObject)
                 .then((result) => {
+                    this.setState({loading:false})
+                     // setTimeout(this.setState.bind(this, {loading:false}), 1000);
 
                     if (result !== undefined) {
-                        this.setState({ loading: false })
-
+                      
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         console.log(resultDataMessage)
                         if (resultData === 0) {
-
-
+                            
                             let sessionId = _.get(result.data, 'session-id');
                             localStorage.setItem('sessionId', sessionId);
                             localStorage.setItem('sessionTime', Date());
@@ -159,6 +160,7 @@ class Login extends Component {
                             }
                         }
                     }
+                    
                     console.log(result)
                 })
                 .catch((err) => {
@@ -176,6 +178,7 @@ class Login extends Component {
         }
     }
     render() {
+      
         return (
             <Spring
                 native
@@ -194,7 +197,7 @@ class Login extends Component {
                                 <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
 
                                     <Card elevation={16} style={styles.Card}>
-                                        {this.state.loading ? <LinearProgress /> : ""}
+                                        {/* {this.state.loading ? <LinearProgress /> : ""} */}
                                         <CardContent>
                                             <Grid>
                                                 <Grid item style={styles.CardSegments}>
@@ -233,7 +236,10 @@ class Login extends Component {
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
-                                                   <Fab variant="extended" disabled={this.state.loading}  aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
+                                                   <Fab variant="extended" disabled={this.state.loading} color ="primary " aria-label="add" style={styles.LoginBtn} onClick={this.login}>
+                                                     {this.state.loading && <CircularProgress size={34} style={styles.LoginBtnLoader} />}
+                                                     {!this.state.loading && 'LOGIN'}
+                                                   </Fab>
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
