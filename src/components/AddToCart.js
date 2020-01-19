@@ -132,13 +132,13 @@ class AddToCart extends Component {
 
         let amount = event.target.value;
         if (amount >= 0.500) {
-            let quantity = 1;
+            //let quantity = 1;
             this.setState({
                 AmountError: "",
                 // amount          
                 // [quantity]: quantity
             });
-            console.log(this.state.amount)
+            //console.log(this.state.amount);
         }
         else {
             this.setState({
@@ -156,7 +156,7 @@ class AddToCart extends Component {
 
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
-            if (targetName != "amount") {
+            if (targetName !== "amount") {
                 let targetValue = document.getElementById(targetName).value;
                 this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
             }
@@ -165,7 +165,7 @@ class AddToCart extends Component {
         if (this.state.BalanceInquiry && this.serviceRequestOptionalTargetsArray.length > 0) {
             this.serviceRequestOptionalTargetsArray.forEach((e) => {
                 let targetName = e.key;
-                if (targetName != "amount") {
+                if (targetName !== "amount") {
                     let targetValueCheck = document.getElementById(targetName);
                     if (targetValueCheck !== null && targetValueCheck !== undefined) {
                         let targetValue = document.getElementById(targetName).value;
@@ -507,8 +507,8 @@ class AddToCart extends Component {
                             InputProps={
                                 {
                                     startAdornment: <InputAdornment position="start">+973</InputAdornment>,
-                                    minLength: { min },
-                                    maxLength: { max }
+                                    minLength: min,
+                                    maxLength: max
                                 }
                             }
                             variant="outlined"
@@ -527,8 +527,8 @@ class AddToCart extends Component {
                             onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
                                 {
-                                    minLength: { min },
-                                    maxLength: { max }
+                                    minLength: min,
+                                    maxLength: max 
                                 }
                             }
                             variant="outlined"
@@ -642,6 +642,16 @@ class AddToCart extends Component {
         let serviceImage = "";
         let serviceBalanceInquiry = _.get(serviceObject, 'is-balance-inquiry-available');
 
+        let serviceAmountMin = _.get(serviceObject, 'min-amount');
+        let serviceAmountMax = _.get(serviceObject, 'max-amount');
+
+        if(serviceAmountMin !== undefined)
+        {
+            serviceAmountMin = parseInt(serviceAmountMin);
+            serviceAmountMax = parseInt(serviceAmountMax);
+
+        }
+
         let serviceRequestRequiredTargets = _.get(serviceObject, 'request-targets.required');
         this.serviceRequestRequiredTargetsArray = _.map(serviceRequestRequiredTargets, (value, key) => ({ key, value }));
         let serviceRequestOptionalTargets = _.get(serviceObject, 'request-targets.optional');
@@ -684,7 +694,7 @@ class AddToCart extends Component {
                                                     <div className="add-demo">
                                                         {
                                                             fixedAmounts.map(e =>
-                                                                <a onClick={(data) => this.amount(e, data)} key={e} value={e}>BHD {e}</a>
+                                                                <a href="#" onClick={(data) => this.amount(e, data)} key={e} value={e}>BHD {e}</a>
                                                             )
                                                         }
                                                     </div>
@@ -714,10 +724,7 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
-
-
                                                         </Grid>
-
                                                     </Fragment>
 
                                                 )}
@@ -731,10 +738,10 @@ class AddToCart extends Component {
                                                         {this.serviceRequestOptionalTargetsArray.length > 0 ? (
                                                             <Fragment>
                                                                 <Grid container spacing={3} xs={12} sm={12} md={12} lg={12} xl={12} style={styles.BalanceInquiryGrid}>
-                                                                    <Grid item xs={8} sm={8} md={8} md={8} lg={8} style={{ textAlign: 'left' }}>
+                                                                    <Grid item xs={8} sm={8} md={8} lg={8} style={{ textAlign: 'left' }}>
                                                                         <Typography variant="h4" style={{ color: '#0061ae', fontWeight: '300' }}>Balance Inquiry</Typography>
                                                                     </Grid>
-                                                                    <Grid item xs={4} sm={4} md={4} md={4} lg={4} style={{ textAlign: 'right' }}>
+                                                                    <Grid item xs={4} sm={4} md={4} lg={4} style={{ textAlign: 'right' }}>
                                                                         <Switch
                                                                             checked={this.state.BalanceInquiry}
                                                                             onChange={() => this.toggleBalanceInquiry()}
@@ -821,6 +828,12 @@ class AddToCart extends Component {
                                                     style={styles.textField}
                                                     onChange={this.updateAmount}
                                                     onKeyDown={this.onKeyDown}
+                                                    InputProps={
+                                                        {
+                                                            minLength: serviceAmountMin,
+                                                            maxLength: serviceAmountMax
+                                                        }
+                                                    }
                                                     variant="outlined"
                                                 />
                                             </Grid>

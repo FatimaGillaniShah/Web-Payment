@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -70,7 +70,7 @@ class Home extends Component {
           }}>
             <Container maxWidth="xl">
               <Grid container spacing={3}>
-                {groups.length === 0 ? <LoadingHtml /> : " "}
+                {groups.length === 0 ? <LoadingHtml /> : <Fragment></Fragment>}
 
                 {groups.map((e, i) =>
                   <Grid item xs={12} sm={6} md={4} lg={3} key={i}>

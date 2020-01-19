@@ -30,35 +30,35 @@ function LoadingHTML() {
           </Skeleton>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={3}>
         <Card elevation={16} style={{marginTop:'30px'}}>
           <Skeleton variant="rect" height={210} >
 
           </Skeleton>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={4}>
         <Card elevation={16} style={{marginTop:'30px'}}>
           <Skeleton variant="rect" height={210} >
 
           </Skeleton>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={5}>
         <Card elevation={16}style={{marginTop:'30px'}}>
           <Skeleton variant="rect" height={210} >
 
           </Skeleton>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={6}>
         <Card elevation={16}style={{marginTop:'30px'}}>
           <Skeleton variant="rect" height={210}>
 
           </Skeleton>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3} key={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={7}>
         <Card elevation={16} style={{marginTop:'30px'}}>
           <Skeleton variant="rect" height={210} >
 

@@ -8,6 +8,8 @@ import * as comp from './components';
 import styling from './content/css';
 import Favicon from 'react-favicon';
 import faviconImage from './content/img/favicon.png'
+import Login from './components/Login';
+import Home from './components/Home';
 
 class App extends Component {
   constructor(props) {
@@ -33,9 +35,9 @@ class App extends Component {
 
           <Switch>
 
-            <Route path="/" exact component={comp.Home}/>
+            <Route path="/" exact component={Home}/>
 
-            <Route path="/login" component={comp.Login} />
+            <Route path="/login" component={Login} />
 
             <Route path="/signup" component={comp.SignUp} />
 
