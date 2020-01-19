@@ -272,11 +272,12 @@ class AddToCart extends Component {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
                 let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
+                
                 this.setState({
                     error: errorMessage
+                });
 
-                })
-                //alert(errorMessage);
+                alert(errorMessage);
                 return;
             }
             else {
@@ -285,13 +286,14 @@ class AddToCart extends Component {
                 if (PaymentsInfoResponse.length > 0) {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if (ServiceResponseErrorCode !== 0) {
+                    if (ServiceResponseErrorCode !== 0 && ServiceResponseErrorCode !== undefined) {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
+
                         this.setState({
                             error: ServiceResponseErrorText
+                        });
 
-                        })
-                        // alert(ServiceResponseErrorText);
+                        alert(ServiceResponseErrorText);
                         return;
                     }
                     else {
