@@ -139,10 +139,6 @@ class AddToCart extends Component {
                 // amount          
                 // quantity: quantity
             });
-<<<<<<< HEAD
-            //console.log(this.state.amount);
-=======
->>>>>>> 25c6716e637bfd7a1d8398412dfa039cbc362d95
         }
         else {
             this.setState({
