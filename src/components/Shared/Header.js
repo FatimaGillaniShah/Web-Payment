@@ -107,7 +107,6 @@ function Header(props) {
         </Hidden>
     );
 
-
     const NavigateToLogin = () => {
         props.history.push('/login');
     }
@@ -173,20 +172,15 @@ function Header(props) {
                     < Hidden only="xs" >
                         <div style={{ flexGrow: 1 }}>
                             {props.isLoggedIn ? (
-                                <div className={classes.NavMenuButtons} onClick={logout}>
-                                    <Fab variant="extended" size="medium"  className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
+                                <div className={classes.NavMenuButtons}>
+                                    <Fab variant="extended" size="medium" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
 
                                 </div>
 
                             ) : (
-                                <div>
-                                     <div className={classes.NavMenuButtons} onClick={NavigateToSignUp}>
-                                        <Fab variant="extended" size="medium" className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
-                                    </div>
-                                    <div className={classes.NavMenuButtons}  onClick={NavigateToLogin} >
+                                    <div className={classes.NavMenuButtons}>
                                         <Fab variant="extended" size="medium" className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
-                                    </div>
-                                   
+                                        <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
                                     </div>
 
                                 )}

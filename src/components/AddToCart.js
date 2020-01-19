@@ -103,7 +103,7 @@ class AddToCart extends Component {
             PhoneError: null,
             CPRError: null,
             AmountError: null,
-            msisdn:null,
+           // msisdn:null,
             NonFixedServices: false,
             amount: null,
             Amount: null,
@@ -237,8 +237,7 @@ class AddToCart extends Component {
     }
     async saveIntoCart(serviceObject) {
       debugger
-        console.log(this.state.msisdn)
-        if(this.state.NonFixedServices === true || this.state.PhoneError === null){
+        if(this.state.NonFixedServices === true ){
            const isValid = this.validate();
            if(!isValid){
                alert("Validation Error");

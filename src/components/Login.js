@@ -233,7 +233,7 @@ class Login extends Component {
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
-                                                   <Fab variant="extended" disabled={this.state.loading} color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
+                                                   <Fab variant="extended" disabled={this.state.loading}  aria-label="add" style={styles.LoginBtn} onClick={this.login}>Login</Fab>
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
