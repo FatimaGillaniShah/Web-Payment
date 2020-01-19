@@ -19,13 +19,10 @@ class Home extends Component {
     }
 
     let isValid = validateLogin();
-    debugger
     if (isValid) {
      
       this.props.history.push("/");
     }
-
-
   }
 
   ChangeColor(i) {
@@ -40,8 +37,6 @@ class Home extends Component {
     this.setState({ show: false })
     this.setTimeout(() => this.setState(state => ({ count: state.count + 1, show: true })), 500)
   }
-
-
   render() {
 
     var filteredGruops = [];
@@ -110,7 +105,6 @@ class Home extends Component {
     );
   }
 }
-
 
 const mapStateToProps = state => {
   return { data: state.groups.groups }

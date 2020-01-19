@@ -103,6 +103,8 @@ class AddToCart extends Component {
             PhoneError: null,
             CPRError: null,
             AmountError: null,
+            msisdn:null,
+            NonFixedServices: false,
             amount: null,
             Amount: null,
             serviceObject: [],
@@ -126,8 +128,6 @@ class AddToCart extends Component {
     updateInput(event) {
         this.setState({ quantity: event.target.value });
     }
-
-
     updateAmount(event) {
 
         let amount = event.target.value;
@@ -200,11 +200,12 @@ class AddToCart extends Component {
         BillInquiryResponse = _.get(BillInquiryResponse, 'data');
 
         let BillInquiryErrorCode = _.get(BillInquiryResponse, 'error-code');
+        let BillInquiryErrorMessage = _.get(BillInquiryResponse, 'error-message');
 
         if (BillInquiryErrorCode === 0) {
             alert("Success");
             let Balance = _.get(BillInquiryResponse, 'info[0].balance');
-            if (Balance === "0.00") {
+            if (parseInt(Balance) === 0) {
                 this.setState({ amount: 0 });
             }
             else {
@@ -212,27 +213,39 @@ class AddToCart extends Component {
             }
         }
         else {
-            alert("Fail");
-
+            alert(BillInquiryErrorMessage);
         }
     }
     validate() {
+        // this.setState(initialState);
+      
+        if(this.state.BalanceInquiry === true){
+            if (this.state.PhoneError === false && this.state.CPRError === false && this.state.AmountError === '') {
+                return true
+            }      
+       }
+        else if(this.state.PhoneError === false && this.state.AmountError === ''){
+                return true;
+       }
 
-        if (this.state.PhoneError === "" && this.state.CPRError === "" && this.state.AmountError === '') {
-            return true
-        }
         else if (this.state.PhoneError === null && this.state.CPRError === null && this.state.AmountError === null) {
             this.setState({
                 error: 'Field is required',
             })
             return false
         }
-
     }
     async saveIntoCart(serviceObject) {
-        debugger
-        //   const isValid = this.validate();
-        //     if(isValid){
+      debugger
+        console.log(this.state.msisdn)
+        if(this.state.NonFixedServices === true || this.state.PhoneError === null){
+           const isValid = this.validate();
+           if(!isValid){
+               alert("Validation Error");
+               return;
+           }
+        }
+        
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
             let targetValue = document.getElementById(targetName).value;
@@ -272,12 +285,11 @@ class AddToCart extends Component {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
                 let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
-                
                 this.setState({
                     error: errorMessage
-                });
 
-                alert(errorMessage);
+                })
+                //alert(errorMessage);
                 return;
             }
             else {
@@ -286,14 +298,13 @@ class AddToCart extends Component {
                 if (PaymentsInfoResponse.length > 0) {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if (ServiceResponseErrorCode !== 0 && ServiceResponseErrorCode !== undefined) {
+                    if (ServiceResponseErrorCode !== 0) {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
-
                         this.setState({
                             error: ServiceResponseErrorText
-                        });
 
-                        alert(ServiceResponseErrorText);
+                        })
+                        // alert(ServiceResponseErrorText);
                         return;
                     }
                     else {
@@ -327,7 +338,7 @@ class AddToCart extends Component {
                 }
             }
         }
-        //  }
+   
 
     }
 
@@ -378,33 +389,30 @@ class AddToCart extends Component {
 
     }
     onChange = (event, targetName, min, max) => {
+        this.setState({ NonFixedServices : true})
 
         if (targetName === 'Phone Number') {
             if (event.target.value.length === 8) {
                 this.setState({
-                    PhoneError: "",
-
+                    PhoneError: false,
+                    
                 });
             }
-
             else {
                 this.setState({
                     PhoneError: 'Enter ' + min + " digits",
-
                 });
             }
         }
         else if (targetName === 'Account Number') {
             if (event.target.value.length > min && event.target.value.length < max) {
                 this.setState({
-                    PhoneError: "",
-
+                    PhoneError: false
                 });
             }
             else {
                 this.setState({
                     PhoneError: 'Enter ' + min + "-" + max + " digits",
-
                 });
             }
         }
@@ -412,39 +420,29 @@ class AddToCart extends Component {
             if (event.target.value.length !== 9) {
                 this.setState({
                     CPRError: 'Enter 9 digits',
-
                 });
-
             }
             else {
                 this.setState({
-                    CPRError: '',
-
+                    CPRError: false
                 });
-
             }
-
         }
         else if (targetName === 'CR') {
             if (event.target.value.length !== 8) {
                 this.setState({
                     CPRError: 'Enter 8 digits',
-
                 });
-
             }
             else {
                 this.setState({
-                    CPRError: '',
-
+                    CPRError: false
                 });
             }
-
         }
-
-
     }
     inputForTarget(targets) {
+      
         if (targets !== null && targets !== undefined) {
             let inputField = [];
             let targetNameOriginal = targets.key;
@@ -504,7 +502,7 @@ class AddToCart extends Component {
                             id={targetNameOriginal}
                             type={targetType}
                             style={styles.textField}
-                            //  value={this.state.msisdn}
+                            value={this.state.msisdn}
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(e, targetName, min, max)}
                             InputProps={
@@ -540,12 +538,8 @@ class AddToCart extends Component {
 
                     );
                 }
-
-
             }
             else {
-
-
                 if (targetNameOriginal === "msisdn" || targetNameOriginal === "msisdn-local") {
                     inputField.push(
 
