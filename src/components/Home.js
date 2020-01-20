@@ -109,5 +109,4 @@ class Home extends Component {
 const mapStateToProps = state => {
   return { data: state.groups.groups }
 };
-
 export default connect(mapStateToProps, null)(Home);
