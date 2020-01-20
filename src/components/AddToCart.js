@@ -7,75 +7,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Grid, Container, CardActions, Typography, Tabs, Tab, Switch, InputAdornment, Fab, TextField, Box } from '@material-ui/core';
 import styled from "styled-components";
+import styles from '../content/css/styles';
 
-const styles = {
-    card: {
-        maxWidth: '345',
-        marginTop: '30px'
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%'
-    },
-    avatarEven: {
-        backgroundColor: '#1cc1f7'
-    },
-    avatarOdd: {
-        backgroundColor: '#1961d7'
-    },
-    avatarImage: {
-        maxWidth: '85%'
-    },
-    LinkText: {
-        color: 'black'
-    },
-    cardGrid: {
-        margin: 'auto'
-    },
-    SelectCardText: {
-        color: '#1961d7',
-        fontSize: 'medium'
-    },
-    AddToCartBtn: {
-        margin: 'auto',
-        backgroundColor: '#5E8C2A',
-        marginBottom: '10%',
-        width: '60%',
-        fontSize: 'medium'
-    },
-    extendedIcon: {
-        marginRight: 'theme.spacing(1)',
-    },
-    withoutLabel: {
 
-    },
-    textField: {
-        width: '100%'
-    },
-    CardContentSegments: {
-        padding: '20px'
-    },
-    tabStyle: {
-        flexGrow: 1,
-        width: '100%',
-        backgroundColor: 'white',
-    },
-    BillInquiryBtn: {
-        margin: 'auto',
-        backgroundColor: '#5E8C2A',
-        fontSize: 'larger'
-    },
-    BalanceInquiryGrid: {
-        margin: 'auto ',
-        backgroundColor: '#EEEEEE',
-    },
-    BalanceInquiryTabs: {
-        border: '1px solid #0D61AF',
-        marginTop: '8%',
-
-    }
-
-}
 const StyledTab = styled(({ ...props }) => (
     <Tab {...props} classes={{ selected: "selected" }} />
 ))`
@@ -88,16 +22,10 @@ const StyledTab = styled(({ ...props }) => (
         font-size: large;
     }
   `;
-// const initialState = {
-//     PhoneError: null,
-//     CPRError: null,
-//     AmountError: null
-// }
 var NonFixedServices = false;
-
 let serviceAmountMin = 0;
 let serviceAmountMax = 0;
-
+var FinalFlag = false;
 class AddToCart extends Component {
 
     constructor(props) {
@@ -107,9 +35,9 @@ class AddToCart extends Component {
             services: [],
             PhoneError: null,
             CPRError: null,
-            AmountError: null,
-            // msisdn:null,
-            NonFixedServices: false,
+            CRError:null,
+            AccountError:null,
+            AmountError: null,    
             amount: null,
             Amount: null,
             serviceObject: [],
@@ -149,6 +77,7 @@ class AddToCart extends Component {
                     AmountError: "",
                     amount: amount
                 });
+                FinalFlag = true
             }
             else {
                 this.setState({
@@ -157,12 +86,6 @@ class AddToCart extends Component {
                 });
             }
         }
-
-        
-        this.validate();
-        
-        
-
     }
     async billInquiry(serviceObject) {
 
@@ -234,35 +157,95 @@ class AddToCart extends Component {
         }
     }
     validate() {
-
         this.setState({
             error:""
-        });
-
-        if (this.state.BalanceInquiry === true) {
-            if (this.state.PhoneError === false && this.state.CPRError === false && this.state.AmountError === '') {
-                return true;
-            }
-        }
-        else if (this.state.PhoneError === false && this.state.AmountError === '') {
-            return true;
-        }
-        else if (this.state.PhoneError === null || this.state.CPRError === null || this.state.AmountError === null) {
+        });  
+        if(this.state.amount === null){
             this.setState({
                 error: 'Field is required',
-            });
+                  });
             return false;
         }
-        else
-            return false;
+       
+        if(this.serviceRequestOptionalTargetsArray.length !== 0){
+            if(this.state.CPRError === false || this.state.CRError === false){
+              FinalFlag = true;   
+            }
+            else if(this.state.CPRError === null && this.state.CRError === null)
+            {
+                this.setState({
+                  error: 'Field is required',
+                    });
+                 return false;
+                
+            }
+            else{ 
+                return false;
+            }
+        }
+
+        for (var i = 0; i < this.serviceRequestRequiredTargetsArray.length; i++) {
+            
+            if(this.serviceRequestRequiredTargetsArray[i].key === "msisdn-local" ){
+                if(this.state.PhoneError === false){
+                    FinalFlag = true;              
+                }
+                else if(this.state.PhoneError === null){
+                    this.setState({
+                                error: 'Field is required',
+                            });
+                            return false;
+                }
+            }
+            if(this.serviceRequestRequiredTargetsArray[i].key === "account-number"){
+                if(this.state.AccountError === false){
+                  FinalFlag = true;
+                }
+                else if(this.state.AccountError === null){
+                    this.setState({
+                                error: 'Field is required',
+                            });
+                            return false;
+                }
+  
+            }
+            if(this.serviceRequestRequiredTargetsArray[i].key === "cpr"){
+                if(this.state.CPRError === false){
+                    FinalFlag = true;
+    
+                }
+                else if(this.state.CPRError === null){
+                    this.setState({
+                                error: 'Field is required',
+                            });
+                            return false;
+                }
+            }
+          
+        if(this.serviceRequestRequiredTargetsArray[i].key === "cr"){
+            if(this.state.CRError === false){
+                FinalFlag = true;
+            }
+            else if(this.state.CRError === null){
+                this.setState({
+                            error: 'Field is required',
+                        });
+                        return false;
+            }
+        }
+    }
+    if(FinalFlag === true){
+        return true;
+    }
+    else{
+        return false;
+    }
     }
     async saveIntoCart(serviceObject) {
-        debugger
 
         if (NonFixedServices === true) {
             const isValid = this.validate();
             if (!isValid) {
-                //alert("Validation Error");
                 return;
             }
         }
@@ -276,8 +259,11 @@ class AddToCart extends Component {
         if (this.state.BalanceInquiry && this.serviceRequestOptionalTargetsArray.length > 0) {
             this.serviceRequestOptionalTargetsArray.forEach((e) => {
                 let targetName = e.key;
-                let targetValue = document.getElementById(targetName).value;
-                this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+                if(document.getElementById(targetName) !== undefined && document.getElementById(targetName) !== null)
+                {
+                    let targetValue = document.getElementById(targetName).value;
+                    this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
+                }
             });
         }
 
@@ -360,7 +346,6 @@ class AddToCart extends Component {
             }
         }
 
-
     }
     amount(e, data) {
         let ele = document.getElementsByClassName('active');
@@ -410,42 +395,39 @@ class AddToCart extends Component {
     }
     onChange = (event, targetName, min, max) => {
 
-        this.setState({ NonFixedServices: true })
-
         if (targetName === 'Phone Number') {
-
-            if (event.target.value.length === 8) {
+           
+            if (event.target.value.length === min) {
                 this.setState({
                     PhoneError: false,
                 });
             }
-
             else {
                 this.setState({
                     PhoneError: 'Enter ' + min + " digits",
                 });
             }
-
         }
         else if (targetName === 'Account Number') {
-            if (event.target.value.length > min && event.target.value.length < max) {
+            
+            if (event.target.value.length === min) {
                 this.setState({
-                    PhoneError: false
+                    AccountError: false
                 });
             }
             else {
                 this.setState({
-                    PhoneError: 'Enter ' + min + "-" + max + " digits",
+                    AccountError: 'Enter ' + min + "-" + max + " digits",
                 });
             }
         }
         else if (targetName === 'CPR') {
-            if (event.target.value.length !== 9) {
+            
+            if (event.target.value.length !== min) {
                 this.setState({
-                    CPRError: 'Enter 9 digits',
+                    CPRError: 'Enter ' + min + ' digits',
                 });
             }
-
             else {
                 this.setState({
                     CPRError: false
@@ -453,14 +435,15 @@ class AddToCart extends Component {
             }
         }
         else if (targetName === 'CR') {
-            if (event.target.value.length !== 8) {
+          
+            if (event.target.value.length !== min) {
                 this.setState({
-                    CPRError: 'Enter 8 digits',
+                    CRError: "Enter " + min + " digits",
                 });
             }
             else {
                 this.setState({
-                    CPRError: false
+                    CRError: false
                 });
             }
         }

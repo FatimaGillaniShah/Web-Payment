@@ -1,5 +1,71 @@
 const styles = {
+ //AddToCart
+  card: {
+      maxWidth: '345',
+      marginTop: '30px'
+  },
+  media: {
+      height: 0,
+      paddingTop: '56.25%'
+  },
+  avatarEven: {
+      backgroundColor: '#1cc1f7'
+  },
+  avatarOdd: {
+      backgroundColor: '#1961d7'
+  },
+  avatarImage: {
+      maxWidth: '85%'
+  },
+  LinkText: {
+      color: 'black'
+  },
+  cardGrid: {
+      margin: 'auto'
+  },
+  SelectCardText: {
+      color: '#1961d7',
+      fontSize: 'medium'
+  },
+  AddToCartBtn: {
+      margin: 'auto',
+      backgroundColor: '#5E8C2A',
+      marginBottom: '10%',
+      width: '60%',
+      fontSize: 'medium'
+  },
+  extendedIcon: {
+      marginRight: 'theme.spacing(1)',
+  },
+  withoutLabel: {
 
+  },
+  textField: {
+      width: '100%'
+  },
+  CardContentSegments: {
+      padding: '20px'
+  },
+  tabStyle: {
+      flexGrow: 1,
+      width: '100%',
+      backgroundColor: 'white',
+  },
+  BillInquiryBtn: {
+      margin: 'auto',
+      backgroundColor: '#5E8C2A',
+      fontSize: 'larger'
+  },
+  BalanceInquiryGrid: {
+      margin: 'auto ',
+      backgroundColor: '#EEEEEE',
+  },
+  BalanceInquiryTabs: {
+      border: '1px solid #0D61AF',
+      marginTop: '8%',
+
+
+},
   //History
 
   containerStart: {
