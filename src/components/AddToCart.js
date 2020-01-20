@@ -104,7 +104,6 @@ class AddToCart extends Component {
             PhoneError: null,
             CPRError: null,
             AmountError: null,
-           // msisdn:null,
             NonFixedServices: false,
             amount: null,
             Amount: null,
@@ -132,20 +131,17 @@ class AddToCart extends Component {
     updateAmount(event) {
 
         let amount = event.target.value;
-
-        if (amount >= 0.500) {
-            //let quantity = 1;
-            this.setState({
-                AmountError: "",
-                // amount          
-                // quantity: quantity
-            });
-        }
-        else {
-            this.setState({
-                AmountError: "Minimum amount is 0.500",
-            });
-        }
+            if (amount >= 0.500) {
+                this.setState({
+                    AmountError: "",
+                   // amount:amount          
+                });
+            }
+            else {
+                this.setState({
+                    AmountError: "Minimum amount is 0.500",
+                });
+        }  
 
     }
     async billInquiry(serviceObject) {
@@ -236,8 +232,6 @@ class AddToCart extends Component {
         }
     }
     async saveIntoCart(serviceObject) {
-        debugger
-
         if(NonFixedServices === true){
            const isValid = this.validate();
            if(!isValid){
@@ -337,7 +331,6 @@ class AddToCart extends Component {
                 }
             }
         }
-   
 
     }
     amount(e, data) {
@@ -627,8 +620,7 @@ class AddToCart extends Component {
     }
 
     render() {
-        
-
+    
         var id = this.props.match.params.id;
         let serviceObject;
         let AllServices = _.get(this.props.StoreData, 'services');
