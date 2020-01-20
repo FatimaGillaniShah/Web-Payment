@@ -35,9 +35,9 @@ class AddToCart extends Component {
             services: [],
             PhoneError: null,
             CPRError: null,
-            CRError:null,
-            AccountError:null,
-            AmountError: null,    
+            CRError: null,
+            AccountError: null,
+            AmountError: null,
             amount: null,
             Amount: null,
             serviceObject: [],
@@ -63,7 +63,6 @@ class AddToCart extends Component {
     updateAmount(event) {
 
         var amount = event.target.value;
-
         if (amount === "") {
             this.setState({
                 AmountError: "Amount should be greater than " + serviceAmountMin + " and less than or equal to " + serviceAmountMax,
@@ -72,12 +71,10 @@ class AddToCart extends Component {
         }
         else {
             if (amount > serviceAmountMin && amount <= serviceAmountMax) {
-
                 this.setState({
                     AmountError: "",
                     amount: amount
                 });
-                FinalFlag = true
             }
             else {
                 this.setState({
@@ -135,7 +132,6 @@ class AddToCart extends Component {
 
             }, BillInquiry);
 
-
         let BillInquiryResponse = await RequestInfo(BillInquiry);
         BillInquiryResponse = _.get(BillInquiryResponse, 'data');
 
@@ -158,88 +154,84 @@ class AddToCart extends Component {
     }
     validate() {
         this.setState({
-            error:""
-        });  
-        if(this.state.amount === null){
+            error: ""
+        });
+        if (this.state.amount === null) {
             this.setState({
                 error: 'Field is required',
-                  });
+            });
             return false;
         }
-       
-        if(this.serviceRequestOptionalTargetsArray.length !== 0){
-            if(this.state.CPRError === false || this.state.CRError === false){
-              FinalFlag = true;   
+
+        if (this.serviceRequestOptionalTargetsArray.length !== 0) {
+            if (this.state.CPRError === false) {
+                FinalFlag = true;
             }
-            else if(this.state.CPRError === null && this.state.CRError === null)
-            {
+            else if (this.state.CPRError === null && this.state.CRError === null) {
                 this.setState({
-                  error: 'Field is required',
-                    });
-                 return false;
-                
+                    error: 'Field is required',
+                });
+                return false;
+
             }
-            else{ 
+            else {
                 return false;
             }
         }
-
         for (var i = 0; i < this.serviceRequestRequiredTargetsArray.length; i++) {
-            
-            if(this.serviceRequestRequiredTargetsArray[i].key === "msisdn-local" ){
-                if(this.state.PhoneError === false){
-                    FinalFlag = true;              
-                }
-                else if(this.state.PhoneError === null){
-                    this.setState({
-                                error: 'Field is required',
-                            });
-                            return false;
-                }
-            }
-            if(this.serviceRequestRequiredTargetsArray[i].key === "account-number"){
-                if(this.state.AccountError === false){
-                  FinalFlag = true;
-                }
-                else if(this.state.AccountError === null){
-                    this.setState({
-                                error: 'Field is required',
-                            });
-                            return false;
-                }
-  
-            }
-            if(this.serviceRequestRequiredTargetsArray[i].key === "cpr"){
-                if(this.state.CPRError === false){
+
+            if (this.serviceRequestRequiredTargetsArray[i].key === "msisdn-local") {
+                if (this.state.PhoneError === false) {
                     FinalFlag = true;
-    
                 }
-                else if(this.state.CPRError === null){
+                else if (this.state.PhoneError === null) {
                     this.setState({
-                                error: 'Field is required',
-                            });
-                            return false;
+                        error: 'Field is required',
+                    });
+                    return false;
                 }
             }
-          
-        if(this.serviceRequestRequiredTargetsArray[i].key === "cr"){
-            if(this.state.CRError === false){
-                FinalFlag = true;
+            if (this.serviceRequestRequiredTargetsArray[i].key === "account-number") {
+                if (this.state.AccountError === false) {
+                    FinalFlag = true;
+                }
+                else if (this.state.AccountError === null) {
+                    this.setState({
+                        error: 'Field is required',
+                    });
+                    return false;
+                }
             }
-            else if(this.state.CRError === null){
-                this.setState({
-                            error: 'Field is required',
-                        });
-                        return false;
+            if (this.serviceRequestRequiredTargetsArray[i].key === "cpr") {
+                if (this.state.CPRError === false) {
+                    FinalFlag = true;
+
+                }
+                else if (this.state.CPRError === null) {
+                    this.setState({
+                        error: 'Field is required',
+                    });
+                    return false;
+                }
+            }
+            if (this.serviceRequestRequiredTargetsArray[i].key === "cr") {
+                if (this.state.CRError === false) {
+                    FinalFlag = true;
+                }
+                else if (this.state.CRError === null) {
+                    this.setState({
+                        error: 'Field is required',
+                    });
+                    return false;
+                }
             }
         }
-    }
-    if(FinalFlag === true){
-        return true;
-    }
-    else{
-        return false;
-    }
+        if (FinalFlag === true) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     async saveIntoCart(serviceObject) {
 
@@ -259,8 +251,7 @@ class AddToCart extends Component {
         if (this.state.BalanceInquiry && this.serviceRequestOptionalTargetsArray.length > 0) {
             this.serviceRequestOptionalTargetsArray.forEach((e) => {
                 let targetName = e.key;
-                if(document.getElementById(targetName) !== undefined && document.getElementById(targetName) !== null)
-                {
+                if (document.getElementById(targetName) !== undefined && document.getElementById(targetName) !== null) {
                     let targetValue = document.getElementById(targetName).value;
                     this.finalizedTargetsArray = Object.assign({ [targetName]: targetValue }, this.finalizedTargetsArray);
                 }
@@ -291,8 +282,7 @@ class AddToCart extends Component {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
                 let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
-                if(errorCode === 105)
-                {
+                if (errorCode === 105) {
                     errorMessage = "Session Expire";
                 }
                 this.setState({
@@ -396,7 +386,7 @@ class AddToCart extends Component {
     onChange = (event, targetName, min, max) => {
 
         if (targetName === 'Phone Number') {
-           
+
             if (event.target.value.length === min) {
                 this.setState({
                     PhoneError: false,
@@ -409,7 +399,7 @@ class AddToCart extends Component {
             }
         }
         else if (targetName === 'Account Number') {
-            
+
             if (event.target.value.length === min) {
                 this.setState({
                     AccountError: false
@@ -422,7 +412,7 @@ class AddToCart extends Component {
             }
         }
         else if (targetName === 'CPR') {
-            
+
             if (event.target.value.length !== min) {
                 this.setState({
                     CPRError: 'Enter ' + min + ' digits',
@@ -435,15 +425,15 @@ class AddToCart extends Component {
             }
         }
         else if (targetName === 'CR') {
-          
+
             if (event.target.value.length !== min) {
                 this.setState({
-                    CRError: "Enter " + min + " digits",
+                    CPRError: "Enter " + min + " digits",
                 });
             }
             else {
                 this.setState({
-                    CRError: false
+                    CPRError: false
                 });
             }
         }
@@ -632,8 +622,6 @@ class AddToCart extends Component {
     }
 
     render() {
-
-
         var id = this.props.match.params.id;
         let serviceObject;
         let AllServices = _.get(this.props.StoreData, 'services');

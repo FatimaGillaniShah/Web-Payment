@@ -205,7 +205,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  //console.log(state.groups.services);
   return { data: state.groups.groups, services: state.groups.services }
 };
 export default connect(mapStateToProps, null)(Home);
