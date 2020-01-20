@@ -159,14 +159,8 @@ class AddToCart extends Component {
     validate() {
         this.setState({
             error:""
-        });  
-        if(this.state.amount === null){
-            this.setState({
-                error: 'Field is required',
-                  });
-            return false;
-        }
-       
+        });
+
         if(this.serviceRequestOptionalTargetsArray.length !== 0){
             if(this.state.CPRError === false || this.state.CRError === false){
               FinalFlag = true;   
@@ -233,6 +227,21 @@ class AddToCart extends Component {
                         return false;
             }
         }
+    }
+    if(
+        this.state.amount === null 
+        || 
+        parseFloat(this.state.amount) > parseFloat(serviceAmountMax) 
+        || 
+        parseFloat(this.state.amount) <= parseFloat(serviceAmountMin)
+    ){
+        
+        this.setState({
+            error: 'Amount is not correct',
+              });
+
+        return false;
+
     }
     if(FinalFlag === true){
         return true;
@@ -306,7 +315,7 @@ class AddToCart extends Component {
                 if (PaymentsInfoResponse.length > 0) {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if (ServiceResponseErrorCode !== 0) {
+                    if (ServiceResponseErrorCode !== 0 && ServiceResponseErrorCode !== undefined) {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
                         this.setState({
                             error: ServiceResponseErrorText
@@ -397,54 +406,57 @@ class AddToCart extends Component {
 
         if (targetName === 'Phone Number') {
            
-            if (event.target.value.length === min) {
-                this.setState({
-                    PhoneError: false,
-                });
+            let targetOriginalName = 'msisdn-local';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "+" + max + " digits";
             }
             else {
-                this.setState({
-                    PhoneError: 'Enter ' + min + " digits",
-                });
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
             }
         }
         else if (targetName === 'Account Number') {
-            
-            if (event.target.value.length === min) {
-                this.setState({
-                    AccountError: false
-                });
+                let targetOriginalName = 'account-number';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
-                this.setState({
-                    AccountError: 'Enter ' + min + "-" + max + " digits",
-                });
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
             }
         }
         else if (targetName === 'CPR') {
             
-            if (event.target.value.length !== min) {
-                this.setState({
-                    CPRError: 'Enter ' + min + ' digits',
-                });
+            let targetOriginalName = 'cpr';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
-                this.setState({
-                    CPRError: false
-                });
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
             }
         }
         else if (targetName === 'CR') {
           
-            if (event.target.value.length !== min) {
-                this.setState({
-                    CRError: "Enter " + min + " digits",
-                });
+            let targetOriginalName = 'cr';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
-                this.setState({
-                    CRError: false
-                });
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
             }
         }
     }
@@ -582,6 +594,22 @@ class AddToCart extends Component {
             }
             return inputField;
         }
+    }
+    inputErrorHtml(targets)
+    {
+        let errorDiv = [];
+        let targetNameOriginal = targets.key+"-Error";
+        errorDiv.push(
+
+            <Typography                
+                id={targetNameOriginal}
+                key={targetNameOriginal}
+                style={{ fontSize: '15px', margin: 'auto', color: 'red'}}            
+                variant="outlined"
+            />
+        );
+
+        return errorDiv;
     }
 
     toggleBalanceInquiry() {
@@ -729,6 +757,7 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
+                                                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputErrorHtml(e)}</Grid>
                                                         </Grid>
                                                     </Fragment>
 
