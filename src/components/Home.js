@@ -1,28 +1,31 @@
-import React, { Component,Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import { Grid, Container, CardHeader, Avatar } from '@material-ui/core';
+import { Grid, Container, CardHeader, Avatar, Paper, InputBase, IconButton, TextField } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
 import Image from 'material-ui-image';
 import styles from '../content/css/styles';
 import { Spring, animated } from "react-spring/renderprops";
+import SearchIcon from '@material-ui/icons/Search';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       count: 0,
-      show: false
+      show: false,
+      searchedServices: [],
+      searchedServiceName: ""
     }
-
     let isValid = validateLogin();
     if (isValid) {
-     
+
       this.props.history.push("/");
     }
+    this.searchServices = this.searchServices.bind(this);
   }
 
   ChangeColor(i) {
@@ -37,6 +40,58 @@ class Home extends Component {
     this.setState({ show: false })
     this.setTimeout(() => this.setState(state => ({ count: state.count + 1, show: true })), 500)
   }
+
+  searchServices(event) {
+    let searchedServiceName = event.target.value;
+    if (searchedServiceName !== "") {
+      searchedServiceName = searchedServiceName.toLowerCase();
+      let searchedServicesArray = [];
+      let groupsAndServices = this.props.services;
+
+      if (groupsAndServices != null) {
+        groupsAndServices.forEach(e => {
+          let serviceName = (_.get(e, 'name')).toLowerCase();
+          let parentServiceId = _.get(e, 'parent-service-id');
+          let isAvailable = _.get(e, 'available');
+          if (serviceName.includes(searchedServiceName) && parentServiceId === null && isAvailable === true) {
+            searchedServicesArray.push(e);
+          }
+        });
+      }
+
+      this.setState({
+        searchedServices: searchedServicesArray,
+        searchedServiceName:searchedServiceName
+      });
+    }
+    else
+    {
+      this.setState({
+        searchedServices: [],
+        searchedServiceName:""
+      });
+    }
+  }
+
+  validateGroupsForServices(groupObject) {
+    let serviceProviderId = _.get(groupObject, 'group-id');
+    let isValid = validateLogin();
+    if (!isValid) {
+      localStorage.setItem('redirectTo', 'ServiceProvider/' + serviceProviderId);
+      this.props.history.push("/login");
+    }
+    else {
+      let serviceCheckHasSteps = _.get(groupObject, 'has-steps');
+      let GroupId = _.get(groupObject, 'id');
+      if (serviceCheckHasSteps === undefined) {
+        this.props.history.push("/SubGroups/" + GroupId);
+      }
+      else {
+        this.props.history.push("/AddToCart/" + GroupId);
+      }
+    }
+  }
+
   render() {
 
     var filteredGruops = [];
@@ -57,6 +112,7 @@ class Home extends Component {
     groups = filteredGruops;
 
     return (
+
       <Spring
         native
         from={{ o: 0, xyz: [0, 500, 0] }}
@@ -70,8 +126,49 @@ class Home extends Component {
           }}>
             <Container maxWidth="xl">
               <Grid container spacing={3}>
-                {groups.length === 0 ? <LoadingHtml /> : <Fragment></Fragment>}
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <Paper component="form" style={styles.searchBar}>
+                    <InputBase
+                      style={styles.searchInput}
+                      placeholder="Search Services"
+                      inputProps={{ 'aria-label': 'search services' }}
+                      onChange={this.searchServices}
+                      value={this.state.searchedServiceName}
+                    />
+                    <IconButton type="button" onClick={() => this.searchServices()} style={styles.searchButton} aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                  </Paper>
+                </Grid>
+              </Grid>
 
+              {this.state.searchedServices.length > 0 ?
+                <Fragment>
+                  <Grid container spacing={3}>
+                    {this.state.searchedServices.map((e, i) =>
+                      <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                        <Card elevation={16} style={styles.card} onClick={() => this.validateGroupsForServices(e)}>
+                          <Image
+                            src={_.get(e, 'icons.650x420')}
+                            style={styles.media}
+                            title={e.name}
+                          />
+                          <CardHeader
+                            titleTypographyProps={{ variant: 'h4', }}
+                            disableTypography={true}
+                            style={this.ChangeColor(i) ? styles.avatarEven : styles.avatarOdd}
+                            title={e.name}
+                          />
+                        </Card>
+                      </Grid>
+                    )}
+                  </Grid>
+                </Fragment>
+                :
+                <Fragment></Fragment>
+              }
+              <Grid container spacing={3}>
+                {groups.length === 0 ? <LoadingHtml /> : <Fragment></Fragment>}
                 {groups.map((e, i) =>
                   <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
 
@@ -107,6 +204,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  return { data: state.groups.groups }
+  //console.log(state.groups.services);
+  return { data: state.groups.groups, services: state.groups.services }
 };
 export default connect(mapStateToProps, null)(Home);
