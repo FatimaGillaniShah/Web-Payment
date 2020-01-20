@@ -105,6 +105,25 @@ const styles = {
     color: 'white',
     cursor: 'pointer'
   },
+  searchBar: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '50%',
+    margin: '0 auto',
+    marginTop: '30px',
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: '20px',
+    paddingLeft:'10px'
+  },
+  searchButton: {
+    padding: 10,
+  },
+
+
+
   //Service Provider
 
   //Shopping Cart
