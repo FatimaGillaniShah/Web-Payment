@@ -154,18 +154,12 @@ class AddToCart extends Component {
     }
     validate() {
         this.setState({
-            error: ""
+            error:""
         });
-        if (this.state.amount === null) {
-            this.setState({
-                error: 'Field is required',
-            });
-            return false;
-        }
 
-        if (this.serviceRequestOptionalTargetsArray.length !== 0) {
-            if (this.state.CPRError === false) {
-                FinalFlag = true;
+        if(this.serviceRequestOptionalTargetsArray.length !== 0){
+            if(this.state.CPRError === false || this.state.CRError === false){
+              FinalFlag = true;   
             }
             else if (this.state.CPRError === null && this.state.CRError === null) {
                 this.setState({
@@ -226,12 +220,21 @@ class AddToCart extends Component {
                 }
             }
         }
-        if (FinalFlag === true) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    if(this.state.amount === null || parseFloat(this.state.amount) > parseFloat(serviceAmountMax) ||parseFloat(this.state.amount) <= parseFloat(serviceAmountMin) ){
+       
+        this.setState({
+            error: 'Amount is not correct',
+              });
+
+        return false;
+
+            }
+    if(FinalFlag === true){
+        return true;
+    }
+    else{
+        return false;
+    }
     }
     async saveIntoCart(serviceObject) {
 
@@ -296,7 +299,7 @@ class AddToCart extends Component {
                 if (PaymentsInfoResponse.length > 0) {
                     let ServiceResponse = PaymentsInfoResponse[0];
                     let ServiceResponseErrorCode = _.get(ServiceResponse, 'error');
-                    if (ServiceResponseErrorCode !== 0) {
+                    if (ServiceResponseErrorCode !== 0 && ServiceResponseErrorCode !== undefined) {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
                         this.setState({
                             error: ServiceResponseErrorText
@@ -386,55 +389,72 @@ class AddToCart extends Component {
     onChange = (event, targetName, min, max) => {
 
         if (targetName === 'Phone Number') {
-
-            if (event.target.value.length === min) {
-                this.setState({
-                    PhoneError: false,
-                });
+           
+            let targetOriginalName = 'msisdn-local';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "+" + max + " digits";
             }
             else {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
                 this.setState({
-                    PhoneError: 'Enter ' + min + " digits",
+                    PhoneError : false
                 });
             }
         }
         else if (targetName === 'Account Number') {
-
-            if (event.target.value.length === min) {
-                this.setState({
-                    AccountError: false
-                });
+            
+                let targetOriginalName = 'account-number';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
                 this.setState({
-                    AccountError: 'Enter ' + min + "-" + max + " digits",
+                    AccountError : false
                 });
             }
         }
         else if (targetName === 'CPR') {
-
-            if (event.target.value.length !== min) {
-                this.setState({
-                    CPRError: 'Enter ' + min + ' digits',
-                });
+            
+            let targetOriginalName = 'cpr';
+            debugger
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);  
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
                 this.setState({
-                    CPRError: false
+                CPRError : false
                 });
             }
         }
         else if (targetName === 'CR') {
-
-            if (event.target.value.length !== min) {
-                this.setState({
-                    CPRError: "Enter " + min + " digits",
-                });
+          
+            let targetOriginalName = 'cr';
+            if (event.target.value.length < min || event.target.value.length > max) {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = 'Enter ' + min + "-" + max + " digits";
             }
             else {
+                let errorDivId = targetOriginalName.toLowerCase() +"-Error"
+                let ErrorElement = document.getElementById(errorDivId);
+                ErrorElement.innerText = "";
                 this.setState({
-                    CPRError: false
-                });
+                    CRError : false
+                    });
             }
         }
     }
@@ -572,6 +592,22 @@ class AddToCart extends Component {
             }
             return inputField;
         }
+    }
+    inputErrorHtml(targets)
+    {
+        let errorDiv = [];
+        let targetNameOriginal = targets.key+"-Error";
+        errorDiv.push(
+
+            <Typography                
+                id={targetNameOriginal}
+                key={targetNameOriginal}
+                style={{ fontSize: '15px', margin: 'auto', color: 'red'}}            
+                variant="outlined"
+            />
+        );
+
+        return errorDiv;
     }
 
     toggleBalanceInquiry() {
@@ -717,13 +753,12 @@ class AddToCart extends Component {
                                                     <Fragment>
                                                         <Grid container spacing={3}>
                                                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputForTarget(e)}</Grid>
+                                                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>{this.inputErrorHtml(e)}</Grid>
                                                         </Grid>
                                                     </Fragment>
 
                                                 )}
-                                                {this.state.PhoneError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.PhoneError}</div> : null}
-                                                {/* {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null} */}
-
+                                              
                                             </Grid>
                                             <Grid item style={styles.CardContentSegments}>
                                                 {serviceBalanceInquiry === true ? (
@@ -765,9 +800,9 @@ class AddToCart extends Component {
                                                                                 return <this.TabPanel value={this.state.setValue} index={index}>
                                                                                     <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                                         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
-                                                                                            {this.inputForTarget(value)}
-                                                                                            {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null}
+                                                                                            {this.inputForTarget(value)}                                                                                          
                                                                                         </Grid>
+                                                                                        <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>{this.inputErrorHtml(value)}</Grid>
 
                                                                                         <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
                                                                                             <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
@@ -783,7 +818,7 @@ class AddToCart extends Component {
                                                                                     <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
                                                                                         {this.inputForTarget(this.serviceRequestOptionalTargetsArray[0])}
                                                                                     </Grid>
-                                                                                    {this.state.CPRError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.CPRError}</div> : null}
+                                                                                   
                                                                                     <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
                                                                                         <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
                                                                                     </Grid>
@@ -830,7 +865,7 @@ class AddToCart extends Component {
                                                     variant="outlined"
                                                 />
                                             </Grid>
-                                            {this.state.AmountError ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.AmountError}</div> : null}
+                                          
                                         </Grid>
 
                                     )}
