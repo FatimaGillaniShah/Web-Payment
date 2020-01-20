@@ -53,7 +53,8 @@ class Home extends Component {
           let serviceName = (_.get(e, 'name')).toLowerCase();
           let parentServiceId = _.get(e, 'parent-service-id');
           let isAvailable = _.get(e, 'available');
-          if (serviceName.includes(searchedServiceName) && parentServiceId === null && isAvailable === true) {
+          if (serviceName.includes(searchedServiceName) && parentServiceId === null && isAvailable === true          
+          && serviceName !== "save-a-dream" && serviceName !== "ramadan-timing") {
             searchedServicesArray.push(e);
           }
         });
@@ -135,7 +136,7 @@ class Home extends Component {
                       onChange={this.searchServices}
                       value={this.state.searchedServiceName}
                     />
-                    <IconButton type="button" onClick={() => this.searchServices()} style={styles.searchButton} aria-label="search">
+                    <IconButton type="button" style={styles.searchButton} aria-label="search">
                       <SearchIcon />
                     </IconButton>
                   </Paper>
