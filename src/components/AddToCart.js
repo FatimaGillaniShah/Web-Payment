@@ -94,6 +94,10 @@ const StyledTab = styled(({ ...props }) => (
 //     AmountError: null
 // }
 var NonFixedServices = false;
+
+let serviceAmountMin = 0;
+let serviceAmountMax = 0;
+
 class AddToCart extends Component {
 
     constructor(props) {
@@ -104,7 +108,7 @@ class AddToCart extends Component {
             PhoneError: null,
             CPRError: null,
             AmountError: null,
-           // msisdn:null,
+            // msisdn:null,
             NonFixedServices: false,
             amount: null,
             Amount: null,
@@ -115,7 +119,6 @@ class AddToCart extends Component {
             BalanceInquiry: false,
             value: "a",
             setValue: 0
-
         }
         this.onChange = this.onChange.bind(this);
         this.updateInput = this.updateInput.bind(this);
@@ -131,21 +134,34 @@ class AddToCart extends Component {
     }
     updateAmount(event) {
 
-        let amount = event.target.value;
+        var amount = event.target.value;
 
-        if (amount >= 0.500) {
-            //let quantity = 1;
+        if (amount === "") {
             this.setState({
-                AmountError: "",
-                // amount          
-                // quantity: quantity
+                AmountError: "Amount should be greater than " + serviceAmountMin + " and less than or equal to " + serviceAmountMax,
+                amount: amount
             });
         }
         else {
-            this.setState({
-                AmountError: "Minimum amount is 0.500",
-            });
+            if (amount > serviceAmountMin && amount <= serviceAmountMax) {
+
+                this.setState({
+                    AmountError: "",
+                    amount: amount
+                });
+            }
+            else {
+                this.setState({
+                    AmountError: "Amount should be greater than " + serviceAmountMin + " and less than or equal to " + serviceAmountMax,
+                    amount: amount
+                });
+            }
         }
+
+        
+        this.validate();
+        
+        
 
     }
     async billInquiry(serviceObject) {
@@ -218,33 +234,38 @@ class AddToCart extends Component {
         }
     }
     validate() {
-       
-        if(this.state.BalanceInquiry === true){
-            if (this.state.PhoneError === false && this.state.CPRError === false && this.state.AmountError === '') {
-                return true
-            }      
-       }
-        else if(this.state.PhoneError === false && this.state.AmountError === ''){
-                return true;
-       }
 
-        else if (this.state.PhoneError === null && this.state.CPRError === null && this.state.AmountError === null) {
+        this.setState({
+            error:""
+        });
+
+        if (this.state.BalanceInquiry === true) {
+            if (this.state.PhoneError === false && this.state.CPRError === false && this.state.AmountError === '') {
+                return true;
+            }
+        }
+        else if (this.state.PhoneError === false && this.state.AmountError === '') {
+            return true;
+        }
+        else if (this.state.PhoneError === null || this.state.CPRError === null || this.state.AmountError === null) {
             this.setState({
                 error: 'Field is required',
-            })
-            return false
+            });
+            return false;
         }
+        else
+            return false;
     }
     async saveIntoCart(serviceObject) {
         debugger
 
-        if(NonFixedServices === true){
-           const isValid = this.validate();
-           if(!isValid){
-               alert("Validation Error");
-               return;
-           }
-        }  
+        if (NonFixedServices === true) {
+            const isValid = this.validate();
+            if (!isValid) {
+                //alert("Validation Error");
+                return;
+            }
+        }
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
             let targetValue = document.getElementById(targetName).value;
@@ -284,11 +305,13 @@ class AddToCart extends Component {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
                 let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
+                if(errorCode === 105)
+                {
+                    errorMessage = "Session Expire";
+                }
                 this.setState({
                     error: errorMessage
-
-                })
-                //alert(errorMessage);
+                });
                 return;
             }
             else {
@@ -301,9 +324,8 @@ class AddToCart extends Component {
                         let ServiceResponseErrorText = _.get(ServiceResponse, 'text');
                         this.setState({
                             error: ServiceResponseErrorText
-
-                        })
-                        // alert(ServiceResponseErrorText);
+                        });
+                        alert(ServiceResponseErrorText);
                         return;
                     }
                     else {
@@ -337,7 +359,7 @@ class AddToCart extends Component {
                 }
             }
         }
-   
+
 
     }
     amount(e, data) {
@@ -387,14 +409,14 @@ class AddToCart extends Component {
 
     }
     onChange = (event, targetName, min, max) => {
-    
-        this.setState({ NonFixedServices : true})
+
+        this.setState({ NonFixedServices: true })
 
         if (targetName === 'Phone Number') {
-           
+
             if (event.target.value.length === 8) {
                 this.setState({
-                    PhoneError: false,        
+                    PhoneError: false,
                 });
             }
 
@@ -403,7 +425,7 @@ class AddToCart extends Component {
                     PhoneError: 'Enter ' + min + " digits",
                 });
             }
-            
+
         }
         else if (targetName === 'Account Number') {
             if (event.target.value.length > min && event.target.value.length < max) {
@@ -423,7 +445,7 @@ class AddToCart extends Component {
                     CPRError: 'Enter 9 digits',
                 });
             }
-          
+
             else {
                 this.setState({
                     CPRError: false
@@ -530,7 +552,7 @@ class AddToCart extends Component {
                             inputProps={
                                 {
                                     minLength: min,
-                                    maxLength: max 
+                                    maxLength: max
                                 }
                             }
                             variant="outlined"
@@ -627,7 +649,7 @@ class AddToCart extends Component {
     }
 
     render() {
-        
+
 
         var id = this.props.match.params.id;
         let serviceObject;
@@ -643,11 +665,10 @@ class AddToCart extends Component {
         let serviceImage = "";
         let serviceBalanceInquiry = _.get(serviceObject, 'is-balance-inquiry-available');
 
-        let serviceAmountMin = _.get(serviceObject, 'min-amount');
-        let serviceAmountMax = _.get(serviceObject, 'max-amount');
+        serviceAmountMin = _.get(serviceObject, 'min-amount');
+        serviceAmountMax = _.get(serviceObject, 'max-amount');
 
-        if(serviceAmountMin !== undefined)
-        {
+        if (serviceAmountMin !== undefined) {
             serviceAmountMin = parseInt(serviceAmountMin);
             serviceAmountMax = parseInt(serviceAmountMax);
 
