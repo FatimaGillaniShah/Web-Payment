@@ -7,17 +7,17 @@ import { getHistory } from "../store/actions/actions";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import LoadingHtmlHistory from '../components/Shared/LoadingHtmlHistory';
-import { Container, Grid, Card, CardContent, Typography, Hidden } from '@material-ui/core';
+import { Container, Grid, Card, CardContent, Typography, Hidden,Fab } from '@material-ui/core';
 import styles from '../content/css/styles';
 import { Spring, animated } from "react-spring/renderprops";
-
+var isLoading = true;
 class History extends Component {
   constructor(props) {
     super(props)
     this.state = {
       services: [],
       pageSize: 15,
-      currentPage: 1,
+      currentPage: 1
     }
     let isValid = validateLogin();
     if (!isValid) {
@@ -50,19 +50,22 @@ class History extends Component {
       currentPage: page
     })
   }
+  NavigateToHome = () => {
+    this.props.history.push('/');
+}
 
   render() {
 
     let data = this.props.historyData;
     let localServices = [];
-    if (data != null) {
+    if (data !== null && data !== undefined) {
       localServices = [];
       let details = [];
+      isLoading = false;
       data.forEach(element => {
         details = _.get(element, 'information');
         details["iconUrl"] = _.get(element, 'service-icon');
         localServices.push(details);
-
       });
     }
     const count = localServices.length;
@@ -95,7 +98,42 @@ class History extends Component {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  {services.length === 0 ? <LoadingHtmlHistory /> : null}
+                  {services.length === 0 && isLoading === true ? 
+                  <LoadingHtmlHistory /> 
+                  : 
+
+                  services.length === 0 && isLoading === false ?
+                  (
+                    <Grid container spacing={10}>
+                                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
+                                            <Card elevation={16} style={styles.CardCard}>
+                                                <CardContent>
+                                                    <Fragment>
+                                                        <Grid>
+                                                            <Grid item style={styles.CardContentSegments}>
+                                                                <Typography style={styles.EmptyCartHeading}>OOPS! NOTHING FOUND!</Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Fragment>
+                                                    <Fragment>
+                                                        <Grid>
+                                                            <Grid item style={styles.CardContentSegments}>
+                                                                <img style={{ marginBottom: '3%' }} src={require('../content/img/empty-cart.png')} alt="sadad" />
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Typography style={styles.CartSubHeading}>No records found. Please do some transactions to see history.</Typography>
+                                                        <Fab variant="extended" color="primary" aria-label="add" onClick={() => this.NavigateToHome()} style={styles.TakeMeHomeBtn} >
+                                                            TAKE ME HOME
+                                            </Fab>
+                                                    </Fragment>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                    </Grid>
+                  )
+                  
+                  :
+                  null}
 
                   {services.map((e, i) =>
                     <Card>

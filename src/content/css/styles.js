@@ -293,7 +293,8 @@ const styles = {
   },
 
   CardContentSegments: {
-    padding: '20px',
+    paddingTop: '20px',
+    margin: '0 auto'
   },
   
   //SignUp
