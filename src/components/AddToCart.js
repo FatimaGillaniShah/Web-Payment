@@ -237,7 +237,6 @@ class AddToCart extends Component {
         }
     }
     async saveIntoCart(serviceObject) {
-
         if (NonFixedServices === true) {
             const isValid = this.validate();
             if (!isValid) {
@@ -425,7 +424,6 @@ class AddToCart extends Component {
         else if (targetName === 'CPR') {
 
             let targetOriginalName = 'cpr';
-            debugger
             if (event.target.value.length < min || event.target.value.length > max) {
                 let errorDivId = targetOriginalName.toLowerCase() + "-Error"
                 let ErrorElement = document.getElementById(errorDivId);
@@ -670,7 +668,6 @@ class AddToCart extends Component {
         let fixedAmounts = [];
         let serviceImage = "";
         let serviceBalanceInquiry = _.get(serviceObject, 'is-balance-inquiry-available');
-
         serviceAmountMin = _.get(serviceObject, 'min-amount');
         serviceAmountMax = _.get(serviceObject, 'max-amount');
 
@@ -705,6 +702,7 @@ class AddToCart extends Component {
                                             <img src={serviceImage} alt="Img" />
                                         </Grid>
 
+<<<<<<< HEAD
                                         {this.state.error ? <div style={{ fontSize: '15px', margin: 'auto', color: "red" }}>{this.state.error}</div> : null}
 
                                         {fixedAmounts.length > 0 ? (
@@ -811,6 +809,30 @@ class AddToCart extends Component {
                                                                                             <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
                                                                                                 <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
                                                                                             </Grid>
+=======
+                                                                        <Fragment>
+                                                                            <Tabs
+                                                                                value={this.state.setValue}
+                                                                                onChange={this.BalanceInquiryToggle}
+                                                                                aria-label="simple tabs example"
+                                                                                variant="fullWidth"
+                                                                                style={styles.BalanceInquiryTabs}
+                                                                                indicatorColor="primary"
+                                                                            >
+                                                                                {this.serviceRequestOptionalTargetsArray.map((value, index) => {
+                                                                                    return <StyledTab label={value.key} {...this.a11yProps({ index })} />
+                                                                                })}
+                                                                            </Tabs>
+                                                                            {this.serviceRequestOptionalTargetsArray.map((value, index) => {
+                                                                                return <this.TabPanel value={this.state.setValue} index={index}>
+                                                                                    <Grid container item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                                                        <Grid item xs={8} sm={8} md={8} lg={8} xl={8} style={{ textAlign: 'left' }}>
+                                                                                            {this.inputForTarget(value)}                                                                                          
+                                                                                        </Grid>
+                                                                                        <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>{this.inputErrorHtml(value)}</Grid>
+                                                                                        <Grid item xs={4} sm={4} md={4} lg={4} xl={4} style={{ textAlign: 'right' }}>
+                                                                                            <Fab variant="extended" color="primary" aria-label="add" style={styles.BillInquiryBtn} onClick={() => this.billInquiry(serviceObject)}>Bill Inquiry</Fab>
+>>>>>>> 9414967e1d24d55bd9b67e5d7ae510c9267b1966
                                                                                         </Grid>
                                                                                     </Fragment>
                                                                                 )

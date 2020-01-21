@@ -131,12 +131,14 @@ function Header(props) {
         props.history.push('/History');
     }
     React.useEffect(() => {
+        
             let cartItemCount = localStorage.getItem('cartItemCount');
+
             if (cartItemCount === null) {
-                props.getHeaderInfo(0, true);
+                props.getHeaderInfo(0, validateLogin());
             }
             else {
-                props.getHeaderInfo(cartItemCount, true);
+                props.getHeaderInfo(cartItemCount, validateLogin());
             }
     }, []);
 
