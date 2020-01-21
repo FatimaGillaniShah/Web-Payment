@@ -121,9 +121,7 @@ const styles = {
     color:"white"
   },
   LoginBtnLoader:{
-   
       color: 'white',
-
   },
   LinkText: {
     color: '#1961d7',
@@ -233,6 +231,15 @@ const styles = {
     fontWeight: "900"
 
   },
+  buttonProgress:{
+    color: 'white',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+
   Total: {
     color: '#0888e9',
     fontSize: '18px',
@@ -259,11 +266,12 @@ const styles = {
     color: '#fff',
     fontSize: '15px',
     padding: '3px 32px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    margin: '0px 5px'
   },
   buttonFooter: {
     height: '90px',
-    textAlign: 'right'
+    textAlign: 'right',
   },
 
   CardCard: {
@@ -301,7 +309,6 @@ const styles = {
   AgreeTerms: {
     textAlign: 'left',
     padding: '0px 34px',
-    /* color: blue; */
     color: '#1961d7'
   },
 
@@ -316,9 +323,11 @@ const styles = {
 
   FooterContainer:{
     backgroundColor:"#f3f3f3",
-    marginTop:'50px',
-    borderTop: '2px solid #dddddd'
-
+    borderTop: '2px solid #dddddd',
+    width: '100%',
+    marginTop:'35px',
+    bottom: '0'
+    
   },
   FooterStyling:{
     marginTop:'20px',

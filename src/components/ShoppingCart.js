@@ -8,6 +8,7 @@ import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@mat
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import styles from '../content/css/styles';
 import { Spring, animated } from "react-spring/renderprops";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class ShoppingCart extends Component {
 
@@ -20,6 +21,7 @@ class ShoppingCart extends Component {
             hidediv: false,
             count: null,
             cartItemCount: 0,
+            loading: false,
             service: [],
             actionUrl: "",
             paymentId: ""
@@ -87,14 +89,16 @@ class ShoppingCart extends Component {
     }
 
     async pay() {
-    
         let sessionId = localStorage.getItem('sessionId');
         let cartServices = JSON.parse(localStorage.getItem('Services'));
         let paymentsInfoRequestObj;
+        this.setState({loading: true})  
+    
         paymentsInfoRequestObj = Object.assign({ "session-id": sessionId, services: cartServices }, paymentsInfoRequestObj);
         let PaymentsInfoResponse = await RequestInfo(paymentsInfoRequestObj);
 
         PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
+        
         if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
@@ -102,6 +106,7 @@ class ShoppingCart extends Component {
                 alert(errorMessage);
                 return;
             }
+            
             else {
                 let errorOuccured = false;
 
@@ -116,7 +121,7 @@ class ShoppingCart extends Component {
                         break;
                     }
                 }
-
+              
                 if (!errorOuccured) {
                     let paymentsPayRequestObj;
                     paymentsPayRequestObj = Object.assign({ gateway: "benefit", "session-id": sessionId, services: cartServices }, paymentsPayRequestObj);
@@ -129,7 +134,9 @@ class ShoppingCart extends Component {
                         let payResponseErrorMessage = _.get(payResponse, 'error-message');
                         alert(payResponseErrorMessage);
                     }
+                    
                     else {
+
                         let payResponseUrl = _.get(payResponse, 'payment-url');
                         if (!errorOuccured && payResponse !== null && payResponseUrl !== null && payResponseUrl !== "") {
                             let payResponseUrl = _.get(payResponse, 'payment-url');
@@ -141,7 +148,7 @@ class ShoppingCart extends Component {
                             //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
                             //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
                             //   check how to submit form in react : document.getElementById('benefitForm').submit();
-
+                            this.setState({loading: false}) 
                             this.setState({ actionUrl: paymentUrl, paymentId: paymentId });
                             document.getElementById('benefitForm').submit();
                         }
@@ -251,7 +258,13 @@ class ShoppingCart extends Component {
                                                 </Grid >
                                                 <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
                                                     <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
-                                                    <Fab size="large" variant="extended" style={styles.Button} onClick={() => this.pay()}> PAY NOW  </Fab>
+                                                    <Fab variant="extended" disabled={this.state.loading} aria-label="add" style={styles.Button} onClick={() => this.pay()}>
+                                                       
+                                                        {this.state.loading && <CircularProgress size={34} style={styles.buttonProgress} />}
+                                                        {!this.state.loading && 'PAY NOW'}
+                                
+                                                    </Fab>
+                                                 
                                                 </Grid>
                                             </Grid>
                                         </Grid>

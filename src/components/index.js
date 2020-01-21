@@ -14,10 +14,11 @@ import Login from './Login';
 import Home from './Home';
 import Header from './Shared/Header';
 import Footer from './Shared/Footer';
+import NetworkError from './NetworkError';
 
 export {
     SignUp,ForgetPassword,ActivateAccount,
     ServiceProvider,SubGroups,AddToCart,ShoppingCart,
     PayUnsuccessful,PaySuccessful,History,PageNotFound,
-    Account,Login,Home,Header,Footer
+    Account,Login,Home,Header,Footer,NetworkError
 }

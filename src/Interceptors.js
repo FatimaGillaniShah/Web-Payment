@@ -3,26 +3,17 @@ import axios from 'axios';
 export default {
   setupInterceptors: (store, history) => {
 
-      axios.interceptors.response.use(response => {
-        return response;
-      }, error => {
- 
-          console.log(error)
-
-      if (error.response.status === 401) {
-
-        //store.dispatch(logout());
+    axios.interceptors.response.use(undefined,error => {
+debugger
+     if(error.message === 'Network Error' && !error.response){
+         history.push('/NetworkError');        
       }
-      if (error.response.status === 403) {
-        this.props.history.push('/login');
-     }
-
-      if (error.response.status === 404) {
-         history.push('/not-found');
+      const status = error.response; 
+      if (status === 404) {
+         history.push('*');
       }
-
-      if (error.response.status === 500) {
-        history.push('/not-found');
+      else if (status === 500) {
+        history.push('/NetworkError');
      }
       return Promise.reject(error);
     });

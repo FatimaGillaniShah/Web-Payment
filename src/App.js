@@ -62,12 +62,14 @@ class App extends Component {
             <Route path="/History" component={comp.History} />
             
             <Route path="/Account" component={comp.Account} />
+
+            <Route path="/NetworkError" component={comp.NetworkError} />
   
             <Route path="*" component={comp.PageNotFound} />
 
 
           </Switch>
-
+        
         </div>
         <comp.Footer />
       </div>

@@ -17,6 +17,7 @@ import LockCloseIcon from '@material-ui/icons/LockOpen';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import useStyles from '../../content/css/useStyles';
+import Badge from '@material-ui/core/Badge';
 
 function Header(props) {
 
@@ -35,6 +36,7 @@ function Header(props) {
     const logout = () => {
 
         let sessionId = localStorage.getItem('sessionId');
+    
         let LogoutRequestObject = {
             "session-id": sessionId
         }
@@ -130,10 +132,8 @@ function Header(props) {
     const NavigateToHistory = () => {
         props.history.push('/History');
     }
-    React.useEffect(() => {
-        
-            let cartItemCount = localStorage.getItem('cartItemCount');
-
+    React.useEffect(() => {      
+           let cartItemCount = localStorage.getItem('cartItemCount');
             if (cartItemCount === null) {
                 props.getHeaderInfo(0, validateLogin());
             }
@@ -180,14 +180,11 @@ function Header(props) {
                                 )}
 
                         </div>
-                        <div style={{ textAlign: 'right' }}>
+                        {/* <div style={{ textAlign: 'right' }}>
                             <Link href="#" to="#" className={classes.language}>
                                 عربي
                                  </Link>
-                            {/* <Link href="https://sadadbahrain.com/">
-                                   <HomeIcon className={classes.homeIcon}/>
-                                </Link>  */}
-                        </div>
+                        </div> */}
 
                     </Hidden>
 
@@ -226,7 +223,14 @@ function Header(props) {
                                         HELP
                                   </Typography>
                                     <Typography className={classes.ListName} >
-                                        <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}></ShoppingCartIcon>
+                                      
+                                       
+                                         <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}/>
+                                         <Badge            
+                                         onClick={NavigateToCart}
+                                         color="error" badgeContent={localStorage.getItem('cartItemCount')}
+                                         />
+                                       
                                     </Typography>
 
                                 </div>

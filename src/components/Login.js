@@ -13,7 +13,6 @@ import Fab from '@material-ui/core/Fab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@material-ui/core/Link';
 import styles from '../content/css/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { Spring, animated } from "react-spring/renderprops";
 import CircularProgress from '@material-ui/core/CircularProgress';
 const initialState = {
@@ -197,7 +196,7 @@ class Login extends Component {
                                 <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
 
                                     <Card elevation={16} style={styles.Card}>
-                                        {/* {this.state.loading ? <LinearProgress /> : ""} */}
+                          
                                         <CardContent>
                                             <Grid>
                                                 <Grid item style={styles.CardSegments}>

@@ -17,8 +17,7 @@ export const getAllData = () =>{
     dispatch({ 
       type: FETCH_DATA, payload:res.data
      })}
-   )};
-  
+   )}; 
 }
 
 export const getHistory = () =>{
@@ -51,23 +50,3 @@ export const getHeaderInfo = (cartItemCount,isLoggin) => {
     isLoggin: isLoggin
   };
 }
-
-// export const login = (msisdn,password) =>{
-//   return(dispatch)=>{
-//     // let sessionId = localStorage.getItem('sessionId');
-//     let loginRequestObject = {
-//       "msisdn" : "973" + msisdn,
-//       "password" : password,
-//       "locale": "en-US"
-  
-//   }
-//   axios.post(process.env.REACT_APP_BASEURL + 'api/web/v1/users/register',
-//   JSON.stringify(loginRequestObject))
-//     .then((res) => {
-  
-//     dispatch({ 
-//       type: FETCH_LOGIN, payload:res.data
-//      })}
-//    )};
-  
-// }
