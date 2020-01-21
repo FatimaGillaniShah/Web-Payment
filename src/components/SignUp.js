@@ -308,7 +308,7 @@ class SignUp extends Component {
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
-                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.signUp}>SIGN UP</Fab>
+                                                    <Fab variant="extended" color="primary" aria-label="add" style={styles.LoginBtn} onClick={this.signUp}>SUBMIT</Fab>
                                                 </Grid>
                                             </Grid>
 

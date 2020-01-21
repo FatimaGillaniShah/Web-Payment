@@ -140,8 +140,7 @@ const styles = {
 
   card: {
     maxWidth: '345',
-    marginTop: '30px',
-    cursor:'pointer'
+    marginTop: '30px'
   },
 
   media: {
@@ -301,7 +300,8 @@ const styles = {
   },
 
   CardContentSegments: {
-    padding: '20px',
+    paddingTop: '20px',
+    margin: '0 auto'
   },
   
   //SignUp

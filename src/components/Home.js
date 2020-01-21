@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import LoadingHtml from '../components/Shared/LoadingHtml';
-import { Grid, Container, CardHeader, Avatar, Paper, InputBase, IconButton, TextField } from '@material-ui/core';
+import { Grid, Container, CardHeader, Avatar, Paper, InputBase, IconButton, TextField, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { validateLogin } from './common/common';
 import Image from 'material-ui-image';
@@ -18,7 +18,8 @@ class Home extends Component {
       count: 0,
       show: false,
       searchedServices: [],
-      searchedServiceName: ""
+      searchedServiceName: "",
+      isSearched: false
     }
     let isValid = validateLogin();
     if (isValid) {
@@ -48,6 +49,10 @@ class Home extends Component {
       let searchedServicesArray = [];
       let groupsAndServices = this.props.services;
 
+      this.setState({
+        isSearched:true
+      });
+
       if (groupsAndServices != null) {
         groupsAndServices.forEach(e => {
           let serviceName = (_.get(e, 'name')).toLowerCase();
@@ -69,7 +74,8 @@ class Home extends Component {
     {
       this.setState({
         searchedServices: [],
-        searchedServiceName:""
+        searchedServiceName:"",
+        isSearched:false
       });
     }
   }
@@ -143,6 +149,11 @@ class Home extends Component {
                 </Grid>
               </Grid>
 
+              {this.state.isSearched && this.state.searchedServices.length === 0 ? 
+              <Typography variant="h3"><Typography variant="h4">No searched results found for</Typography><b>{this.state.searchedServiceName}</b></Typography>
+              :
+              <Fragment></Fragment>}
+
               {this.state.searchedServices.length > 0 ?
                 <Fragment>
                   <Grid container spacing={3}>
@@ -170,7 +181,8 @@ class Home extends Component {
               }
               <Grid container spacing={3}>
                 {groups.length === 0 ? <LoadingHtml /> : <Fragment></Fragment>}
-                {groups.map((e, i) =>
+                {this.state.searchedServices.length === 0 && this.state.isSearched === false ?
+                groups.map((e, i) =>
                   <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
 
                     <Card elevation={16} style={styles.card}>
@@ -194,7 +206,10 @@ class Home extends Component {
                     </Card>
 
                   </Grid>
-                )}
+                )
+                 :
+                <Fragment></Fragment>}
+                
               </Grid>
             </Container>
           </animated.div>
