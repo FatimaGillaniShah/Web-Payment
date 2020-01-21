@@ -243,6 +243,16 @@ class AddToCart extends Component {
                 return;
             }
         }
+        else
+        {
+            if(this.state.amount === null || this.state.amount === undefined || this.state.amount === "")
+            {
+                this.setState({
+                    error: 'Amount is not correct',
+                });
+                return;
+            }
+        }
         this.serviceRequestRequiredTargetsArray.forEach((e) => {
             let targetName = e.key;
             let targetValue = document.getElementById(targetName).value;
@@ -698,7 +708,7 @@ class AddToCart extends Component {
                             <CardContent>
                                 <Fragment>
                                     <Grid container>
-                                        <Grid item style={styles.CardContentSegments}>
+                                        <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                             <img src={serviceImage} alt="Img" />
                                         </Grid>
 
@@ -707,7 +717,7 @@ class AddToCart extends Component {
                                         {fixedAmounts.length > 0 ? (
 
                                             <Fragment>
-                                                <Grid item style={styles.CardContentSegments}>
+                                                <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                     <input id="amount" name="amount" type="hidden" value="1.000" />
                                                     <fieldset>
                                                         <label style={styles.SelectCardText}>Select Card*</label>
@@ -720,7 +730,7 @@ class AddToCart extends Component {
                                                         </div>
                                                     </fieldset>
                                                 </Grid>
-                                                <Grid item style={styles.CardContentSegments}>
+                                                <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                     <TextField
                                                         id="quantity"
                                                         label="Quantity"

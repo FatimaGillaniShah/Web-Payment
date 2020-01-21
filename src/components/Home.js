@@ -150,7 +150,7 @@ class Home extends Component {
               </Grid>
 
               {this.state.isSearched && this.state.searchedServices.length === 0 ? 
-              <Typography variant="h3">No searched results found for <b>{this.state.searchedServiceName}</b></Typography>
+              <Typography variant="h3"><Typography variant="h4">No searched results found for</Typography><b>{this.state.searchedServiceName}</b></Typography>
               :
               <Fragment></Fragment>}
 

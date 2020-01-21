@@ -142,8 +142,7 @@ const styles = {
 
   card: {
     maxWidth: '345',
-    marginTop: '30px',
-    cursor:'pointer'
+    marginTop: '30px'
   },
 
   media: {
