@@ -11,9 +11,12 @@ import {createBrowserHistory} from 'history';
 import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
 import index from "./reducers/index";
-export const history = createBrowserHistory()
+import httpService from './Interceptors';
 
+export const history = createBrowserHistory()
 const store = createStore(index,applyMiddleware(logger,thunkMiddleware))
+//httpService.setupInterceptors(store, history);
+
 const app = (
           <Provider store={store}>
                 <Router history={history}>

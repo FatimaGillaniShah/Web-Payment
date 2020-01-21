@@ -87,7 +87,7 @@ class ShoppingCart extends Component {
     }
 
     async pay() {
-
+    
         let sessionId = localStorage.getItem('sessionId');
         let cartServices = JSON.parse(localStorage.getItem('Services'));
         let paymentsInfoRequestObj;

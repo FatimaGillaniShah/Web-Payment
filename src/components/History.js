@@ -31,7 +31,6 @@ class History extends Component {
   }
   DateHeader(ServiceObject) {
 
-
     let ServiceObjectDate = _.get(ServiceObject, 'Date Time').split(' ')[0];
 
     let OldServiceObjectDate = this.HistoryDateFlag;

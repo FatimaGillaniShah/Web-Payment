@@ -11,6 +11,7 @@ import faviconImage from './content/img/favicon.png'
 import Login from './components/Login';
 import Home from './components/Home';
 
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -27,6 +28,7 @@ class App extends Component {
   render() {
     
     return (
+     
       <div>
         <Favicon url={faviconImage} />
         <comp.Header />
