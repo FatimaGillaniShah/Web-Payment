@@ -132,18 +132,22 @@ function Header(props) {
     const NavigateToHistory = () => {
         props.history.push('/History');
     }
-    React.useEffect(() => {      
+    React.useEffect(() => { 
+      
            let cartItemCount = localStorage.getItem('cartItemCount');
+           
             if (cartItemCount === null) {
+            
                 props.getHeaderInfo(0, validateLogin());
             }
             else {
+          
                 props.getHeaderInfo(cartItemCount, validateLogin());
             }
     }, []);
 
     return (
-
+        
         <div >
             <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
                 <Toolbar>
@@ -157,8 +161,6 @@ function Header(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-
-
                     <Link to={{ pathname: "/" }}>
                         <img style={{ marginTop: '12px' }} src={require('../../content/img/logo.png')} alt="sadad" />
                     </Link>
@@ -222,15 +224,17 @@ function Header(props) {
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
                                   </Typography>
-                                    <Typography className={classes.ListName} >
-                                      
-                                       
+                                    <Typography className={classes.ListName} >  
                                          <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}/>
-                                         <Badge            
+                                         {props.cartItemCount !== "0" && props.cartItemCount !== 0 && props.cartItemCount !== null && props.cartItemCount !== undefined ?                           
+                                          <Badge            
                                          onClick={NavigateToCart}
                                          color="error" badgeContent={localStorage.getItem('cartItemCount')}
-                                         />
-                                       
+                                      />
+                                          :
+                                          null
+                                         
+                                         }                                  
                                     </Typography>
 
                                 </div>
