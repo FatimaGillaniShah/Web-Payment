@@ -34,8 +34,9 @@ class ShoppingCart extends Component {
 
     componentWillMount() {
         var cartItems = JSON.parse(localStorage.getItem('Services'));
-        var cartItemsLength = cartItems.length;
-        if (cartItems !== null && cartItemsLength !== null && cartItemsLength > 0) {
+        if (cartItems !== null && cartItems !== undefined && cartItems.length > 0) {
+            var cartItemsLength = cartItems.length;
+
             localStorage.setItem('cartItemCount', cartItemsLength);
             this.setState({
                 Items: cartItems,
