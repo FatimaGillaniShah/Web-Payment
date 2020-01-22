@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { Grid, Container, CardActions, Typography, Tabs, Tab, Switch, InputAdornment, Fab, TextField, Box } from '@material-ui/core';
 import styled from "styled-components";
 import styles from '../content/css/styles';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const StyledTab = styled(({ ...props }) => (
     <Tab {...props} classes={{ selected: "selected" }} />
@@ -36,6 +36,7 @@ class AddToCart extends Component {
             PhoneError: null,
             CPRError: null,
             CRError: null,
+            loading: false,
             AccountError: null,
             AmountError: null,
             amount: null,
@@ -237,9 +238,11 @@ class AddToCart extends Component {
         }
     }
     async saveIntoCart(serviceObject) {
+        this.setState({loading:true})
         if (NonFixedServices === true) {
             const isValid = this.validate();
             if (!isValid) {
+                this.setState({loading:false})
                 return;
             }
         }
@@ -250,6 +253,7 @@ class AddToCart extends Component {
                 this.setState({
                     error: 'Amount is not correct',
                 });
+                this.setState({loading:false})
                 return;
             }
         }
@@ -290,6 +294,7 @@ class AddToCart extends Component {
         let PaymentsInfoResponse = await RequestInfo(paymentsInfoRequestObj);
 
         PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
+        this.setState({loading:false})
         if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
@@ -868,8 +873,9 @@ class AddToCart extends Component {
                                 </Fragment>
                             </CardContent>
                             <CardActions>
-                                <Fab variant="extended" color="primary" aria-label="add" style={styles.AddToCartBtn} onClick={() => this.saveIntoCart(serviceObject)}>
-                                    Add To Cart
+                                <Fab variant="extended" disabled={this.state.loading} color="primary" aria-label="add" style={styles.AddToCartBtn} onClick={() => this.saveIntoCart(serviceObject)}>
+                                    {this.state.loading && <CircularProgress size={34} style={styles.LoginBtnLoader} />}
+                                    {!this.state.loading && 'SUBMIT'}
                                 </Fab>
                             </CardActions>
                         </Card>

@@ -36,7 +36,6 @@ function Header(props) {
     const logout = () => {
 
         let sessionId = localStorage.getItem('sessionId');
-    
         let LogoutRequestObject = {
             "session-id": sessionId
         }
@@ -53,6 +52,8 @@ function Header(props) {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("sessionTime");
         localStorage.removeItem("redirectTo");
+        localStorage.removeItem("Services");
+        localStorage.removeItem("cartItemCount");
         props.history.push('/');
         props.getHeaderInfo(0, false);
 
@@ -132,22 +133,19 @@ function Header(props) {
     const NavigateToHistory = () => {
         props.history.push('/History');
     }
-    React.useEffect(() => { 
-      
-           let cartItemCount = localStorage.getItem('cartItemCount');
-           
-            if (cartItemCount === null) {
-            
-                props.getHeaderInfo(0, validateLogin());
-            }
-            else {
-          
-                props.getHeaderInfo(cartItemCount, validateLogin());
-            }
+    React.useEffect(() => {
+
+        let cartItemCount = localStorage.getItem('cartItemCount');
+        if (cartItemCount === null) {
+            props.getHeaderInfo(0, validateLogin());
+        }
+        else {
+            props.getHeaderInfo(cartItemCount, validateLogin());
+        }
     }, []);
 
     return (
-        
+
         <div >
             <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
                 <Toolbar>
@@ -224,17 +222,15 @@ function Header(props) {
                                         <NotificationsIcon className={classes.IconStyling} />
                                         HELP
                                   </Typography>
-                                    <Typography className={classes.ListName} >  
-                                         <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart}/>
-                                         {props.cartItemCount !== "0" && props.cartItemCount !== 0 && props.cartItemCount !== null && props.cartItemCount !== undefined ?                           
-                                          <Badge            
-                                         onClick={NavigateToCart}
-                                         color="error" badgeContent={localStorage.getItem('cartItemCount')}
-                                      />
-                                          :
-                                          null
-                                         
-                                         }                                  
+                                    <Typography className={classes.ListName} >
+                                        <ShoppingCartIcon onClick={NavigateToCart} className={classes.Cart} />
+                                        {props.cartItemCount !== "0" && props.cartItemCount !== 0 && props.cartItemCount !== null && props.cartItemCount !== undefined ?
+                                            <Badge
+                                                onClick={NavigateToCart}
+                                                color="error" badgeContent={localStorage.getItem('cartItemCount')}
+                                            />
+                                            : null
+                                        }
                                     </Typography>
 
                                 </div>
