@@ -10,6 +10,7 @@ import styled from "styled-components";
 import styles from '../content/css/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Spring, animated } from "react-spring/renderprops";
+import LoadingHtmlAddToCart from '../components/Shared/LoadingHtmlAddToCart';
 
 const StyledTab = styled(({ ...props }) => (
     <Tab {...props} classes={{ selected: "selected" }} />
@@ -760,6 +761,9 @@ class AddToCart extends Component {
             <Container xl={12}>
                 <Grid container spacing={10}>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={styles.cardGrid}>
+                    {AllServices.length === 0  ? 
+                      <LoadingHtmlAddToCart /> 
+                       : 
                         <Card elevation={16} style={styles.card}>
                             <CardContent>
                                 <Fragment>
@@ -935,6 +939,7 @@ class AddToCart extends Component {
                                 </Fab>
                             </CardActions>
                         </Card>
+    }
                     </Grid>
                 </Grid>
             </Container>

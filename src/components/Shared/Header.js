@@ -212,7 +212,6 @@ function Header(props) {
                                         HISTORY
                                      </Typography>
 
-
                                     <Typography  onClick={NavigateToHelp} className={classes.ListName} >
                                         <HelpOutlineIcon className={classes.IconStyling} />
                                         HELP

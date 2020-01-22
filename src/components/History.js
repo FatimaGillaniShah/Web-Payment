@@ -113,7 +113,7 @@ class History extends Component {
                                                         <Typography style={styles.CartSubHeading}>No records found. Please do some transactions to see history.</Typography>
                                                         <Fab variant="extended" color="primary" aria-label="add" onClick={() => this.NavigateToHome()} style={styles.TakeMeHomeBtn} >
                                                             TAKE ME HOME
-                                            </Fab>
+                                                        </Fab>
                                                     </Fragment>
                                                 </CardContent>
                                             </Card>
