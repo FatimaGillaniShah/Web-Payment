@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 export default {
-  setupInterceptors: (store, history) => {
+  setupInterceptors: (history) => {
 
-    axios.interceptors.response.use(undefined,error => {
-debugger
+    axios.interceptors.response.use(response => {
+      return response
+    }, error => {
+
      if(error.message === 'Network Error' && !error.response){
          history.push('/NetworkError');        
       }
@@ -15,6 +17,7 @@ debugger
       else if (status === 500) {
         history.push('/NetworkError');
      }
+     debugger
       return Promise.reject(error);
     });
   },
