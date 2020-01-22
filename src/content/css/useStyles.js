@@ -38,14 +38,15 @@ const useStyles = makeStyles(theme =>({
     {
         float: 'right',
         marginTop: '12px',
-        cursor:'pointer'
-
+        cursor:'pointer',
+        display: 'block',
+       
     },
+   
     text: {
         color: '#0061ae',
         fontSize: '18px',
         fontWeight: 'bold',
-
 
     },
     AppDrawerHeading: {
@@ -55,7 +56,6 @@ const useStyles = makeStyles(theme =>({
         padding: '20px'
     },
     ListMenu: {
-
         float: 'right',
         color: '#7b7a7b',
         flex: 'row',
@@ -83,7 +83,6 @@ const useStyles = makeStyles(theme =>({
         fontWeight: 'bold',
         // margin: '0px 70px',
         color: 'white'
-
     },
     loginbtn: {
         margin: '0px 2px',

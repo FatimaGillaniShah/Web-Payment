@@ -15,7 +15,7 @@ import httpService from './Interceptors';
 
 export const history = createBrowserHistory()
 const store = createStore(index,applyMiddleware(logger,thunkMiddleware))
-httpService.setupInterceptors(store, history);
+httpService.setupInterceptors(history);
 
 const app = (
           <Provider store={store}>

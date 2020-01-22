@@ -6,7 +6,6 @@ import { Fragment } from 'react';
 
 function LoadingHTML() {
   return (
-
     <Fragment>
       <Grid item xs={12} sm={6} md={4} lg={3} key={0}>
         <Card elevation={16} style={{marginTop:'30px'}}>

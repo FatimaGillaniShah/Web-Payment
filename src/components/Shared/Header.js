@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PublicIcon from '@material-ui/icons/Public';
 import { MenuItem, MenuList, Fab, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography } from '@material-ui/core';
@@ -13,6 +12,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import LockCloseIcon from '@material-ui/icons/LockOpen';
 import WidgetsIcon from '@material-ui/icons/Widgets';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
@@ -34,18 +34,15 @@ function Header(props) {
 
     };
     const logout = () => {
-
         let sessionId = localStorage.getItem('sessionId');
         let LogoutRequestObject = {
             "session-id": sessionId
         }
         LogoutRequestInfo(LogoutRequestObject)
             .then((result) => {
-
                 console.log(result)
             })
             .catch((err) => {
-
                 console.log("error login failed !!!");
             });
 
@@ -109,6 +106,9 @@ function Header(props) {
 
         </Hidden>
     );
+    const NavigateToHelp = () => {
+        window.location.assign("https://sadadbahrain.com/app/help.html");
+    }
 
     const NavigateToLogin = () => {
         props.history.push('/login');
@@ -168,17 +168,13 @@ function Header(props) {
                             {props.isLoggedIn ? (
                                 <div className={classes.NavMenuButtons}>
                                     <Fab variant="extended" size="medium" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
-
                                 </div>
-
                             ) : (
-                                    <div className={classes.NavMenuButtons}>
-                                        <Fab variant="extended" size="medium" onClick={NavigateToLogin} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
-                                        <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
-                                    </div>
-
-                                )}
-
+                                <div className={classes.NavMenuButtons} onClick={NavigateToLogin}>
+                                    <Fab variant="extended" size="medium" onClick={NavigateToLogin} className={classes.loginbtn} style= {{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
+                                    <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
+                                 </div>
+                             )}
                         </div>
                         {/* <div style={{ textAlign: 'right' }}>
                             <Link href="#" to="#" className={classes.language}>
@@ -211,15 +207,13 @@ function Header(props) {
                                         ACCOUNT
                                      </Typography >
 
-
                                     <Typography onClick={NavigateToHistory} className={classes.ListName}>
                                         <PublicIcon className={classes.IconStyling} />
                                         HISTORY
                                      </Typography>
 
-
-                                    <Typography className={classes.ListName} >
-                                        <NotificationsIcon className={classes.IconStyling} />
+                                    <Typography  onClick={NavigateToHelp} className={classes.ListName} >
+                                        <HelpOutlineIcon className={classes.IconStyling} />
                                         HELP
                                   </Typography>
                                     <Typography className={classes.ListName} >
@@ -260,7 +254,6 @@ function Header(props) {
                             keepMounted: true,
                         }}
                     >
-
                         {drawer}
 
                     </Drawer>
@@ -273,7 +266,6 @@ function Header(props) {
     );
 }
 const mapDispatchToProps = (dispatch) => {
-
     return {
         getHeaderInfo: (itemCartCount, isLoggedIn) => {
             dispatch(actions.getHeaderInfo(itemCartCount, isLoggedIn));
@@ -281,8 +273,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 const mapStateToProps = state => {
-    console.log(state)
-
     return {
         cartItemCount: state.headerContent.cartItemCount,
         isLoggedIn: state.headerContent.isLoggin
