@@ -256,7 +256,7 @@ class ShoppingCart extends Component {
                                         </Grid>
                                         
                                         <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
-                                            <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                            <Fab variant="extended" disabled={this.state.loading} style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
                                             <Fab variant="extended" disabled={this.state.loading} aria-label="add" style={styles.Button} onClick={() => this.pay()}>
                                                 {this.state.loading && <CircularProgress size={34} style={styles.buttonProgress} />}
                                                 {!this.state.loading && 'PAY NOW'}
