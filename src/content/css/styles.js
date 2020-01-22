@@ -301,7 +301,16 @@ const styles = {
     paddingTop: '20px',
     margin: '0 auto'
   },
-  
+  vatLabel:{
+    backgroundColor:'#5cb85c', 
+    color:'white',
+    padding:'5px',
+    fontSize:'10px',
+    position:'relative',
+    bottom:'5px',
+    borderRadius:'5px',
+    marginLeft:'5px'
+  },
   //SignUp
 
   AgreeTerms: {
