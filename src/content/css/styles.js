@@ -239,18 +239,16 @@ const styles = {
     marginLeft: -12,
   },
 
-  Total: {
+  ShoppingTotal: {
     color: '#0888e9',
     fontSize: '18px',
     fontWeight: "900",
     textAlign: 'right',
-    padding: '10px 0px'
+    padding: '10px 0px',
+    backgroundColor: '#e7efde'
   },
 
-  footer: {
-    backgroundColor: '#e7efde',
-    height: '90px'
-  },
+  
   ImageIcon: {
     padding: '32px'
   },

@@ -85,22 +85,12 @@ class History extends Component {
             )
           }}>
             <Container style={styles.containerStart}>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
-
-                <Pagination
-                  itemsCount={count}
-                  pageSize={this.state.pageSize}
-                  onPageChange={this.handlePageChange}
-                  currentPage={this.state.currentPage}
-                />
-
-              </Grid>
+              
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={12} lg={12}>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   {services.length === 0 && isLoading === true ? 
                   <LoadingHtmlHistory /> 
                   : 
-
                   services.length === 0 && isLoading === false ?
                   (
                     <Grid container spacing={10}>
@@ -129,29 +119,26 @@ class History extends Component {
                                             </Card>
                                         </Grid>
                                     </Grid>
-                  )
-                  
+                  )                  
                   :
                   null}
 
                   {services.map((e, i) =>
                     <Card>
                       <CardContent style={styles.cardArea}>
-
+                        <Grid container spacing={3}>
                         {this.DateHeader(e) ? (
-                          <Grid style={styles.cardHeader}>
-                            <Grid item>
+                          
+                            <Grid item style={styles.cardHeader}>
                               <Typography variant='h4'>
                                 {(_.get(e, 'Date Time')).split(' ')[0]}
                               </Typography>
                             </Grid>
-                          </Grid>
+                          
                         ) : (
                             <Fragment></Fragment>
                           )
                         }
-
-                        <Grid container spacing={3}>
                           <Grid Item item xs={1} sm={1} md={1} lg={1}>
                             <img alt="" src={e.iconUrl} style={styles.CardIcon} />
                           </Grid>
@@ -171,9 +158,17 @@ class History extends Component {
                         </Grid>
                       </CardContent>
                     </Card>
-
                   )}
+
                 </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Pagination
+                  itemsCount={count}
+                  pageSize={this.state.pageSize}
+                  onPageChange={this.handlePageChange}
+                  currentPage={this.state.currentPage}
+                />
+              </Grid>
               </Grid>
 
             </Container>
