@@ -4,7 +4,7 @@ import { validateLogin } from '../components/common/common';
 import { Pay, RequestInfo } from '../api/ApiCalls';
 import * as actions from '../store/actions/actions';
 import { connect } from 'react-redux';
-import { Fab, CardContent, Grid, Container, Paper, Typography, Card } from '@material-ui/core';
+import { Fab, CardContent, Grid, Container, Paper, Typography, Card,Badge } from '@material-ui/core';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import styles from '../content/css/styles';
 import { Spring, animated } from "react-spring/renderprops";
@@ -104,6 +104,7 @@ class ShoppingCart extends Component {
             if (errorCode !== 0) {
                 let errorMessage = _.get(PaymentsInfoResponse, 'error-message');
                 alert(errorMessage);
+                this.props.history.push("/");
                 return;
             }
 
@@ -171,7 +172,7 @@ class ShoppingCart extends Component {
     render() {
         var sum = 0;
         this.state.Items.forEach((e) => {
-            sum = sum + parseFloat(e.amount);
+            sum = sum + parseFloat(e.vatedAmount);
         });
 
         return (
@@ -241,7 +242,16 @@ class ShoppingCart extends Component {
                                                             </Typography>
                                                         </Grid>
                                                         <Grid item xs={6} sm={6} md={2} lg={2} style={styles.CardSegmentsRightAlign}>
-                                                            <Typography style={styles.Heading} variant='h4'>BHD {e.amount}</Typography>
+                                                        <Typography style={styles.Heading} variant='h4'>BHD {e.vatedAmount} 
+                                                        
+                                                        {e.vat !== undefined && e.vat !== null && e.vat !== "" && e.vat !== 0 ? 
+                                                         <label style={styles.vatLabel}> {e.vat} VAT</label>
+                                                        :
+                                                        <Fragment></Fragment>
+                                                        }
+                                                        
+                                                        
+                                                        </Typography>
                                                         </Grid>
                                                         <Grid item xs={6} sm={6} md={1} lg={1} style={styles.CardSegmentsCart}>
                                                             <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />

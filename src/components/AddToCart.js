@@ -9,6 +9,7 @@ import { Grid, Container, CardActions, Typography, Tabs, Tab, Switch, InputAdorn
 import styled from "styled-components";
 import styles from '../content/css/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Spring, animated } from "react-spring/renderprops";
 
 const StyledTab = styled(({ ...props }) => (
     <Tab {...props} classes={{ selected: "selected" }} />
@@ -41,6 +42,8 @@ class AddToCart extends Component {
             AmountError: null,
             amount: null,
             Amount: null,
+            vatedAmount: 0,
+            vat: 0,
             serviceObject: [],
             quantity: 1,
             error: false,
@@ -55,6 +58,7 @@ class AddToCart extends Component {
         this.serviceRequestRequiredTargetsArray = [];
         this.serviceRequestOptionalTargetsArray = [];
         this.finalizedTargetsArray = {};
+        NonFixedServices = false;
 
     }
 
@@ -158,21 +162,24 @@ class AddToCart extends Component {
             error: ""
         });
 
-        if (this.serviceRequestOptionalTargetsArray.length !== 0) {
-            if (this.state.CPRError === false || this.state.CRError === false) {
-                FinalFlag = true;
-            }
-            else if (this.state.CPRError === null && this.state.CRError === null) {
-                this.setState({
-                    error: 'Field is required',
-                });
-                return false;
+        if (this.state.BalanceInquiry) {
+            if (this.serviceRequestOptionalTargetsArray.length !== 0) {
+                if (this.state.CPRError === false || this.state.CRError === false) {
+                    FinalFlag = true;
+                }
+                else if (this.state.CPRError === null && this.state.CRError === null) {
+                    this.setState({
+                        error: 'Field is required',
+                    });
+                    return false;
 
-            }
-            else {
-                return false;
+                }
+                else {
+                    return false;
+                }
             }
         }
+
         for (var i = 0; i < this.serviceRequestRequiredTargetsArray.length; i++) {
 
             if (this.serviceRequestRequiredTargetsArray[i].key === "msisdn-local") {
@@ -238,22 +245,20 @@ class AddToCart extends Component {
         }
     }
     async saveIntoCart(serviceObject) {
-        this.setState({loading:true})
+        this.setState({ loading: true })
         if (NonFixedServices === true) {
             const isValid = this.validate();
             if (!isValid) {
-                this.setState({loading:false})
+                this.setState({ loading: false })
                 return;
             }
         }
-        else
-        {
-            if(this.state.amount === null || this.state.amount === undefined || this.state.amount === "")
-            {
+        else {
+            if (this.state.amount === null || this.state.amount === undefined || this.state.amount === "") {
                 this.setState({
                     error: 'Amount is not correct',
                 });
-                this.setState({loading:false})
+                this.setState({ loading: false })
                 return;
             }
         }
@@ -274,6 +279,30 @@ class AddToCart extends Component {
             });
         }
 
+        let serviceVatType = _.get(serviceObject, 'vatApply.vatType');
+        let serviceVatValue = _.get(serviceObject, 'vatApply.vatValue');
+        if (serviceVatType !== undefined && serviceVatType !== null && serviceVatType !== "") {
+            if (serviceVatType === 1) {
+                let amount = parseFloat(this.state.amount);
+                let vatCalculatedAmount = amount.toFixed(2) * serviceVatValue.toFixed(2);
+                let totalAMount = parseFloat(amount) + parseFloat(vatCalculatedAmount);
+                this.setState({
+                    vatedAmount: totalAMount.toFixed(2),
+                    vat: vatCalculatedAmount.toFixed(2)
+                });
+
+            }
+            else if (serviceVatType === 0) {
+                let amount = this.state.amount;
+                let totalAMount = amount + serviceVatValue;
+                this.setState({ vatedAmount: totalAMount, vat: serviceVatValue });
+            }
+            else {
+
+            }
+        }
+
+
         // Request Info will be done here
         let sessionId = localStorage.getItem('sessionId');
         let serviceArrayForRequestInfo = [];
@@ -284,6 +313,7 @@ class AddToCart extends Component {
                 "service-id": serviceObject.id,
                 target: this.finalizedTargetsArray,
                 amount: this.state.amount,
+                vatedAmount: this.state.vatedAmount
 
             }, ServiceObjectForRequestInfo);
 
@@ -294,7 +324,7 @@ class AddToCart extends Component {
         let PaymentsInfoResponse = await RequestInfo(paymentsInfoRequestObj);
 
         PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
-        this.setState({loading:false})
+        this.setState({ loading: false })
         if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
@@ -338,6 +368,8 @@ class AddToCart extends Component {
                                     "service-id": serviceObject.id,
                                     target: this.finalizedTargetsArray,
                                     amount: this.state.amount,
+                                    vatedAmount: this.state.vatedAmount,
+                                    vat: this.state.vat,
                                     iconUrl: serviceObject.iconUrl,
                                     name: serviceObject.name
 
@@ -362,7 +394,8 @@ class AddToCart extends Component {
 
         data.target.className = data.target.className + " active";
         this.setState({
-            amount: e
+            amount: e,
+            vatedAmount: e
         });
     }
 
@@ -704,7 +737,25 @@ class AddToCart extends Component {
         else {
             serviceObject = [];
         }
+
+
+        let serviceVatDescription = _.get(serviceObject, 'vatApply.description');
+        let serviceDescription = _.get(serviceObject, 'service-description');
+
+
         return (
+
+            <Spring
+                native
+                from={{ o: 0, xyz: [0, 500, 0] }}
+                to={{ o: 1, xyz: [0, 0, 0] }}
+            >
+                {({ o, xyz }) => (
+                    <animated.div style={{
+                        transform: xyz.interpolate(
+                            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
+                        )
+                    }}>
 
             <Container xl={12}>
                 <Grid container spacing={10}>
@@ -759,10 +810,10 @@ class AddToCart extends Component {
 
                                                         )}
                                                     </Grid>
-                                                    
-                                                    
-                                                        {serviceBalanceInquiry === true ? (
-                                                            <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                                                    {serviceBalanceInquiry === true ? (
+                                                        <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                             <Fragment>
                                                                 {this.serviceRequestOptionalTargetsArray.length > 0 ? (
                                                                     <Fragment>
@@ -840,18 +891,18 @@ class AddToCart extends Component {
                                                                         </Fragment>
                                                                     )}
                                                             </Fragment>
-                                                            </Grid>
-                                                        ) : (
-                                                                <Fragment></Fragment>
+                                                        </Grid>
+                                                    ) : (
+                                                            <Fragment></Fragment>
 
-                                                            )}
-                                                    
-                                                    
+                                                        )}
+
+
                                                     <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                         <TextField
                                                             label="Amount"
                                                             id="amount"
-
+                                                            type="number"
                                                             ref="amount"
                                                             value={this.state.amount}
                                                             style={styles.textField}
@@ -865,6 +916,11 @@ class AddToCart extends Component {
                                                             }
                                                             variant="outlined"
                                                         />
+                                                    </Grid>
+
+                                                    <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                        <Typography variant="h4" color="error">{serviceVatDescription}</Typography>
+                                                        <Typography style={styles.CardContentSegments} variant="h4" color="error">{serviceDescription}</Typography>
                                                     </Grid>
                                                 </Fragment>
 
@@ -882,6 +938,12 @@ class AddToCart extends Component {
                     </Grid>
                 </Grid>
             </Container>
+        
+            </animated.div>
+                )}
+            </Spring>
+        
+        
         );
 
     }

@@ -147,7 +147,7 @@ function Header(props) {
     return (
 
         <div >
-            <AppBar style={{ position: 'unset', background: '#0d61af', height: '80px' }}>
+            <AppBar  position="sticky" style={{ background: '#0d61af', height: '80px' }}>
                 <Toolbar>
 
                     <IconButton
@@ -189,7 +189,7 @@ function Header(props) {
 
             {props.isLoggedIn ? (
                 < Hidden only="xs" >
-                    <AppBar style={{ position: 'unset', background: 'white', height: '65px' }}>
+                    <AppBar position="sticky" style={{ background: 'white', height: '65px' }}>
 
                         <Toolbar>
                             <div style={{ padding: '0px 33px' }}>
