@@ -11,7 +11,7 @@ const Pagination = props => {
 
       <ul className="pagination pull-right">
           {pages.map(page =>(
-            <li key={page} className={page === currentPage ? 'page-item active' : 'page-item' }>
+            <li key={page} style={{cursor:'pointer'}} className={page === currentPage ? 'page-item active' : 'page-item' }>
              <div className="page-link" onClick ={() => props.onPageChange(page)}>{page}</div>
             </li>
           ))}

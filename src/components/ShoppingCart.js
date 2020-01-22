@@ -92,13 +92,13 @@ class ShoppingCart extends Component {
         let sessionId = localStorage.getItem('sessionId');
         let cartServices = JSON.parse(localStorage.getItem('Services'));
         let paymentsInfoRequestObj;
-        this.setState({loading: true})  
-    
+        this.setState({ loading: true })
+
         paymentsInfoRequestObj = Object.assign({ "session-id": sessionId, services: cartServices }, paymentsInfoRequestObj);
         let PaymentsInfoResponse = await RequestInfo(paymentsInfoRequestObj);
 
         PaymentsInfoResponse = _.get(PaymentsInfoResponse, 'data');
-        
+
         if (PaymentsInfoResponse !== null && PaymentsInfoResponse !== undefined) {
             let errorCode = _.get(PaymentsInfoResponse, 'error-code');
             if (errorCode !== 0) {
@@ -106,7 +106,7 @@ class ShoppingCart extends Component {
                 alert(errorMessage);
                 return;
             }
-            
+
             else {
                 let errorOuccured = false;
 
@@ -121,7 +121,7 @@ class ShoppingCart extends Component {
                         break;
                     }
                 }
-              
+
                 if (!errorOuccured) {
                     let paymentsPayRequestObj;
                     paymentsPayRequestObj = Object.assign({ gateway: "benefit", "session-id": sessionId, services: cartServices }, paymentsPayRequestObj);
@@ -134,7 +134,7 @@ class ShoppingCart extends Component {
                         let payResponseErrorMessage = _.get(payResponse, 'error-message');
                         alert(payResponseErrorMessage);
                     }
-                    
+
                     else {
 
                         let payResponseUrl = _.get(payResponse, 'payment-url');
@@ -148,7 +148,7 @@ class ShoppingCart extends Component {
                             //   action :  document.getElementById('benefitForm').setAttribute('action', paymentUrl);
                             //   value : document.getElementById('benefitFormPaymentID').setAttribute('value', paymentId);
                             //   check how to submit form in react : document.getElementById('benefitForm').submit();
-                            this.setState({loading: false}) 
+                            this.setState({ loading: false })
                             this.setState({ actionUrl: paymentUrl, paymentId: paymentId });
                             document.getElementById('benefitForm').submit();
                         }
@@ -191,14 +191,14 @@ class ShoppingCart extends Component {
                             {this.state.cartItemCount ?
                                 (
                                     <Grid container spacing={3}>
+
                                         <Grid item xs={12} sm={12} md={12} lg={12}>
                                             <Paper style={styles.Header}>
                                                 Shopping Cart
-                                </Paper>
-
+                                            </Paper>
                                             {this.state.Items.map((e, i) =>
-                                                <Card style={{ borderBottom: '2px solid #dddddd' }}>
-                                                    <Grid container spacing={3}>
+                                            <Card style={{ borderBottom: '2px solid #dddddd' }}>
+                                                <Grid container spacing={3}>
                                                         <Grid item xs={6} sm={6} md={2} lg={2}>
                                                             <img alt="img" src={e.iconUrl} style={styles.Image} />
                                                         </Grid>
@@ -247,31 +247,27 @@ class ShoppingCart extends Component {
                                                             <CancelOutlinedIcon onClick={() => this.RemoveItem(e.MyId)} style={{ fontSize: 24 }} />
                                                         </Grid>
                                                     </Grid>
-                                                </Card>
+                                            </Card>
                                             )}
-                                            <Grid container style={styles.footer} item xs={12} sm={12} md={12} lg={12} >
-                                                <Grid item xs={12} sm={12} md={12} lg={12} >
-                                                    <Typography style={styles.Total}>
-                                                        BHD Total {sum}
-                                                        <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
-                                                    </Typography>
-                                                </Grid >
-                                                <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
-                                                    <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
-                                                    <Fab variant="extended" disabled={this.state.loading} aria-label="add" style={styles.Button} onClick={() => this.pay()}>
-                                                       
-                                                        {this.state.loading && <CircularProgress size={34} style={styles.buttonProgress} />}
-                                                        {!this.state.loading && 'PAY NOW'}
-                                
-                                                    </Fab>
-                                                 
-                                                </Grid>
-                                            </Grid>
+                                            <Typography style={styles.ShoppingTotal}>
+                                                BHD Total {sum}
+                                                <img alt="img" src={require('../content/img/tag.png')} style={styles.ImageIcon} />
+                                            </Typography>
+                                        </Grid>
+                                        
+                                        <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
+                                            <Fab variant="extended" style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                            <Fab variant="extended" disabled={this.state.loading} aria-label="add" style={styles.Button} onClick={() => this.pay()}>
+                                                {this.state.loading && <CircularProgress size={34} style={styles.buttonProgress} />}
+                                                {!this.state.loading && 'PAY NOW'}
+                                            </Fab>
                                         </Grid>
                                         <form action={this.state.actionUrl} method="post" id="benefitForm">
                                             <input type="hidden" name="PaymentID" id="benefitFormPaymentID" value={this.state.paymentId} />
                                         </form>
                                     </Grid>
+
+
 
                                 ) : (
 
@@ -303,6 +299,7 @@ class ShoppingCart extends Component {
                                     </Grid>
                                 )}
                         </Container>
+
                     </animated.div>
                 )}
             </Spring>
