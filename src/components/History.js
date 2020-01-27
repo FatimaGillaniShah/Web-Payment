@@ -72,10 +72,6 @@ class History extends Component {
         localServices.push(details);
       });
     }
-    else
-    {
-      isLoading = false;
-    }
     const count = localServices.length;
     const { pageSize, currentPage } = this.state;
     const services = paginate(localServices, currentPage, pageSize);
