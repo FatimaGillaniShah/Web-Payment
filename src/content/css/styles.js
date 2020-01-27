@@ -101,6 +101,9 @@ const styles = {
     fontSize: "18px",
     fontWeight: "800"
   },
+  pagination:{
+    display:"flex"
+  },
   //Account
   mainGrid: {
     margin: "auto",
