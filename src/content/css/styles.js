@@ -1,3 +1,5 @@
+import zIndex from "@material-ui/core/styles/zIndex";
+
 const styles = {
   //AddToCart
   card: {
@@ -62,6 +64,15 @@ const styles = {
     border: "1px solid #0D61AF",
     marginTop: "8%"
   },
+  snackBar: {
+    width: "37%",
+
+  },
+  snackBarAlert: {
+    width: "100%",
+    fontSize:"initial"
+  },
+
   //History
 
   containerStart: {
