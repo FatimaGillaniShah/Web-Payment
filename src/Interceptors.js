@@ -4,9 +4,8 @@ export default {
   setupInterceptors: (history) => {
 
     axios.interceptors.response.use(response => {
-      debugger;
+  
       let status = _.get(response.data, 'error-code');
-     
       if(status === 105){
         let errorMessage = 'Your Session is Expired.';
         localStorage.removeItem("sessionId");

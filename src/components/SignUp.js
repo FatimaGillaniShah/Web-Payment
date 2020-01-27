@@ -203,9 +203,8 @@ class SignUp extends Component {
         }
     }
     render() {
-        debugger
-       let message =  this.props.location.state;
-       let errorMessage = _.get(message, 'errorMessage');
+       
+       
         return (
             <Spring
                 native
@@ -230,7 +229,7 @@ class SignUp extends Component {
                                                     <Typography gutterBottom variant="h3" component="h2" style={{ color: '#0061ae', fontWeight: '300' }}>SIGN UP</Typography>
                                                 </Grid>
                                                 <Grid item style={styles.CardSegments}>
-                                                    {errorMessage !== undefined ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{errorMessage}</div> :  null}
+                                                  
                                                     {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
 
                                                     <TextField
