@@ -304,6 +304,10 @@ class AddToCart extends Component {
 
             }
         }
+        else
+        {
+            this.setState({ vatedAmount: this.state.amount });
+        }
 
 
         // Request Info will be done here
