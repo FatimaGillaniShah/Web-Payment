@@ -547,7 +547,7 @@ class AddToCart extends Component {
             if (targetNameOriginal === "email") {
                 targetType = "email";
             }
-            else if (targetNameOriginal === "msisdn") {
+            else if (targetNameOriginal === "msisdn" || targetNameOriginal === "msisdn-local") {
                 targetType = "number";
             }
             else {
@@ -571,9 +571,13 @@ class AddToCart extends Component {
                             onChange={(e) => this.onChange(e, targetName, min, max)}
                             inputProps={
                                 {
-                                    startAdornment: <InputAdornment position="start">+973</InputAdornment>,
                                     minLength: min,
                                     maxLength: max
+                                }
+                            }
+                            InputProps={
+                                {
+                                    startAdornment: <InputAdornment position="start">+973</InputAdornment>
                                 }
                             }
                             variant="outlined"
@@ -613,7 +617,7 @@ class AddToCart extends Component {
                             style={styles.textField}
                             key={targetNameOriginal}
                             onChange={(e) => this.onChange(targetName)}
-                            inputProps={{
+                            InputProps={{
                                 startAdornment: <InputAdornment position="start">+973</InputAdornment>
                             }}
                             variant="outlined"

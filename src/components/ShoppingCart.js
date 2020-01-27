@@ -126,7 +126,13 @@ class ShoppingCart extends Component {
 
                 if (!errorOuccured) {
                     let paymentsPayRequestObj;
-                    paymentsPayRequestObj = Object.assign({ gateway: "benefit", "session-id": sessionId, services: cartServices }, paymentsPayRequestObj);
+                    paymentsPayRequestObj = Object.assign({ 
+                        gateway: "benefit", 
+                        "session-id": sessionId, 
+                        services: cartServices,
+                        "success-url":process.env.REACT_APP_SUCCESSURL,
+                        "failure-url":process.env.REACT_APP_FAILURL
+                    }, paymentsPayRequestObj);
                     //HACK: Change the gateway to proper user selection
                     let payResponse = await Pay(paymentsPayRequestObj);
                     payResponse = _.get(payResponse, 'data');
@@ -267,7 +273,7 @@ class ShoppingCart extends Component {
                                         </Grid>
                                         
                                         <Grid item style={styles.buttonFooter} xs={12} sm={12} md={12} lg={12} >
-                                            <Fab variant="extended" disabled={this.state.loading} style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
+                                            <Fab variant="extended" hidden={this.state.loading} style={styles.Button} onClick={() => this.NavigateToHome()}> ADD NEW  </Fab>
                                             <Fab variant="extended" disabled={this.state.loading} aria-label="add" style={styles.Button} onClick={() => this.pay()}>
                                                 {this.state.loading && <CircularProgress size={34} style={styles.buttonProgress} />}
                                                 {!this.state.loading && 'PAY NOW'}
