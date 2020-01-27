@@ -20,7 +20,6 @@ import useStyles from '../../content/css/useStyles';
 import Badge from '@material-ui/core/Badge';
 
 function Header(props) {
-
     const { container } = props;
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -134,7 +133,7 @@ function Header(props) {
         props.history.push('/History');
     }
     React.useEffect(() => {
-
+        
         let cartItemCount = localStorage.getItem('cartItemCount');
         if (cartItemCount === null) {
             props.getHeaderInfo(0, validateLogin());
@@ -170,7 +169,7 @@ function Header(props) {
                                     <Fab variant="extended" size="medium" onClick={logout} className={classes.logoutbtn} style={{ backgroundColor: '#78a446', color: 'white' }} >LogOut</Fab>
                                 </div>
                             ) : (
-                                <div className={classes.NavMenuButtons} onClick={NavigateToLogin}>
+                                <div className={classes.NavMenuButtons}>
                                     <Fab variant="extended" size="medium" onClick={NavigateToLogin} className={classes.loginbtn} style= {{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >Login</Fab>
                                     <Fab variant="extended" size="medium" onClick={NavigateToSignUp} className={classes.loginbtn} style={{ padding: '0px 22px', backgroundColor: '#78a446', color: 'white' }} >SignUp</Fab>
                                  </div>

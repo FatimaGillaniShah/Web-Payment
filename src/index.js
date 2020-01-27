@@ -13,6 +13,7 @@ import logger from 'redux-logger';
 import index from "./reducers/index";
 import httpService from './Interceptors';
 
+
 export const history = createBrowserHistory()
 const store = createStore(index,applyMiddleware(logger,thunkMiddleware))
 httpService.setupInterceptors(history);

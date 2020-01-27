@@ -19,6 +19,7 @@ class History extends Component {
       pageSize: 15,
       currentPage: 1
     }
+ 
     let isValid = validateLogin();
     if (!isValid) {
 
@@ -66,6 +67,10 @@ class History extends Component {
         details["iconUrl"] = _.get(element, 'service-icon');
         localServices.push(details);
       });
+    }
+    else
+    {
+      isLoading = false;
     }
     const count = localServices.length;
     const { pageSize, currentPage } = this.state;
