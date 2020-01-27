@@ -182,7 +182,7 @@ class History extends Component {
                     </Paper>
                   </Grid>
                 ))}
-              </Grid>
+              
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Pagination
                   itemsCount={count}
@@ -190,6 +190,7 @@ class History extends Component {
                   onPageChange={this.handlePageChange}
                   currentPage={this.state.currentPage}
                 />
+              </Grid>
               </Grid>
             </Container>
           </animated.div>
