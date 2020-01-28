@@ -210,7 +210,6 @@ const styles = {
   },
   Header: {
     padding: "13px 19px",
-    height: "50px",
     backgroundColor: "gainsboro",
     fontSize: "15px",
     display: "flex",
@@ -257,7 +256,7 @@ const styles = {
   },
 
   ImageIcon: {
-    padding: "32px"
+    padding: "0px 15px 0px 15px"
   },
 
   CardSegmentsLeftAlign: {

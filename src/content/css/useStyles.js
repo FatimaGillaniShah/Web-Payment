@@ -78,7 +78,8 @@ const useStyles = makeStyles(theme => ({
   },
   Cart: {
     fontSize: "30px",
-    color: "#0061ae"
+    color: "#0061ae",
+    paddingTop:"9px"
   },
   logoutbtn: {
     backgroundColor: "#78a446",
