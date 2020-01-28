@@ -793,16 +793,16 @@ class AddToCart extends Component {
                                                             <Fragment>
                                                                 <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                     <input id="amount" name="amount" type="hidden" value="1.000" />
-                                                                    <fieldset>
+                                                                    <Fragment>
                                                                         <label style={styles.SelectCardText}>Select Card*</label>
                                                                         <div className="add-demo">
                                                                             {
                                                                                 fixedAmounts.map(e =>
-                                                                                    <a href="#" onClick={(data) => this.amount(e, data)} key={e} value={e}>BHD {e}</a>
+                                                                                    <a href="#" onClick={(data) => this.amount(e, data)} key={e} value={e} style={styles.fixedServiceDenominations}>BHD {e}</a>
                                                                                 )
                                                                             }
                                                                         </div>
-                                                                    </fieldset>
+                                                                    </Fragment>
                                                                 </Grid>
                                                                 <Grid item style={styles.CardContentSegments} xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                     <TextField

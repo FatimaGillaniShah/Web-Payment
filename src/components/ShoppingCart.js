@@ -130,8 +130,8 @@ class ShoppingCart extends Component {
                         gateway: "benefit", 
                         "session-id": sessionId, 
                         services: cartServices,
-                        "success-url":process.env.REACT_APP_SUCCESSURL,
-                        "failure-url":process.env.REACT_APP_FAILURL
+                        "success-url":process.env.REACT_APP_BASEURL + process.env.REACT_APP_SUCCESSURL,
+                        "failure-url":process.env.REACT_APP_BASEURL + process.env.REACT_APP_FAILURL
                     }, paymentsPayRequestObj);
                     //HACK: Change the gateway to proper user selection
                     let payResponse = await Pay(paymentsPayRequestObj);

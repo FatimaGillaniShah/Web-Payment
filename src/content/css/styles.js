@@ -73,6 +73,18 @@ const styles = {
     fontSize:"initial"
   },
 
+  fixedServiceDenominations: {
+    display: "inline-block",
+    background: "#f3f3f3 repeat scroll 0 0",
+    textAlign: "center",
+    padding: "15px",
+    fontFamily: "Montserrat,Arial,sans-serif",
+    margin: "5px",
+    color:"#333",
+    width: "135px",
+    "text-decoration":"none"
+  },
+
   //History
 
   containerStart: {
@@ -177,7 +189,6 @@ const styles = {
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: "50%",
     margin: "0 auto",
     marginTop: "30px"
   },
