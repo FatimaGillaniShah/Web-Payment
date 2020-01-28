@@ -75,7 +75,7 @@ class Login extends Component {
     }
 
     login() {
-       
+
         let msisdn = this.state.msisdn;
         let password = this.state.password;
         const isValid = this.validate(msisdn, password);
@@ -88,19 +88,19 @@ class Login extends Component {
                 "locale": "en-US"
             }
             this.setState({ loading: true })
-        
+
             LoginRequestInfo(LoginRequestObject)
                 .then((result) => {
-                    this.setState({loading:false})
-                     // setTimeout(this.setState.bind(this, {loading:false}), 1000);
+                    this.setState({ loading: false })
+                    // setTimeout(this.setState.bind(this, {loading:false}), 1000);
 
                     if (result !== undefined) {
-                      
+
                         let resultData = _.get(result.data, 'error-code');
                         let resultDataMessage = _.get(result.data, 'error-message');
                         console.log(resultDataMessage)
                         if (resultData === 0) {
-                            
+
                             let sessionId = _.get(result.data, 'session-id');
                             localStorage.setItem('sessionId', sessionId);
                             localStorage.setItem('sessionTime', Date());
@@ -147,6 +147,11 @@ class Login extends Component {
                                             error: resultDataMessage
                                         })
                                         break;
+                                    case 469:
+                                        this.setState({
+                                            error: resultDataMessage
+                                        });
+                                        break;
                                     case 106:
                                         this.setState({
                                             error: "Invalid phone"
@@ -159,7 +164,7 @@ class Login extends Component {
                             }
                         }
                     }
-                    
+
                     console.log(result)
                 })
                 .catch((err) => {
@@ -177,9 +182,9 @@ class Login extends Component {
         }
     }
     render() {
-        let message =  this.props.location.state;
+        let message = this.props.location.state;
         let errorMessage = _.get(message, 'errorMessage');
-      
+
         return (
             <Spring
                 native
@@ -198,13 +203,13 @@ class Login extends Component {
                                 <Grid item xs={11} sm={11} md={8} lg={6} xl={6} style={styles.mainGrid}>
 
                                     <Card elevation={16} style={styles.Card}>
-                          
+
                                         <CardContent>
                                             <Grid>
                                                 <Grid item style={styles.CardSegments}>
                                                     <Typography gutterBottom variant="h3" component="h2" style={{ color: '#0061ae', fontWeight: '300' }}>LOGIN</Typography>
                                                 </Grid>
-                                                {errorMessage !== undefined ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{errorMessage}</div> :  null}
+                                                {errorMessage !== undefined ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{errorMessage}</div> : null}
                                                 <Grid item style={styles.CardSegments}>
                                                     {this.state.error ? <div className='alert alert-danger' style={{ fontSize: '15px' }}>{this.state.error}</div> : null}
                                                     <TextField
@@ -237,10 +242,10 @@ class Login extends Component {
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>
-                                                   <Fab variant="extended" disabled={this.state.loading} color ="primary " aria-label="add" style={styles.LoginBtn} onClick={this.login}>
-                                                     {this.state.loading && <CircularProgress size={34} style={styles.LoginBtnLoader} />}
-                                                     {!this.state.loading && 'SUBMIT'}
-                                                   </Fab>
+                                                    <Fab variant="extended" disabled={this.state.loading} color="primary " aria-label="add" style={styles.LoginBtn} onClick={this.login}>
+                                                        {this.state.loading && <CircularProgress size={34} style={styles.LoginBtnLoader} />}
+                                                        {!this.state.loading && 'SUBMIT'}
+                                                    </Fab>
                                                 </Grid>
 
                                                 <Grid item style={styles.CardSegments}>

@@ -9,7 +9,7 @@ const Pagination = props => {
     
     return <nav>
 
-      <ul className="pagination pull-right">
+      <ul className="pagination pull-right" style={{display:"flex!important"}}>
           {pages.map(page =>(
             <li key={page} style={{cursor:'pointer'}} className={page === currentPage ? 'page-item active' : 'page-item' }>
              <div className="page-link" onClick ={() => props.onPageChange(page)}>{page}</div>
