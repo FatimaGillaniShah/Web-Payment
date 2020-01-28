@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import '..//content/css/addCart.css';
 import { connect } from 'react-redux';
 import { RequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';

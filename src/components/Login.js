@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../content/css/login.css';
 import { LoginRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import * as actions from '../store/actions/actions';

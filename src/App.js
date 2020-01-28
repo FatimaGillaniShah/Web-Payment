@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import {getAllData} from './store/actions/actions';
 import { bindActionCreators } from 'redux';
 import * as comp from './components';
-import styling from './content/css';
 import Favicon from 'react-favicon';
 import faviconImage from './content/img/favicon.png'
 import Home from './components/Home';

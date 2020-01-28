@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../content/css/signup.css';
 import { RegisterRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import Recaptcha from 'react-recaptcha';

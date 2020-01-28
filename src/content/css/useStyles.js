@@ -65,7 +65,16 @@ const useStyles = makeStyles(theme => ({
   IconStyling: {
     color: "#0061ae",
     margin: "5px",
-    fontSize: "large"
+    fontSize: "large",
+    position:"relative",
+    top:"9px"
+  },
+  IconStylingSmallScreen: {
+    color: "#0061ae",
+    margin: "5px",
+    fontSize: "large",
+    position:"relative",
+    bottom:"4px"
   },
   Cart: {
     fontSize: "30px",

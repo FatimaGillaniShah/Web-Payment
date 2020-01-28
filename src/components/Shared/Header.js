@@ -61,15 +61,15 @@ function Header(props) {
                     <Typography className={classes.AppDrawerHeading} variant="h6">ONLINE EXPRESS PAYMENT</Typography>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/">
 
-                        <IconButton><HomeIcon /></IconButton>
+                        <IconButton className={classes.IconStylingSmallScreen}><HomeIcon /></IconButton>
                         <p >Home</p>
                     </MenuItem>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/Account">
-                        <IconButton aria-label="show 4 new mails" ><AccountCircle /></IconButton>
+                        <IconButton aria-label="show 4 new mails" className={classes.IconStylingSmallScreen} ><AccountCircle /></IconButton>
                         <p >ACCOUNT</p>
                     </MenuItem>
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/History">
-                        <IconButton >
+                        <IconButton className={classes.IconStylingSmallScreen} >
 
                             <PublicIcon />
 
@@ -78,12 +78,12 @@ function Header(props) {
                     </MenuItem>
 
                     <MenuItem onClick={handleDrawerClose} href="/https://sadadbahrain.com/app/help.html">
-                        <IconButton ><HelpIcon /></IconButton>
+                        <IconButton className={classes.IconStylingSmallScreen} ><HelpIcon /></IconButton>
                         <p >HELP</p>
                     </MenuItem>
 
                     <MenuItem onClick={handleDrawerClose} component={Link} to="/">
-                        <IconButton ><LockCloseIcon /></IconButton>
+                        <IconButton className={classes.IconStylingSmallScreen} ><LockCloseIcon /></IconButton>
                         <p >Logout</p>
                     </MenuItem>
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../content/css/activateAccount.css';
 import { ActivateRequestInfo } from '../api/ApiCalls';
 import _ from 'lodash';
 import { CardContent } from '@material-ui/core';

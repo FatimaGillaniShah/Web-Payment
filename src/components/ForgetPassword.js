@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../content/css/forgetPassword.css';
 import { ForgetRequestInfo } from '../api/ApiCalls';
 import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
